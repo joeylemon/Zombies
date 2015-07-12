@@ -14,6 +14,7 @@ public class Ammo {
 	/**
 	 * Get the weapon type
 	 * @return The weapon type
+	 * lelwut
 	 */
 	public WeaponType getWeaponType(){
 		return type;
