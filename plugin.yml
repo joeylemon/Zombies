@@ -1,0 +1,10 @@
+name: Zombies
+main: com.pwncraftpvp.zombies.core.Main
+description: Zombies!
+author: JjPwN1
+version: 0.1
+commands:
+   zombies:
+      description: Modify the plugin!
+   vote:
+      description: Vote for a map!
