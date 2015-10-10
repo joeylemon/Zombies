@@ -19,13 +19,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.pwncraftpvp.zcomms.core.CommAPI;
+import com.pwncraftpvp.zcomms.core.MySQL;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Game;
 import com.pwncraftpvp.zombies.game.Glow;
 import com.pwncraftpvp.zombies.game.Map;
 import com.pwncraftpvp.zombies.game.Status;
 import com.pwncraftpvp.zombies.game.Weapon;
-import com.pwncraftpvp.zombies.utils.MySQL;
 import com.pwncraftpvp.zombies.utils.Utils;
 
 public class Main extends JavaPlugin {
@@ -36,7 +37,7 @@ public class Main extends JavaPlugin {
 	
 	public Game game;
 	public Glow glow;
-	public MySQL mysql;
+	public MySQL mysql = CommAPI.getMySQL();
 	public String nmsver = null;
 	
 	public BlockFace[] faces = {BlockFace.NORTH, BlockFace.SOUTH, BlockFace.SELF};
@@ -60,8 +61,6 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new Events(), this);
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
-		mysql = new MySQL();
-		mysql.connect();
 		game = new Game();
 		nmsver = Bukkit.getServer().getClass().getPackage().getName();
 		nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);

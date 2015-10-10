@@ -1,8 +1,5 @@
 package com.pwncraftpvp.zombies.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,8 +31,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
 import com.pwncraftpvp.zombies.game.Weapon;
@@ -187,48 +183,10 @@ public class Utils {
 	}
 	
 	/**
-	 * Send a custom plugin message
-	 * @param server - The server to send it to
-	 * @param tag - The message tag to read
-	 * @param value - The value of the message
-	 */
-	public static final void sendCustomMessage(String server, String tag, String value){
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("Forward");
-		out.writeUTF(server);
-		out.writeUTF("Zombies");
-		
-		ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
-		DataOutputStream msgout = new DataOutputStream(msgbytes);
-		try{
-			msgout.writeUTF(tag + ":" + value);
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-		
-		out.writeShort(msgbytes.toByteArray().length);
-		out.write(msgbytes.toByteArray());
-		
-		Utils.getRandomPlayer().sendPluginMessage(main, "BungeeCord", out.toByteArray());
-	}
-	
-	/**
 	 * Send the game's current status to the hub
 	 */
 	public static final void sendStatus(){
-		Utils.sendCustomMessage("hub", Utils.getServerName() + ".gameStatus", WordUtils.capitalizeFully(main.game.getStatus().toString()));
-	}
-	
-	/**
-	 * Connect a player to a server
-	 * @param player - The player to move
-	 * @param server - The new server
-	 */
-	public static final void connect(Player player, String server){
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("Connect");
-		out.writeUTF(server);
-		player.sendPluginMessage(main, "BungeeCord", out.toByteArray());
+		CommAPI.sendCustomMessage("hub", Utils.getServerName() + ".gameStatus", WordUtils.capitalizeFully(main.game.getStatus().toString()));
 	}
 	
 	/**

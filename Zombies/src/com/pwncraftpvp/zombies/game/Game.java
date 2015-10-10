@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 
+import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
 import com.pwncraftpvp.zombies.tasks.CountdownTask;
@@ -601,12 +602,12 @@ public class Game {
 		
 		main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
 			public void run(){
+				setStatus(Status.WAITING);
 				for(Player p : Bukkit.getOnlinePlayers()){
 					ZPlayer zp = new ZPlayer(p);
 					zp.logout();
-					Utils.connect(p, "hub");
+					CommAPI.connect(p, "hub");
 				}
-				setStatus(Status.WAITING);
 				main.stats.clear();
 				if(spawntask != null){
 					spawntask.cancel();
