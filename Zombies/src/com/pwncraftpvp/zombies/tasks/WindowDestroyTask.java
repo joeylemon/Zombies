@@ -16,7 +16,7 @@ import com.pwncraftpvp.zombies.game.Window;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
 
-public class WindowTask extends BukkitRunnable {
+public class WindowDestroyTask extends BukkitRunnable {
 	
 	private Main main = Main.getInstance();
 	

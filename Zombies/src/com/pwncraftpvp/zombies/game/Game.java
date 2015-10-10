@@ -30,7 +30,7 @@ import com.pwncraftpvp.zombies.tasks.ReloadTask;
 import com.pwncraftpvp.zombies.tasks.SpawnTask;
 import com.pwncraftpvp.zombies.tasks.UpgradeTask;
 import com.pwncraftpvp.zombies.tasks.WindowRepairTask;
-import com.pwncraftpvp.zombies.tasks.WindowTask;
+import com.pwncraftpvp.zombies.tasks.WindowDestroyTask;
 import com.pwncraftpvp.zombies.utils.Utils;
 
 public class Game {
@@ -55,7 +55,7 @@ public class Game {
 	public int boxuses = 0;
 	public boolean ending = false;
 	public SpawnTask spawntask = null;
-	public WindowTask windowtask = null;
+	public WindowDestroyTask windowtask = null;
 	public MysteryBoxTask boxtask = null;
 	public UpgradeTask upgradetask = null;
 	public CountdownTask votingtask = null;
@@ -502,7 +502,7 @@ public class Game {
 		this.spawntask = spawntask;
 		
 		if(this.isDogRound() == false){
-			WindowTask windowtask = new WindowTask();
+			WindowDestroyTask windowtask = new WindowDestroyTask();
 			windowtask.runTaskTimer(main, 0, 5);
 			this.windowtask = windowtask;
 		}
