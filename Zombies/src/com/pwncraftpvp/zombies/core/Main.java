@@ -1,6 +1,5 @@
 package com.pwncraftpvp.zombies.core;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,15 +78,6 @@ public class Main extends JavaPlugin {
 			EnchantmentWrapper.registerEnchantment(glow);
 		}catch (IllegalArgumentException ex){
 			ex.printStackTrace();
-		}
-		
-		File file = new File(this.getDataFolder(), "config.yml");
-		if(file.exists() == false){
-			this.getConfig().set("mysql.host", "pwncraftpvp.com");
-			this.getConfig().set("mysql.database", "zombies");
-			this.getConfig().set("mysql.user", "username");
-			this.getConfig().set("mysql.pass", "password");
-			this.saveConfig();
 		}
 		
 		for(String s : this.getConfig().getConfigurationSection("maps").getKeys(false)){
