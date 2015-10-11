@@ -31,6 +31,7 @@ import com.pwncraftpvp.zombies.tasks.SpawnTask;
 import com.pwncraftpvp.zombies.tasks.UpgradeTask;
 import com.pwncraftpvp.zombies.tasks.WindowRepairTask;
 import com.pwncraftpvp.zombies.tasks.WindowDestroyTask;
+import com.pwncraftpvp.zombies.utils.EffectUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
 
 public class Game {
@@ -316,6 +317,27 @@ public class Game {
 			if(spawntask == null && this.getAliveEntities() == 0){
 				this.startSpawnTask();
 			}
+		}
+	}
+	
+	/**
+	 * Remove health from a window
+	 * @param window - The window to remove health from
+	 */
+	public void removeHealth(Window window){
+		int current = windowhealth.get(window.getID());
+		windowhealth.remove(window.getID());
+		int newhealth = current - 1;
+		if(newhealth < 0){
+			newhealth = 0;
+		}
+		windowhealth.put(window.getID(), newhealth);
+		
+		Block block = window.getLocation().getBlock();
+		EffectUtils.playBreakEffect(block);
+		
+		if(newhealth == 0){
+			block.setType(Material.AIR);
 		}
 	}
 	
