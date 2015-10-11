@@ -110,6 +110,14 @@ public class Main extends JavaPlugin {
 						targetblock.put(p.getName(), newblock);
 					}
 				}
+				
+				if((System.currentTimeMillis() - game.lastkill) > 0){
+					if(game.spawntask == null && game.getAliveEntities() == 0){
+						game.startSpawnTask();
+						game.lastkill = (60 * 1000);
+					}
+				}
+				
 				if(game.getStatus() == Status.STARTED){
 					if(game.getMap().isDay() == true){
 						Utils.getWorld().setTime(6000);

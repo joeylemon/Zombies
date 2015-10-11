@@ -39,21 +39,25 @@ public class Game {
 	private String gray = ChatColor.GRAY + "";
 	private String red = ChatColor.RED + "";
 	
+	private Map map = null;
+	private Status status = Status.WAITING;
+	
+	private boolean power = false;
+	
 	private int box = 1;
 	private int round = 0;
 	private int health = 0;
-	private Map map = null;
-	private boolean power = false;
-	private Status status = Status.WAITING;
 	
 	private List<Door> doors = null;
 	private List<Window> windows = null;
 	private List<MysteryBox> boxes = null;
 	private List<Area> unlockedareas = new ArrayList<Area>();
 	
-	public int killed = 0;
 	public int boxuses = 0;
+	public int killed = 0;
+	public long lastkill = 0;
 	public boolean ending = false;
+	
 	public SpawnTask spawntask = null;
 	public WindowDestroyTask windowtask = null;
 	public MysteryBoxTask boxtask = null;
@@ -231,14 +235,14 @@ public class Game {
 			for(Area a : unlockedareas){
 				if(dogs == false){
 					for(Location l : a.getZombieSpawns()){
-						if(rand.nextDouble() <= 0.1){
+						if(rand.nextDouble() <= 0.075){
 							loc = l;
 							break;
 						}
 					}
 				}else{
 					for(Location l : a.getDogSpawns()){
-						if(rand.nextDouble() <= 0.1){
+						if(rand.nextDouble() <= 0.075){
 							loc = l;
 							break;
 						}
@@ -261,11 +265,13 @@ public class Game {
 			if(round >= 10 && round < 20){
 				chance = 0.2;
 			}else if(round >= 20 && round < 30){
-				chance = 0.3;
-			}else if(round >= 30 && round < 40){
-				chance = 0.4;
-			}else if(round >= 40 && round < 50){
 				chance = 0.5;
+			}else if(round >= 30 && round < 40){
+				chance = 0.6;
+			}else if(round >= 40 && round < 50){
+				chance = 0.7;
+			}else if(round >= 50){
+				chance = 0.8;
 			}
 			if(rand.nextDouble() <= chance){
 				speed = 1;
@@ -302,12 +308,13 @@ public class Game {
 	 */
 	public void killEntity(LivingEntity entity){
 		entity.setHealth(0);
+		lastkill = System.currentTimeMillis() + (60 * 1000);
 		killed++;
 		if(killed >= Utils.getZombiesForRound(this.getRound())){
 			this.endRound();
 		}else{
 			if(spawntask == null && this.getAliveEntities() == 0){
-				spawntask = new SpawnTask(this.isDogRound(), Utils.getZombiesForRound(this.getRound()) - this.killed);
+				this.startSpawnTask();
 			}
 		}
 	}
@@ -485,6 +492,14 @@ public class Game {
 	}
 	
 	/**
+	 * Start the zombie spawn task
+	 */
+	public void startSpawnTask(){
+		spawntask = new SpawnTask(this.isDogRound(), Utils.getZombiesForRound(this.getRound()) - this.killed);
+		spawntask.runTaskTimer(main, 0, Utils.getDelayForRound(round));
+	}
+	
+	/**
 	 * Start the next round
 	 */
 	public void startRound(){
@@ -497,9 +512,7 @@ public class Game {
 			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 10, 1.5F);
 		}
 		
-		SpawnTask spawntask = new SpawnTask(this.isDogRound(), Utils.getZombiesForRound(main.game.getRound()));
-		spawntask.runTaskTimer(main, 0, Utils.getDelayForRound(round));
-		this.spawntask = spawntask;
+		this.startSpawnTask();
 		
 		if(this.isDogRound() == false){
 			WindowDestroyTask windowtask = new WindowDestroyTask();
@@ -518,6 +531,7 @@ public class Game {
 		if(windowtask != null){
 			windowtask.cancelTask();
 		}
+		Utils.removeZombies();
 		Utils.broadcastSubtitle("Round over", 60);
 		for(Player p : Bukkit.getOnlinePlayers()){
 			ZPlayer zp = new ZPlayer(p);
