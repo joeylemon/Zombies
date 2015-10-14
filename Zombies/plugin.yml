@@ -3,6 +3,7 @@ main: com.pwncraftpvp.zombies.core.Main
 description: Zombies!
 author: JjPwN1
 version: 1.0
+depend: [HolographicDisplays, zComms]
 commands:
    zombies:
       description: Modify the plugin!

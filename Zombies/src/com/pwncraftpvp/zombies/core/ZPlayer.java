@@ -149,7 +149,20 @@ public class ZPlayer {
 	 * Perform necessary logout functions
 	 */
 	public void logout(){
+		long login = 0;
+		if(main.login.containsKey(player.getName())){
+			login = main.login.get(player.getName());
+			main.login.remove(player.getName());
+		}
+		long logout = System.currentTimeMillis();
+		int playtime = (int) ((logout - login) / 1000);
+		if(login == 0){
+			playtime = 0;
+		}
+		
+		this.setPlaytime(playtime);
 		this.getStats().push();
+		
 		int online = Bukkit.getOnlinePlayers().length;
 		int min = Utils.getMinimumPlayers();
 		if(online < min){
@@ -450,6 +463,7 @@ public class ZPlayer {
 	 */
 	public void toggleDead(boolean toggle, boolean revived){
 		if(toggle == true){
+			this.setDowns(this.getDowns() + 1);
 			if((main.game.deadplayers.size() + 1) < Bukkit.getOnlinePlayers().length && (main.game.death.size() + 1) < Bukkit.getOnlinePlayers().length){
 				if(main.game.death.containsKey(player.getName()) == true){
 					main.game.death.get(player.getName()).cancel();

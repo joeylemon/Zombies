@@ -36,13 +36,14 @@ public class Main extends JavaPlugin {
 	
 	public Game game;
 	public Glow glow;
-	public MySQL mysql = CommAPI.getMySQL();
+	public MySQL mysql;
 	public String nmsver = null;
 	
 	public BlockFace[] faces = {BlockFace.NORTH, BlockFace.SOUTH, BlockFace.SELF};
 	
 	public List<Map> maps = new ArrayList<Map>();
 	
+	public HashMap<String, Long> login = new HashMap<String, Long>();
 	public HashMap<String, Block> targetblock = new HashMap<String, Block>();
 	public HashMap<String, Statistics> stats = new HashMap<String, Statistics>();
 	
@@ -56,9 +57,9 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable(){
 		instance = this;
+		mysql = CommAPI.getMySQL();
 		
 		this.getServer().getPluginManager().registerEvents(new Events(), this);
-		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
 		game = new Game();
 		nmsver = Bukkit.getServer().getClass().getPackage().getName();

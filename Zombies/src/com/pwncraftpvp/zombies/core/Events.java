@@ -84,6 +84,8 @@ public class Events implements Listener {
 		player.setHealth(20);
 		zplayer.setInventory(main.game.getStatus());
 		
+		main.login.put(player.getName(), System.currentTimeMillis());
+		
 		Statistics stats = new Statistics(player);
 		stats.pull();
 		main.stats.put(player.getName(), stats);
@@ -375,6 +377,7 @@ public class Events implements Listener {
 						}else{
 							main.game.killEntity(entity);
 							zplayer.giveBrains(1);
+							zplayer.setKills(zplayer.getKills() + 1);
 							if(headshot == false){
 								zplayer.addScore(60);
 							}else{
