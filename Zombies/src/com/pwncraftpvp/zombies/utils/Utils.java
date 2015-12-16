@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import net.minecraft.server.v1_8_R3.TileEntityChest;
 import net.minecraft.server.v1_8_R3.WorldServer;
 
@@ -16,7 +17,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -110,6 +113,43 @@ public class Utils {
 	}
 	
 	/**
+	 * Make a zombie swing its arms
+	 * @param zombie - The zombie
+	 */
+	public static final void swingArms(Zombie zombie){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			PacketPlayOutAnimation animationPacket = new PacketPlayOutAnimation(((CraftEntity)zombie).getHandle(), 0);
+			((CraftPlayer)p).getHandle().playerConnection.sendPacket(animationPacket);
+		}
+	}
+	
+	/**
+	 * Get nearby zombies to a location
+	 * @param l - The location
+	 * @param radius - The radius to check
+	 * @return All nearby zombies in the location
+	 */
+	public static final List<Zombie> getNearbyZombies(Location l, int radius){
+		List<Zombie> zombies = new ArrayList<Zombie>();
+		int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
+		for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
+			for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
+				int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
+				for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z
+						+ (chZ * 16)).getChunk().getEntities()){
+					if(e instanceof Zombie){
+						if (e.getLocation().distance(l) <= radius
+								&& e.getLocation().getBlock() != l.getBlock()) {
+							zombies.add((Zombie)e);
+						}
+					}
+				}
+			}
+		}
+		return zombies;
+	}
+	
+	/**
 	 * Get the zombies for a round
 	 * @param round - The round
 	 * @return The amount of zombies for the round
@@ -134,8 +174,8 @@ public class Utils {
 	 * @return The spawn delay, in ticks, for the round
 	 */
 	public static final int getDelayForRound(int round){
-		if(round < 40){
-			return (90 + round) - (round * 3);
+		if(round < 14){
+			return (65 + round) - (round * 5);
 		}else{
 			return 10;
 		}

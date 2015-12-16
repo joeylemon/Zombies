@@ -154,7 +154,7 @@ public class Main extends JavaPlugin {
 									game.votes.remove(map.getName());
 									game.votes.put(map.getName(), current + 1);
 									game.voted.add(player.getName());
-									zplayer.sendMessage("You have voted for " + red + map.getName() + gray + ".");
+									zplayer.sendMessage("You have voted for " + red + map.getProperName() + gray + ".");
 								}else{
 									zplayer.sendError("You must enter a number 1-5.");
 								}
@@ -416,6 +416,8 @@ public class Main extends JavaPlugin {
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " givepoints <amount>");
 							}
+						}else if(args[0].equalsIgnoreCase("start")){
+							game.votingtask.runtime = game.votingtask.time;
 						}else if(args[0].equalsIgnoreCase("sendstatus")){
 							Utils.sendStatus();
 							zplayer.sendMessage("Sent the status.");

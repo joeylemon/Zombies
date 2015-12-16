@@ -361,7 +361,7 @@ public class Events implements Listener {
 						double damage = weapon.getDamage(upgraded);
 						
 						boolean headshot = false;
-						if(egg.getLocation().getY() - entity.getLocation().getY() > 1.4){
+						if(egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
 							damage = weapon.getHeadshotDamage(upgraded);
 							headshot = true;
 						}
@@ -398,6 +398,10 @@ public class Events implements Listener {
 					final LivingEntity damager = (LivingEntity) event.getDamager();
 					if(main.game.nodamage.contains(damager.getEntityId()) == false){
 						if(!main.game.death.containsKey(player.getName())){
+							if(event.getDamager().getType() == EntityType.ZOMBIE){
+								Zombie z = (Zombie) event.getDamager();
+								Utils.swingArms(z);
+							}
 							double damage = 12;
 							int delay = 40;
 							if(event.getDamager().getType() == EntityType.WOLF){

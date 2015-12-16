@@ -45,7 +45,7 @@ public class EffectUtils {
 	 * @param location - The location to send an empty clip sound to
 	 */
 	public static final void playEmptyClipSound(Location location){
-		playSound(location, Sound.CLICK, 1F, 0F, 0);
+		playSound(location, Sound.CLICK, 1F, 10F, 0);
 	}
 	
 	/**

@@ -12,8 +12,8 @@ public class CountdownTask extends BukkitRunnable {
 	private String gray = ChatColor.GRAY + "";
 	private String red = ChatColor.RED + "";
 	
-	private int runtime = 0;
-	private int time = 5;
+	public int runtime = 0;
+	public int time = 20;
 	
 	public void run(){
 		int timeleft = (time - runtime);

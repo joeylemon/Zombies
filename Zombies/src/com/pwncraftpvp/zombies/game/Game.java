@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
@@ -30,8 +29,8 @@ import com.pwncraftpvp.zombies.tasks.PlayerHealTask;
 import com.pwncraftpvp.zombies.tasks.ReloadTask;
 import com.pwncraftpvp.zombies.tasks.SpawnTask;
 import com.pwncraftpvp.zombies.tasks.UpgradeTask;
-import com.pwncraftpvp.zombies.tasks.WindowRepairTask;
 import com.pwncraftpvp.zombies.tasks.WindowDestroyTask;
+import com.pwncraftpvp.zombies.tasks.WindowRepairTask;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
 
@@ -330,7 +329,7 @@ public class Game {
 	}
 	
 	public void dropPowerUp(Location loc, PowerUp power){
-		Utils.getWorld().spawnEntity(loc, EntityType.ENDER_CRYSTAL);
+		//Utils.getWorld().spawnEntity(loc, EntityType.ENDER_CRYSTAL);
 	}
 	
 	/**
