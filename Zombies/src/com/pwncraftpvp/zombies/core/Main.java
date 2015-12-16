@@ -126,7 +126,7 @@ public class Main extends JavaPlugin {
 						Utils.getWorld().setTime(14000);
 					}
 				}else{
-					Utils.getWorld().setTime(6000);
+					Utils.getWorld().setTime(14000);
 				}
 				Utils.getWorld().setWeatherDuration(0);
 			}

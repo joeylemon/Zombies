@@ -51,20 +51,21 @@ public class ShootTask extends BukkitRunnable {
 		player.getItemInHand().setDurability((short) (maxdura - (clip * ammo.getMagazine())));
 		
 		shot++;
-		this.cancelTask();
+		
+		if((total - shot) <= 0 || ammo.getMagazine() <= 0){
+			this.cancelTask();
+		}
 	}
 	
 	/**
 	 * Perform necessary functions to cancel the task
 	 */
 	public void cancelTask(){
-		if((total - shot) <= 0 || ammo.getMagazine() <= 0){
-			zplayer.setAmmo(slot, ammo);
-			if(main.game.shooting.contains(player.getName()) == true){
-				main.game.shooting.remove(player.getName());
-			}
-			this.cancel();
+		zplayer.setAmmo(slot, ammo);
+		if(main.game.shooting.contains(player.getName()) == true){
+			main.game.shooting.remove(player.getName());
 		}
+		this.cancel();
 	}
 
 }

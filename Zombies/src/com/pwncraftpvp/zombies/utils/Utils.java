@@ -283,7 +283,7 @@ public class Utils {
 	public static final ChatColor getChatColor(int number){
 		ChatColor color = ChatColor.GRAY;
 		if(number == 1){
-			color = ChatColor.GRAY;
+			color = ChatColor.DARK_GREEN;
 		}else if(number == 2){
 			color = ChatColor.YELLOW;
 		}else if(number == 3){
@@ -291,7 +291,7 @@ public class Utils {
 		}else if(number == 4){
 			color = ChatColor.BLUE;
 		}else if(number == 5){
-			color = ChatColor.DARK_GREEN;
+			color = ChatColor.AQUA;
 		}else if(number == 6){
 			color = ChatColor.GREEN;
 		}else if(number == 7){

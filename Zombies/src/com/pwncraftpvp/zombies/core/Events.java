@@ -190,17 +190,18 @@ public class Events implements Listener {
 								zplayer.removeScore(950);
 								
 								main.game.boxtask = new MysteryBoxTask(player, main.game.getCurrentMysteryBox());
-								main.game.boxtask.runTaskTimer(main, 0, 7);
+								main.game.boxtask.runTaskTimer(main, 0, 3);
 								zplayer.sendMessage("You have purchased this box for " + red + 950 + gray + " points.");
 							}else{
 								zplayer.sendError("Insufficient points.");
 							}
 						}else if(main.game.boxweapon.containsKey(player.getName()) == true){
-							if(player.getInventory().getHeldItemSlot() == 0 || player.getInventory().getHeldItemSlot() == 1){
+							if(slot <= 1){
 								zplayer.giveWeapon(main.game.boxweapon.get(player.getName()), false);
+								zplayer.sendMessage("You have received the " + red + main.game.boxweapon.get(player.getName()).getName() + gray + ".");
 								main.game.boxtask.cancelTask(true);
 							}else{
-								zplayer.sendError("You must be holding a weapon.");
+								zplayer.sendError("You must be in the first or second slot.");
 							}
 						}
 					}

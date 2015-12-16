@@ -30,6 +30,14 @@ public class Map {
 	}
 	
 	/**
+	 * Get the map's proper name
+	 * @return The map's proper name
+	 */
+	public String getProperName(){
+		return name.replace("_", " ");
+	}
+	
+	/**
 	 * Get the map's spawn
 	 * @return The map's spawn
 	 */

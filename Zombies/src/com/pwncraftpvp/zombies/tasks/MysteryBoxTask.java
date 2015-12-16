@@ -73,7 +73,7 @@ public class MysteryBoxTask extends BukkitRunnable {
 			}
 			switches++;
 		}else{
-			if(wait < 20){
+			if(wait < 40){
 				wait++;
 			}else{
 				this.cancelTask(true);

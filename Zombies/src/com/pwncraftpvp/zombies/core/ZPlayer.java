@@ -21,6 +21,7 @@ import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.tasks.PlayerDeathTask;
 import com.pwncraftpvp.zombies.tasks.ReloadTask;
 import com.pwncraftpvp.zombies.tasks.ShootTask;
+import com.pwncraftpvp.zombies.utils.EffectUtils;
 import com.pwncraftpvp.zombies.utils.TextUtils;
 import com.pwncraftpvp.zombies.utils.TitleUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
@@ -94,7 +95,7 @@ public class ZPlayer {
 		this.sendMessageHeader("Vote");
 		int count = 1;
 		for(Map m : main.game.voteables){
-			this.sendMessage(red + count + ". " + gray + m.getName() + ": " + red + main.game.votes.get(m.getName()) + gray + " votes");
+			this.sendMessage(red + count + ". " + gray + m.getProperName() + ": " + red + main.game.votes.get(m.getName()) + gray + " votes");
 			count++;
 		}
 		this.sendMessage("");
@@ -191,15 +192,7 @@ public class ZPlayer {
 			slot = player.getInventory().getHeldItemSlot();
 		}
 		
-		if(slot == 1){
-			if(main.game.primary.containsKey(player.getName()) == true){
-				main.game.primary.remove(player.getName());
-			}
-		}else if(slot == 2){
-			if(main.game.secondary.containsKey(player.getName()) == true){
-				main.game.secondary.remove(player.getName());
-			}
-		}
+		this.setAmmo(slot, new Ammo(weapon.getType(), weapon.getMagazineSize(upgraded), weapon.getTotalAmmo(upgraded)));
 		
 		ItemStack item = weapon.getItemStack();
 		if(upgraded == true){
@@ -278,6 +271,8 @@ public class ZPlayer {
 							}
 						}, weapon.getFiringRate(upgraded));
 					}
+				}else{
+					EffectUtils.playEmptyClipSound(player.getEyeLocation());
 				}
 			}
 		}

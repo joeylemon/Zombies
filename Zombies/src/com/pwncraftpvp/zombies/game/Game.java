@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
@@ -110,7 +111,7 @@ public class Game {
 		voteables.clear();
 		votes.clear();
 		
-		Map map = main.maps.get(10);
+		Map map = main.maps.get(11);
 		for(int x = 1; x <= 5; x++){
 			voteables.add(map);
 			votes.put(map.getName(), 0);
@@ -311,13 +312,25 @@ public class Game {
 		entity.setHealth(0);
 		lastkill = System.currentTimeMillis() + (60 * 1000);
 		killed++;
+		if(!this.isDogRound()){
+			if(Utils.getRandomInteger(1, 20) == 1){
+				dropPowerUp(entity.getLocation(), PowerUp.MAX_AMMO);
+			}
+		}
 		if(killed >= Utils.getZombiesForRound(this.getRound())){
 			this.endRound();
+			if(this.isDogRound()){
+				dropPowerUp(entity.getLocation(), PowerUp.MAX_AMMO);
+			}
 		}else{
 			if(spawntask == null && this.getAliveEntities() == 0){
 				this.startSpawnTask();
 			}
 		}
+	}
+	
+	public void dropPowerUp(Location loc, PowerUp power){
+		Utils.getWorld().spawnEntity(loc, EntityType.ENDER_CRYSTAL);
 	}
 	
 	/**
@@ -592,7 +605,7 @@ public class Game {
 			windowhealth.put(w.getID(), 6);
 		}
 		
-		Utils.broadcastMessage("The highest voted map was " + red + map.getName() + gray + ".");
+		Utils.broadcastMessage("The highest voted map was " + red + map.getProperName() + gray + ".");
 		Utils.broadcastMessage("Prepare for the first round.");
 		
 		int count = 1;
