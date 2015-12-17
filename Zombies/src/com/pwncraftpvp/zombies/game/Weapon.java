@@ -1,30 +1,34 @@
 package com.pwncraftpvp.zombies.game;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.pwncraftpvp.zombies.utils.Utils;
 
 public enum Weapon {
 	
-	GALIL(WeaponType.RIFLE, "Galil", "Lamentation", true, 10, 26, 70, 65, 35, 315, 3, 
+	GALIL(Material.IRON_HOE, "Galil", "Lamentation", true, true, 10, 26, 70, 65, 35, 315, 3, 
 			45, 100, 75, 35, 490, 1),
-	AK47U(WeaponType.RIFLE, "AK47u", "AK47fu2", true, 15, 20, 65, 50, 20, 160, 2,
+	AK47U(Material.GOLD_HOE, "AK47u", "AK47fu2", true, true, 15, 20, 65, 50, 20, 160, 2,
 			43, 100, 70, 40, 280, 1),
 	
-	M1911(WeaponType.PISTOL, "M1911", "Mustang and Sally", false, 15, 20, 38, 50, 8, 80, 9,
+	M1911(Material.WOOD_SPADE, "M1911", "Mustang and Sally", true, false, 15, 20, 38, 50, 8, 80, 9,
 			20, 20, 50, 8, 80, 3),
-	FIVE_SEVEN(WeaponType.PISTOL, "Five-Seven", "Ultra", false, 12, 28, 55, 65, 20, 120, 7,
+	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 12, 28, 55, 65, 20, 120, 7,
 			45, 70, 70, 20, 200, 5),
-	COLT_M16A1(WeaponType.PISTOL, "Colt M16A1", "Skullcrusher", false, 15, 23, 45, 50, 30, 120, 8,
+	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 15, 23, 45, 50, 30, 120, 8,
 			40, 60, 60, 30, 270, 5),
 	
-	HAND_GRENADE(WeaponType.EXPLOSIVE, "Hand Grenade", null, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	
-	private WeaponType type;
+	KNIFE(Material.IRON_SWORD, "Knife", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	
+	private Material material;
 	private String name;
 	private String upgraded;
 	
+	private boolean gun;
 	private boolean automatic;
 	private int chance;
 	private int damage;
@@ -40,11 +44,12 @@ public enum Weapon {
 	private int upgmagazine;
 	private int upgtotalammo;
 	private int upgfiringrate;
-	Weapon(WeaponType type, String name, String upgraded, boolean automatic, int chance, int damage, int headshot, int accuracy, int magazine, int totalammo, int firingrate,
+	Weapon(Material material, String name, String upgraded, boolean gun, boolean automatic, int chance, int damage, int headshot, int accuracy, int magazine, int totalammo, int firingrate,
 			int upgdamage, int upgheadshot, int upgaccuracy, int upgmagazine, int upgtotalammo, int upgfiringrate){
-		this.type = type;
+		this.material = material;
 		this.name = name;
 		this.upgraded = upgraded;
+		this.gun = gun;
 		this.automatic = automatic;
 		this.chance = chance;
 		
@@ -66,11 +71,11 @@ public enum Weapon {
 	private ItemStack item = null;
 	
 	/**
-	 * Get the weapon's type
-	 * @return The weapon's type
+	 * Get the weapon's material
+	 * @return The weapon's material
 	 */
-	public WeaponType getType(){
-		return type;
+	public Material getMaterial(){
+		return material;
 	}
 	
 	/**
@@ -87,6 +92,14 @@ public enum Weapon {
 	 */
 	public String getUpgradedName(){
 		return upgraded;
+	}
+	
+	/**
+	 * Get if the weapon is a gun
+	 * @return True if the weapon is a gun, false if not
+	 */
+	public boolean isGun(){
+		return gun;
 	}
 	
 	/**
@@ -189,7 +202,7 @@ public enum Weapon {
 	 */
 	public ItemStack getItemStack(){
 		if(item == null){
-			item = Utils.renameItem(new ItemStack(type.getMaterial()), ChatColor.GOLD + name);
+			item = Utils.renameItem(new ItemStack(this.getMaterial()), ChatColor.GOLD + name);
 		}
 		return item;
 	}

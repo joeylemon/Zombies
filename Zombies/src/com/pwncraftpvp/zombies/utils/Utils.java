@@ -335,7 +335,7 @@ public class Utils {
 		}else if(number == 6){
 			color = ChatColor.GREEN;
 		}else if(number == 7){
-			color = ChatColor.GREEN;
+			color = ChatColor.DARK_BLUE;
 		}else if(number == 8){
 			color = ChatColor.DARK_GRAY;
 		}

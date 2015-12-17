@@ -2,21 +2,21 @@ package com.pwncraftpvp.zombies.game;
 
 public class Ammo {
 	
-	private WeaponType type;
+	private Weapon weapon;
 	private int magazine;
 	private int total;
-	public Ammo(WeaponType type, int magazine, int total){
-		this.type = type;
+	public Ammo(Weapon weapon, int magazine, int total){
+		this.weapon = weapon;
 		this.magazine = magazine;
 		this.total = total;
 	}
 	
 	/**
-	 * Get the weapon type
-	 * @return The weapon type
+	 * Get the weapon
+	 * @return The weapon
 	 */
-	public WeaponType getWeaponType(){
-		return type;
+	public Weapon getWeapon(){
+		return weapon;
 	}
 	
 	/**

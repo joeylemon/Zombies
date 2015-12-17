@@ -38,13 +38,15 @@ public class MysteryBoxTask extends BukkitRunnable {
 			this.weapon = null;
 		}
 		
-		this.item = Utils.getWorld().dropItem(box.getBlocks().get(1).add(0, 3, 0), Utils.getRandomWeapon(player).getItemStack());
+		Location loc = box.getBlocks().get(1);
+		Location drop = new Location(loc.getWorld(), loc.getX(), loc.getY() + 3, loc.getZ() + 0.5);
+		this.item = Utils.getWorld().dropItem(drop, Utils.getRandomWeapon(player).getItemStack());
 		this.item.setVelocity(new Vector(0.0D, 0.1D, 0.0D));
 		this.item.setPickupDelay(1000);
 	}
 	
 	private int switches = 0;
-	private int total = 16;
+	private int total = 30;
 	private int wait = 0;
 	
 	@SuppressWarnings("deprecation")
@@ -73,7 +75,7 @@ public class MysteryBoxTask extends BukkitRunnable {
 			}
 			switches++;
 		}else{
-			if(wait < 40){
+			if(wait < 50){
 				wait++;
 			}else{
 				this.cancelTask(true);

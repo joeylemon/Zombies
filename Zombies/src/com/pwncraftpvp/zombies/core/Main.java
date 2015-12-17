@@ -55,6 +55,7 @@ public class Main extends JavaPlugin {
 		return instance;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void onEnable(){
 		instance = this;
 		mysql = CommAPI.getMySQL();
@@ -92,7 +93,6 @@ public class Main extends JavaPlugin {
 		}, 20);
 		
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable(){
-			@SuppressWarnings("deprecation")
 			public void run(){
 				for(Player p : Bukkit.getOnlinePlayers()){
 					Block oldblock = null;

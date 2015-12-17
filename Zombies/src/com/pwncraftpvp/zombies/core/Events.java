@@ -119,6 +119,10 @@ public class Events implements Listener {
 				event.setCancelled(true);
 				zplayer.reloadWeapon(slot);
 			}
+		}else if(slot == 2){
+			if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
+				event.setCancelled(true);
+			}
 		}
 		
 		if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
@@ -350,45 +354,60 @@ public class Events implements Listener {
 		if(event.getEntity() instanceof Zombie || event.getEntity() instanceof Wolf){
 			LivingEntity entity = (LivingEntity) event.getEntity();
 			entity.setNoDamageTicks(0);
+			Player player = null;
+			Egg egg = null;
 			if(event.getDamager() instanceof Egg){
-				Egg egg = (Egg) event.getDamager();
+				egg = (Egg) event.getDamager();
 				if(egg.getShooter() != null && egg.getShooter() instanceof Player){
-					Player player = (Player) egg.getShooter();
-					ZPlayer zplayer = new ZPlayer(player);
-					Weapon weapon = zplayer.getWeaponInHand();
-					if(weapon != null){
-						boolean upgraded = zplayer.isWeaponUpgraded();
-						double damage = weapon.getDamage(upgraded);
-						
-						boolean headshot = false;
-						if(egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
-							damage = weapon.getHeadshotDamage(upgraded);
-							headshot = true;
-						}
-						
-						EffectUtils.playBloodEffect(entity, headshot);
-						event.setCancelled(true);
-						
-						double newhealth = entity.getHealth() - damage;
-						if(newhealth > 1){
-							entity.setHealth(newhealth);
-							Utils.setNavigation(entity, player.getLocation());
-							entity.playEffect(EntityEffect.HURT);
-							zplayer.addScore(10);
-						}else{
-							main.game.killEntity(entity);
-							zplayer.giveBrains(1);
-							zplayer.setKills(zplayer.getKills() + 1);
-							if(headshot == false){
-								zplayer.addScore(60);
-							}else{
-								zplayer.addScore(100);
-							}
-						}
-					}
+					player = (Player) egg.getShooter();
 				}
+			}else if(event.getDamager() instanceof Player){
+				player = (Player) event.getDamager();
 			}else{
 				event.setCancelled(true);
+			}
+			
+			if(player != null){
+				final ZPlayer zplayer = new ZPlayer(player);
+				Weapon weapon = zplayer.getWeaponInHand();
+				if(weapon != null){
+					boolean upgraded = zplayer.isWeaponUpgraded();
+					double damage = weapon.getDamage(upgraded);
+					
+					int killScore = 60;
+					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
+						damage = weapon.getHeadshotDamage(upgraded);
+						killScore = 100;
+					}
+					
+					if(weapon == Weapon.KNIFE){
+						killScore = 130;
+						player.getInventory().setItem(2, null);
+						main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
+							public void run(){
+								zplayer.setSlot(2, Weapon.KNIFE, 1);
+							}
+						}, 30);
+					}
+					
+					EffectUtils.playBloodEffect(entity, (killScore == 100));
+					event.setCancelled(true);
+					
+					double newhealth = entity.getHealth() - damage;
+					if(newhealth > 1){
+						entity.setHealth(newhealth);
+						Utils.setNavigation(entity, player.getLocation());
+						entity.playEffect(EntityEffect.HURT);
+						zplayer.addScore(10);
+					}else{
+						main.game.killEntity(entity);
+						zplayer.giveBrains(1);
+						zplayer.setKills(zplayer.getKills() + 1);
+						zplayer.addScore(killScore);
+					}
+				}else{
+					event.setCancelled(true);
+				}
 			}
 		}else if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
@@ -494,7 +513,7 @@ public class Events implements Listener {
 			}
 			
 			Weapon weapon = zplayer.getWeaponInSlot(slot);
-			if(weapon != null){
+			if(weapon != null && weapon.isGun()){
 				zplayer.sendAmmo(zplayer.getAmmo(slot, weapon));
 			}else{
 				zplayer.sendActionBar("");

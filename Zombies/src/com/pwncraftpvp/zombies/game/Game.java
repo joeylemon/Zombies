@@ -213,7 +213,7 @@ public class Game {
 		}else if(round < 10){
 			health += 100;
 		}else{
-			health = (int) (health * 0.1);
+			health += (int) (health * 0.1);
 		}
 	}
 	
@@ -545,6 +545,8 @@ public class Game {
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 10, 1.5F);
 		}
+		
+		Utils.updateScoreboards();
 		
 		this.startSpawnTask();
 		

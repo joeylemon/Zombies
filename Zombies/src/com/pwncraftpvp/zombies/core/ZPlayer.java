@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import com.pwncraftpvp.zombies.game.Ammo;
+import com.pwncraftpvp.zombies.game.BoardStatic;
 import com.pwncraftpvp.zombies.game.Map;
 import com.pwncraftpvp.zombies.game.Perk;
 import com.pwncraftpvp.zombies.game.Status;
@@ -131,6 +132,22 @@ public class ZPlayer {
 			obj.setDisplayName(objname);
 		}
 		
+		for(BoardStatic s : BoardStatic.values()){
+			if(board.getTeam(s.getName()) == null){
+				board.registerNewTeam(s.getName());
+			}
+			Team team = board.getTeam(s.getName());
+			if(team.hasPlayer(s.getOfflinePlayer()) == false){
+				team.addPlayer(s.getOfflinePlayer());
+			}
+			
+			team.setDisplayName(s.getName());
+			team.setPrefix(ChatColor.DARK_RED + "");
+			team.setSuffix(" " + gray + TextUtils.getArrow() + ChatColor.GOLD + " " + main.game.getRound());
+			
+			obj.getScore(s.getOfflinePlayer()).setScore(2);
+		}
+		
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(board.getTeam(p.getName()) == null){
 				board.registerNewTeam(p.getName());
@@ -192,7 +209,7 @@ public class ZPlayer {
 			slot = player.getInventory().getHeldItemSlot();
 		}
 		
-		this.setAmmo(slot, new Ammo(weapon.getType(), weapon.getMagazineSize(upgraded), weapon.getTotalAmmo(upgraded)));
+		this.setAmmo(slot, new Ammo(weapon, weapon.getMagazineSize(upgraded), weapon.getTotalAmmo(upgraded)));
 		
 		ItemStack item = weapon.getItemStack();
 		if(upgraded == true){
@@ -204,6 +221,18 @@ public class ZPlayer {
 	}
 	
 	/**
+	 * Set a slot to a weapon
+	 * @param slot - The slot
+	 * @param weapon - The weapon
+	 * @param amount - Amount of items
+	 */
+	public void setSlot(int slot, Weapon weapon, int amount){
+		ItemStack item = weapon.getItemStack();
+		item.setAmount(amount);
+		player.getInventory().setItem(slot, item);
+	}
+	
+	/**
 	 * Set the player's inventory
 	 * @param status - The status to set the inventory for
 	 */
@@ -211,6 +240,8 @@ public class ZPlayer {
 		player.getInventory().clear();
 		if(status == Status.STARTED){
 			this.giveWeapon(Weapon.M1911, false);
+			this.setSlot(2, Weapon.KNIFE, 1);
+			this.setSlot(7, Weapon.HAND_GRENADE, 2);
 		}
 	}
 	
@@ -319,7 +350,7 @@ public class ZPlayer {
 		}
 		if(ammo == null){
 			boolean upgraded = this.isWeaponUpgraded();
-			ammo = new Ammo(weapon.getType(), weapon.getMagazineSize(upgraded), weapon.getTotalAmmo(upgraded));
+			ammo = new Ammo(weapon, weapon.getMagazineSize(upgraded), weapon.getTotalAmmo(upgraded));
 		}
 		return ammo;
 	}
@@ -342,7 +373,7 @@ public class ZPlayer {
 			main.game.secondary.put(player.getName(), ammo);
 		}
 		Weapon hand = this.getWeaponInHand();
-		if(hand != null && hand.getType() == ammo.getWeaponType()){
+		if(hand != null && hand == ammo.getWeapon()){
 			this.sendAmmo(ammo);
 		}
 	}
