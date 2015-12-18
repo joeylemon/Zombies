@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -12,6 +13,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.game.Ammo;
 import com.pwncraftpvp.zombies.game.BoardStatic;
 import com.pwncraftpvp.zombies.game.Map;
@@ -243,6 +245,107 @@ public class ZPlayer {
 			this.setSlot(2, Weapon.KNIFE, 1);
 			this.setSlot(3, Weapon.HAND_GRENADE, 2);
 		}
+	}
+	
+	/**
+	 * Toggle the map editor for the player
+	 */
+	public void toggleEditor(Map map){
+		if(!this.isInEditor()){
+			main.editor.put(player.getName(), map);
+			this.sendMessage("You have entered the map editor.");
+			if(main.game.votingtask != null){
+				main.game.votingtask.pause = true;
+			}
+		}else{
+			main.editor.remove(player.getName());
+			this.sendMessage("You have exited the map editor.");
+			if(main.game.votingtask != null){
+				main.game.votingtask.pause = false;
+			}
+		}
+		this.setEditorInventory(this.isInEditor());
+	}
+	
+	/**
+	 * Get the map the player is editing
+	 * @return The map the player is editing
+	 */
+	public Map getEditorMap(){
+		Map map = null;
+		if(this.isInEditor()){
+			map = main.editor.get(player.getName());
+		}
+		return map;
+	}
+	
+	/**
+	 * Check if the player is in the map editor
+	 * @return True if the player is in the editor, false if not
+	 */
+	public boolean isInEditor(){
+		return main.editor.containsKey(player.getName());
+	}
+	
+	/**
+	 * Set the player's inventory to the editor
+	 * @param entered - True if the player has entered the editor, false if he/she has exited it
+	 */
+	public void setEditorInventory(boolean entered){
+		player.getInventory().clear();
+		if(entered){
+			player.getInventory().setItem(0, Utils.renameItem(new ItemStack(Material.STICK), ChatColor.GOLD + "Door Creator"));
+			player.getInventory().setItem(1, Utils.renameItem(new ItemStack(Material.BLAZE_ROD), ChatColor.GOLD + "Box Creator"));
+			player.getInventory().setItem(2, Utils.renameItem(new ItemStack(Material.ARROW), ChatColor.GOLD + "Window Creator"));
+			player.getInventory().setItem(3, Utils.renameItem(new ItemStack(Material.GOLD_INGOT), ChatColor.GOLD + "Upgrade Creator"));
+			player.getInventory().setItem(4, Utils.renameItem(new ItemStack(Material.IRON_INGOT), ChatColor.GOLD + "Perk Creator"));
+			
+			player.getInventory().setItem(6, Utils.renameItem(new ItemStack(Material.ANVIL), ChatColor.GOLD + "Map Spawn Setter"));
+			player.getInventory().setItem(7, Utils.renameItem(new ItemStack(Material.ROTTEN_FLESH), ChatColor.GOLD + "Zombie Spawn Setter"));
+			player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.RAW_BEEF), ChatColor.GOLD + "Dog Spawn Setter"));
+		}else{
+			this.setInventory(main.game.getStatus());
+		}
+	}
+	
+	/**
+	 * Enter a creator
+	 * @param creator - The creator to enter
+	 */
+	public void enterCreator(Creator creator){
+		if(!this.isInCreator()){
+			creator.advanceStep();
+			main.creator.put(player.getName(), creator);
+		}
+	}
+	
+	/**
+	 * Exit the creator
+	 */
+	public void exitCreator(){
+		if(this.isInCreator()){
+			main.creator.remove(player.getName());
+		}
+	}
+	
+	/**
+	 * Get the player's creator
+	 * @return The player's creator
+	 */
+	public Creator getCreator(){
+		Creator creator = null;
+		if(main.creator.containsKey(player.getName())){
+			creator = main.creator.get(player.getName());
+		}
+		return creator;
+	}
+	
+	/**
+	 * Check if the player is in a creator
+	 * @return True if the player is in a creator, false if not
+	 */
+	public boolean isInCreator(){
+		return (this.getCreator() != null);
 	}
 	
 	/**

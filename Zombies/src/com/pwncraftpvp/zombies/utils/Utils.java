@@ -37,6 +37,8 @@ import org.bukkit.util.Vector;
 import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
+import com.pwncraftpvp.zombies.game.Area;
+import com.pwncraftpvp.zombies.game.Map;
 import com.pwncraftpvp.zombies.game.Weapon;
 
 public class Utils {
@@ -185,6 +187,21 @@ public class Utils {
 		}else{
 			return 10;
 		}
+	}
+	
+	/**
+	 * Get the next door id for an area
+	 * @param map - The map
+	 * @param area - The area id
+	 * @return The next door id
+	 */
+	public static final int getNextDoorID(Map map, int area){
+		int id = 1;
+		Area a = map.getArea(area);
+		if(a != null){
+			id = map.getArea(area).getDoors().size() + 1;
+		}
+		return id;
 	}
 	
 	/**

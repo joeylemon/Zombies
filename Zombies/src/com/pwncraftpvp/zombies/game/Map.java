@@ -198,5 +198,21 @@ public class Map {
 		}
 		return areas;
 	}
+	
+	/**
+	 * Get an area by its id
+	 * @param id - The area id
+	 * @return The area
+	 */
+	public Area getArea(int id){
+		Area area = null;
+		for(Area a : this.getAreas()){
+			if(a.getID() == id){
+				area = a;
+				break;
+			}
+		}
+		return area;
+	}
 
 }

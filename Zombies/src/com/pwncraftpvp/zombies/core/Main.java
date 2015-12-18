@@ -20,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zcomms.core.MySQL;
+import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Game;
 import com.pwncraftpvp.zombies.game.Glow;
@@ -43,8 +44,10 @@ public class Main extends JavaPlugin {
 	
 	public List<Map> maps = new ArrayList<Map>();
 	
+	public HashMap<String, Map> editor = new HashMap<String, Map>();
 	public HashMap<String, Long> login = new HashMap<String, Long>();
 	public HashMap<String, Block> targetblock = new HashMap<String, Block>();
+	public HashMap<String, Creator> creator = new HashMap<String, Creator>();
 	public HashMap<String, Statistics> stats = new HashMap<String, Statistics>();
 	
 	/**
@@ -391,6 +394,13 @@ public class Main extends JavaPlugin {
 								zplayer.sendMessage("You have set the " + red + perk + gray + " perk.");
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setperk <map name> <perk>");
+							}
+						}else if(args[0].equalsIgnoreCase("editor")){
+							if(args.length == 2){
+								String map = args[1];
+								zplayer.toggleEditor(new Map(map));
+							}else{
+								zplayer.sendError("Usage: /" + cmd.getName() + " editor <map name>");
 							}
 						}else if(args[0].equalsIgnoreCase("weapons")){
 							Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Weapons");

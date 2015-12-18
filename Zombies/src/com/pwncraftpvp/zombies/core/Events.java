@@ -30,6 +30,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -42,6 +43,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
+import com.pwncraftpvp.zombies.creator.Creator;
+import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
@@ -150,6 +153,48 @@ public class Events implements Listener {
 							main.game.grenadecooldown.remove(player.getName());
 						}
 					}, 30);
+				}
+			}
+		}
+		
+		if(zplayer.isInEditor()){
+			if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+				ItemStack hand = player.getItemInHand();
+				if(hand != null){
+					Material material = hand.getType();
+					if(material == Material.STICK){
+						if(!zplayer.isInCreator()){
+							zplayer.enterCreator(new DoorCreator(player, zplayer.getEditorMap()));
+						}else{
+							zplayer.getCreator().advanceStep();
+						}
+					}else if(material == Material.BLAZE_ROD){
+						
+					}else if(material == Material.ARROW){
+						
+					}else if(material == Material.BRICK){
+						
+					}else if(material == Material.IRON_INGOT){
+						
+					}else if(material == Material.ANVIL){
+						
+					}else if(material == Material.ROTTEN_FLESH){
+						
+					}else if(material == Material.RAW_BEEF){
+						
+					}
+				}
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR){
+				Creator creator = zplayer.getCreator();
+				if(creator != null){
+					if(creator instanceof DoorCreator){
+						if(event.getClickedBlock() != null){
+							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
+								DoorCreator dc = (DoorCreator) creator;
+								dc.addDoorBlock(event.getClickedBlock().getLocation());
+							}
+						}
+					}
 				}
 			}
 		}
@@ -574,6 +619,29 @@ public class Events implements Listener {
 				if(player.getLocation().distance(powerup.getLocation()) < 2.5){
 					main.game.applyPowerUp(powerup.getType());
 					main.game.poweruptask.cancelTask();
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void asyncPlayerChatEvent(AsyncPlayerChatEvent event){
+		Player player = event.getPlayer();
+		ZPlayer zplayer = new ZPlayer(player);
+		Creator creator = zplayer.getCreator();
+		if(creator != null){
+			if(creator instanceof DoorCreator){
+				DoorCreator dc = (DoorCreator) creator;
+				if(creator.getStep() == 1){
+					if(Utils.isInteger(event.getMessage())){
+						dc.setAreaID(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
+				}else if(creator.getStep() == 3){
+					if(Utils.isInteger(event.getMessage())){
+						dc.setDoorPrice(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
 				}
 			}
 		}

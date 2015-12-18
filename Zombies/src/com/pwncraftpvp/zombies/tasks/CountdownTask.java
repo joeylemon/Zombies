@@ -14,15 +14,18 @@ public class CountdownTask extends BukkitRunnable {
 	
 	public int runtime = 0;
 	public int time = 20;
+	public boolean pause = false;
 	
 	public void run(){
 		int timeleft = (time - runtime);
 		if(timeleft > 0){
-			runtime++;
-			if(timeleft == 60 || timeleft == 30 || timeleft == 10 || timeleft == 3 || timeleft == 2 || timeleft == 1){
-				Utils.broadcastMessage(red + timeleft + gray + " seconds until the game begins.");
-				if(timeleft > 3){
-					Utils.broadcastMessage("Vote for a map with " + red + "/vote" + gray + ".");
+			if(!pause){
+				runtime++;
+				if(timeleft == 60 || timeleft == 30 || timeleft == 10 || timeleft == 3 || timeleft == 2 || timeleft == 1){
+					Utils.broadcastMessage(red + timeleft + gray + " seconds until the game begins.");
+					if(timeleft > 3){
+						Utils.broadcastMessage("Vote for a map with " + red + "/vote" + gray + ".");
+					}
 				}
 			}
 		}else{
