@@ -71,13 +71,14 @@ public class Utils {
 	 */
 	public static final void spawnDog(Location loc){
 		Wolf wolf = (Wolf) Utils.getWorld().spawnEntity(loc, EntityType.WOLF);
-		wolf.setMaxHealth(main.game.getZombieHealth());
-		wolf.setHealth(main.game.getZombieHealth());
+		wolf.setMaxHealth(main.game.getZombieHealth() * 0.25);
+		wolf.setHealth(main.game.getZombieHealth() * 0.25);
 		wolf.setFireTicks(10000);
 		wolf.setAngry(true);
 		wolf.setTarget(Utils.getRandomPlayer(wolf));
-		wolf.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0));
+		wolf.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1));
 		EffectUtils.playSmokeEffect(loc);
+		EffectUtils.strikeLightning(loc);
 	}
 	
 	/**
@@ -165,6 +166,11 @@ public class Utils {
 		}else{
 			zombies = (int) ((0.15 * round) * cap);
 		}
+		
+		if((round % main.game.dogrounddiv) == 0){
+			zombies *= 0.5;
+		}
+		
 		return zombies;
 	}
 	

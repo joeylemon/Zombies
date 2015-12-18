@@ -339,8 +339,9 @@ public class ZPlayer {
 		for(int i = 0; i <= 1; i++){
 			Weapon w = this.getWeaponInSlot(i);
 			if(w != null){
+				Ammo ammo = this.getAmmo(i, w);
 				boolean upgraded = this.isWeaponUpgraded(i);
-				this.setAmmo(i, new Ammo(w, w.getMagazineSize(upgraded), w.getTotalAmmo(upgraded)));
+				this.setAmmo(i, new Ammo(w, ammo.getMagazine(), w.getTotalAmmo(upgraded)));
 				player.getInventory().getItem(i).setDurability((short) 0);
 			}
 		}
@@ -348,8 +349,9 @@ public class ZPlayer {
 	
 	/**
 	 * Get ammo for a weapon
-	 * @param type - The weapon type
-	 * @return The ammo for a weapon
+	 * @param slot - The slot of the weapon
+	 * @param weapon - The weapon
+	 * @return The ammo of the weapon
 	 */
 	public Ammo getAmmo(int slot, Weapon weapon){
 		Ammo ammo = null;

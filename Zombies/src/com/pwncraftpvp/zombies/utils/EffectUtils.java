@@ -57,6 +57,14 @@ public class EffectUtils {
 	}
 	
 	/**
+	 * Strike fake lightning at a location
+	 * @param loc - The location to strike lightning at
+	 */
+	public static final void strikeLightning(Location loc){
+		loc.getWorld().strikeLightningEffect(loc);
+	}
+	
+	/**
 	 * Play a smoke effect at the location
 	 * @param loc - The location to send a smoke effect to
 	 */

@@ -58,10 +58,11 @@ public class Game {
 	private List<MysteryBox> boxes = null;
 	private List<Area> unlockedareas = new ArrayList<Area>();
 	
-	public int boxuses = 0;
 	public int killed = 0;
+	public int boxuses = 0;
 	public long lastkill = 0;
 	public boolean ending = false;
+	public int dogrounddiv = Utils.getRandomInteger(4, 6);
 	
 	public SpawnTask spawntask = null;
 	public MysteryBoxTask boxtask = null;
@@ -118,7 +119,7 @@ public class Game {
 		voteables.clear();
 		votes.clear();
 		
-		Map map = main.maps.get(11);
+		Map map = main.maps.get(1);
 		for(int x = 1; x <= 5; x++){
 			voteables.add(map);
 			votes.put(map.getName(), 0);
@@ -230,7 +231,7 @@ public class Game {
 	 * @return True if it is a dog round, false if not
 	 */
 	public boolean isDogRound(){
-		return (round % 8) == 0;
+		return (round % dogrounddiv) == 0;
 	}
 	
 	/**
@@ -332,7 +333,11 @@ public class Game {
 				}
 				this.dropPowerUp(entity.getLocation(), type);
 			}
+		}else{
+			EffectUtils.playSmokeEffect(entity.getLocation());
 		}
+		
+		
 		if(killed >= Utils.getZombiesForRound(this.getRound())){
 			this.endRound();
 			if(this.isDogRound()){
@@ -617,7 +622,6 @@ public class Game {
 		killed = 0;
 		this.increaseHealth();
 		
-		Utils.broadcastSubtitle("Round " + red + this.round, 60);
 		for(Player p : Bukkit.getOnlinePlayers()){
 			ZPlayer zp = new ZPlayer(p);
 			
@@ -644,9 +648,12 @@ public class Game {
 		this.startSpawnTask();
 		
 		if(this.isDogRound() == false){
+			Utils.broadcastSubtitle("Round " + red + this.round, 60);
 			WindowDestroyTask windowtask = new WindowDestroyTask();
 			windowtask.runTaskTimer(main, 0, 5);
 			this.windowtask = windowtask;
+		}else{
+			Utils.broadcastTitle("Round " + red + this.round, ChatColor.ITALIC + "Fetch me their souls!", 60);
 		}
 	}
 	
