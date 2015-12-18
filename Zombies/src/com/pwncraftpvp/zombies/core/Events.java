@@ -12,6 +12,7 @@ import org.bukkit.entity.Egg;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
@@ -48,6 +49,7 @@ import com.pwncraftpvp.zombies.game.Status;
 import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.game.Window;
 import com.pwncraftpvp.zombies.tasks.CountdownTask;
+import com.pwncraftpvp.zombies.tasks.GrenadeTask;
 import com.pwncraftpvp.zombies.tasks.MysteryBoxTask;
 import com.pwncraftpvp.zombies.tasks.PerkTask;
 import com.pwncraftpvp.zombies.tasks.PlayerDeathTask;
@@ -109,7 +111,7 @@ public class Events implements Listener {
 	
 	@EventHandler
 	public void playerInteract(PlayerInteractEvent event){
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		ZPlayer zplayer = new ZPlayer(player);
 		int slot = player.getInventory().getHeldItemSlot();
 		
@@ -124,6 +126,30 @@ public class Events implements Listener {
 		}else if(slot == 2){
 			if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
 				event.setCancelled(true);
+			}
+		}else if(slot == 3){
+			if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
+				if(!main.game.grenadecooldown.contains(player.getName()) && player.getItemInHand() != null && zplayer.getWeaponInHand() == Weapon.HAND_GRENADE){
+					ItemStack hand = player.getItemInHand();
+					if(hand.getAmount() > 1){
+						hand.setAmount(hand.getAmount() - 1);
+					}else{
+						player.setItemInHand(null);
+					}
+					
+					Item item = player.getWorld().dropItem(player.getEyeLocation(), new ItemStack(Material.FIREWORK_CHARGE));
+					item.setVelocity(player.getLocation().getDirection().multiply(3.0));
+					
+					GrenadeTask task = new GrenadeTask(item);
+					task.runTaskTimer(main, 0, 20);
+					
+					main.game.grenadecooldown.add(player.getName());
+					main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
+						public void run(){
+							main.game.grenadecooldown.remove(player.getName());
+						}
+					}, 30);
+				}
 			}
 		}
 		
@@ -376,10 +402,12 @@ public class Events implements Listener {
 					boolean upgraded = zplayer.isWeaponUpgraded();
 					double damage = weapon.getDamage(upgraded);
 					
+					boolean headshot = false;
 					int killScore = 60;
 					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
 						damage = weapon.getHeadshotDamage(upgraded);
 						killScore = 100;
+						headshot = true;
 					}
 					
 					if(weapon == Weapon.KNIFE){
@@ -399,7 +427,7 @@ public class Events implements Listener {
 						killScore *= 2;
 					}
 					
-					EffectUtils.playBloodEffect(entity, (killScore == 100));
+					EffectUtils.playBloodEffect(entity, headshot);
 					event.setCancelled(true);
 					
 					double newhealth = entity.getHealth() - damage;

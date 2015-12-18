@@ -76,6 +76,7 @@ public class Game {
 	public List<String> shooting = new ArrayList<String>();
 	public List<Integer> nodamage = new ArrayList<Integer>();
 	public List<String> deadplayers = new ArrayList<String>();
+	public List<String> grenadecooldown = new ArrayList<String>();
 	
 	public HashMap<String, Ammo> primary = new HashMap<String, Ammo>();
 	public HashMap<String, Ammo> secondary = new HashMap<String, Ammo>();
