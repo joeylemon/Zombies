@@ -363,6 +363,7 @@ public class Game {
 	 */
 	public void applyPowerUp(PowerUpType type){
 		Utils.broadcastMessage(red + type.getName() + gray + " has been activated.");
+		Utils.broadcastSubtitle(red + type.getName(), 30);
 		
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 10, 10F);
