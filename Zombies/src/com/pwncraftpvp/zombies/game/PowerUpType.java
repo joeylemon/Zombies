@@ -8,6 +8,7 @@ public enum PowerUpType {
 	MAX_AMMO,
 	INSTA_KILL,
 	DOUBLE_POINTS,
+	NUKE,
 	CARPENTER;
 	
 	private String name = null;

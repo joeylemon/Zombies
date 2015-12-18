@@ -387,6 +387,13 @@ public class Game {
 				task.runTaskTimer(main, 0, 20);
 				doublepointstask = task;
 			}
+		}else if(type == PowerUpType.NUKE){
+			for(Entity e : Utils.getWorld().getEntities()){
+				if(e instanceof LivingEntity){
+					LivingEntity le = (LivingEntity) e;
+					this.killEntity(le);
+				}
+			}
 		}else if(type == PowerUpType.CARPENTER){
 			for(Window w : this.getAllWindows()){
 				if(windowhealth.containsKey(w.getID())){
