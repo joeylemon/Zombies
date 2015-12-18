@@ -241,7 +241,7 @@ public class ZPlayer {
 		if(status == Status.STARTED){
 			this.giveWeapon(Weapon.M1911, false);
 			this.setSlot(2, Weapon.KNIFE, 1);
-			this.setSlot(7, Weapon.HAND_GRENADE, 2);
+			this.setSlot(3, Weapon.HAND_GRENADE, 2);
 		}
 	}
 	
