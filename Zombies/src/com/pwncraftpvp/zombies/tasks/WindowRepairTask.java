@@ -42,7 +42,11 @@ public class WindowRepairTask extends BukkitRunnable {
 				}
 				EffectUtils.playBreakEffect(window.getLocation().getBlock());
 				
-				zplayer.addScore(10);
+				int score = 10;
+				if(main.game.doublepointstask != null){
+					score *= 2;
+				}
+				zplayer.addScore(score);
 				
 				int left = (max - current);
 				if(left <= 0){

@@ -333,6 +333,20 @@ public class ZPlayer {
 	}
 	
 	/**
+	 * Fill up the ammo on all weapons
+	 */
+	public void fillUpWeapons(){
+		for(int i = 0; i <= 1; i++){
+			Weapon w = this.getWeaponInSlot(i);
+			if(w != null){
+				boolean upgraded = this.isWeaponUpgraded(i);
+				this.setAmmo(i, new Ammo(w, w.getMagazineSize(upgraded), w.getTotalAmmo(upgraded)));
+				player.getInventory().getItem(i).setDurability((short) 0);
+			}
+		}
+	}
+	
+	/**
 	 * Get ammo for a weapon
 	 * @param type - The weapon type
 	 * @return The ammo for a weapon
@@ -423,6 +437,21 @@ public class ZPlayer {
 	public boolean isWeaponUpgraded(){
 		boolean upgraded = false;
 		ItemStack item = player.getItemInHand();
+		if(item != null){
+			if(item.getEnchantments().size() > 0){
+				upgraded = true;
+			}
+		}
+		return upgraded;
+	}
+	
+	/**
+	 * Check if the player's weapon in a slot is upgraded
+	 * @return True if it is upgraded, false if not
+	 */
+	public boolean isWeaponUpgraded(int slot){
+		boolean upgraded = false;
+		ItemStack item = player.getInventory().getItem(slot);
 		if(item != null){
 			if(item.getEnchantments().size() > 0){
 				upgraded = true;

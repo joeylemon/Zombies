@@ -22,10 +22,13 @@ import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
 import com.pwncraftpvp.zombies.tasks.CountdownTask;
+import com.pwncraftpvp.zombies.tasks.DoublePointsTask;
+import com.pwncraftpvp.zombies.tasks.InstaKillTask;
 import com.pwncraftpvp.zombies.tasks.MysteryBoxTask;
 import com.pwncraftpvp.zombies.tasks.PerkTask;
 import com.pwncraftpvp.zombies.tasks.PlayerDeathTask;
 import com.pwncraftpvp.zombies.tasks.PlayerHealTask;
+import com.pwncraftpvp.zombies.tasks.PowerUpTask;
 import com.pwncraftpvp.zombies.tasks.ReloadTask;
 import com.pwncraftpvp.zombies.tasks.SpawnTask;
 import com.pwncraftpvp.zombies.tasks.UpgradeTask;
@@ -60,10 +63,13 @@ public class Game {
 	public boolean ending = false;
 	
 	public SpawnTask spawntask = null;
-	public WindowDestroyTask windowtask = null;
 	public MysteryBoxTask boxtask = null;
 	public UpgradeTask upgradetask = null;
+	public PowerUpTask poweruptask = null;
 	public CountdownTask votingtask = null;
+	public InstaKillTask instakilltask = null;
+	public WindowDestroyTask windowtask = null;
+	public DoublePointsTask doublepointstask = null;
 	
 	public List<Map> voteables = new ArrayList<Map>();
 	public List<String> voted = new ArrayList<String>();
@@ -312,14 +318,23 @@ public class Game {
 		lastkill = System.currentTimeMillis() + (60 * 1000);
 		killed++;
 		if(!this.isDogRound()){
-			if(Utils.getRandomInteger(1, 20) == 1){
-				dropPowerUp(entity.getLocation(), PowerUp.MAX_AMMO);
+			if(poweruptask == null && Math.random() <= 0.05){
+				PowerUpType type = null;
+				while(type == null){
+					for(PowerUpType t : PowerUpType.values()){
+						if(Math.random() <= 0.1){
+							type = t;
+							break;
+						}
+					}
+				}
+				this.dropPowerUp(entity.getLocation(), type);
 			}
 		}
 		if(killed >= Utils.getZombiesForRound(this.getRound())){
 			this.endRound();
 			if(this.isDogRound()){
-				dropPowerUp(entity.getLocation(), PowerUp.MAX_AMMO);
+				this.dropPowerUp(entity.getLocation(), PowerUpType.MAX_AMMO);
 			}
 		}else{
 			if(spawntask == null && this.getAliveEntities() == 0){
@@ -328,8 +343,59 @@ public class Game {
 		}
 	}
 	
-	public void dropPowerUp(Location loc, PowerUp power){
-		//Utils.getWorld().spawnEntity(loc, EntityType.ENDER_CRYSTAL);
+	/**
+	 * Drop a power up
+	 * @param loc - The location
+	 * @param type - The power up type
+	 */
+	public void dropPowerUp(Location loc, PowerUpType type){
+		PowerUp powerup = new PowerUp(loc, type);
+		PowerUpTask task = new PowerUpTask(powerup);
+		task.runTaskTimer(main, 0, 20);
+		poweruptask = task;
+	}
+	
+	/**
+	 * Apply a power up
+	 * @param type - The power up type
+	 */
+	public void applyPowerUp(PowerUpType type){
+		Utils.broadcastMessage(red + type.getName() + gray + " has been activated.");
+		
+		for(Player p : Bukkit.getOnlinePlayers()){
+			p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 10, 10F);
+		}
+		
+		if(type == PowerUpType.MAX_AMMO){
+			for(Player p : Bukkit.getOnlinePlayers()){
+				ZPlayer zp = new ZPlayer(p);
+				zp.fillUpWeapons();
+			}
+		}else if(type == PowerUpType.INSTA_KILL){
+			if(instakilltask != null){
+				instakilltask.runtime = 0;
+			}else{
+				InstaKillTask task = new InstaKillTask();
+				task.runTaskTimer(main, 0, 20);
+				instakilltask = task;
+			}
+		}else if(type == PowerUpType.DOUBLE_POINTS){
+			if(doublepointstask != null){
+				doublepointstask.runtime = 0;
+			}else{
+				DoublePointsTask task = new DoublePointsTask();
+				task.runTaskTimer(main, 0, 20);
+				doublepointstask = task;
+			}
+		}else if(type == PowerUpType.CARPENTER){
+			for(Window w : this.getAllWindows()){
+				if(windowhealth.containsKey(w.getID())){
+					windowhealth.remove(w.getID());
+					windowhealth.put(w.getID(), 6);
+				}
+				w.getLocation().getBlock().setType(Material.IRON_FENCE);
+			}
+		}
 	}
 	
 	/**
@@ -569,6 +635,7 @@ public class Game {
 		}
 		Utils.removeZombies();
 		Utils.broadcastSubtitle("Round over", 60);
+		
 		for(Player p : Bukkit.getOnlinePlayers()){
 			ZPlayer zp = new ZPlayer(p);
 			if(deadplayers.contains(p.getName()) == false){
@@ -576,7 +643,9 @@ public class Game {
 			}else{
 				zp.toggleSpectating(false);
 			}
+			p.playSound(p.getLocation(), Sound.WITHER_SPAWN, 10, 1.5F);
 		}
+		
 		deadplayers.clear();
 		main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
 			public void run(){

@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Egg;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -42,6 +43,7 @@ import org.bukkit.util.BlockIterator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
+import com.pwncraftpvp.zombies.game.PowerUp;
 import com.pwncraftpvp.zombies.game.Status;
 import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.game.Window;
@@ -370,7 +372,7 @@ public class Events implements Listener {
 			if(player != null){
 				final ZPlayer zplayer = new ZPlayer(player);
 				Weapon weapon = zplayer.getWeaponInHand();
-				if(weapon != null){
+				if(weapon != null && ((egg != null && weapon != Weapon.KNIFE) || (egg == null && weapon == Weapon.KNIFE))){
 					boolean upgraded = zplayer.isWeaponUpgraded();
 					double damage = weapon.getDamage(upgraded);
 					
@@ -388,6 +390,13 @@ public class Events implements Listener {
 								zplayer.setSlot(2, Weapon.KNIFE, 1);
 							}
 						}, 30);
+					}
+					
+					if(main.game.instakilltask != null){
+						damage = main.game.getZombieHealth() + 50;
+					}
+					if(main.game.doublepointstask != null){
+						killScore *= 2;
 					}
 					
 					EffectUtils.playBloodEffect(entity, (killScore == 100));
@@ -469,6 +478,8 @@ public class Events implements Listener {
 			}else{
 				event.setCancelled(true);
 			}
+		}else if(event.getEntity() instanceof EnderCrystal){
+			event.setCancelled(true);
 		}
 	}
 	
@@ -527,6 +538,14 @@ public class Events implements Listener {
 		if(main.game.death.containsKey(player.getName())){
 			if(event.getTo().getX() != event.getFrom().getX() || event.getTo().getZ() != event.getFrom().getZ()){
 				player.teleport(event.getFrom());
+			}
+		}else{
+			if(main.game.poweruptask != null){
+				PowerUp powerup = main.game.poweruptask.getPowerUp();
+				if(player.getLocation().distance(powerup.getLocation()) < 2.5){
+					main.game.applyPowerUp(powerup.getType());
+					main.game.poweruptask.cancelTask();
+				}
 			}
 		}
 	}
