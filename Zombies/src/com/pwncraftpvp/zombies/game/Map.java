@@ -92,6 +92,9 @@ public class Map {
 	public List<Area> getAreas(){
 		if(areas == null){
 			areas = new ArrayList<Area>();
+			
+			String prefix = "maps." + name + ".areas.";
+			
 			for(String a : main.getConfig().getConfigurationSection("maps." + name + ".areas").getKeys(false)){
 				int areaid = Integer.parseInt(a);
 				List<Door> doors = new ArrayList<Door>();
@@ -100,12 +103,12 @@ public class Map {
 				List<Location> dogspawns = new ArrayList<Location>();
 				List<Location> zombiespawns = new ArrayList<Location>();
 				
-				ConfigurationSection doorSect = main.getConfig().getConfigurationSection("maps." + name + ".areas." + areaid + ".doors");
+				ConfigurationSection doorSect = main.getConfig().getConfigurationSection(prefix + areaid + ".doors");
 				if(doorSect != null){
 					for(String d : doorSect.getKeys(false)){
 						int doorid = Integer.parseInt(d);
 						List<Block> blocks = new ArrayList<Block>();
-						for(String s : main.getConfig().getStringList("maps." + name + ".areas." + areaid + ".doors." + doorid + ".blocks")){
+						for(String s : main.getConfig().getStringList(prefix + areaid + ".doors." + doorid + ".blocks")){
 							String[] split = s.split(",");
 							int x,y,z;
 							x = Integer.parseInt(split[0]);
@@ -118,50 +121,50 @@ public class Map {
 					}
 				}
 				
-				ConfigurationSection windowSect = main.getConfig().getConfigurationSection("maps." + name + ".areas." + areaid + ".windows");
+				ConfigurationSection windowSect = main.getConfig().getConfigurationSection(prefix + areaid + ".windows");
 				if(windowSect != null){
 					for(String w : windowSect.getKeys(false)){
 						int windowid = Integer.parseInt(w);
 						
 						double x1,y1,z1;
-						x1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".x");
-						y1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".y");
-						z1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".z");
+						x1 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".x");
+						y1 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".y");
+						z1 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".z");
 						
 						double x2,y2,z2;
-						x2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".sign.x");
-						y2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".sign.y");
-						z2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".windows." + windowid + ".sign.z");
+						x2 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".sign.x");
+						y2 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".sign.y");
+						z2 = main.getConfig().getDouble(prefix + areaid + ".windows." + windowid + ".sign.z");
 						
 						windows.add(new Window(windowid, new Location(Utils.getWorld(), x1, y1, z1), new Location(Utils.getWorld(), x2, y2, z2)));
 					}
 				}
 				
-				ConfigurationSection zombieSpawnSect = main.getConfig().getConfigurationSection("maps." + name + ".areas." + areaid + ".spawns");
+				ConfigurationSection zombieSpawnSect = main.getConfig().getConfigurationSection(prefix + areaid + ".spawns");
 				if(zombieSpawnSect != null){
 					for(String s : zombieSpawnSect.getKeys(false)){
 						int spawnid = Integer.parseInt(s);
 						double x,y,z;
-						x = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".spawns." + spawnid + ".x");
-						y = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".spawns." + spawnid + ".y");
-						z = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".spawns." + spawnid + ".z");
+						x = main.getConfig().getDouble(prefix + areaid + ".spawns." + spawnid + ".x");
+						y = main.getConfig().getDouble(prefix + areaid + ".spawns." + spawnid + ".y");
+						z = main.getConfig().getDouble(prefix + areaid + ".spawns." + spawnid + ".z");
 						zombiespawns.add(new Location(Utils.getWorld(), x, y, z));
 					}
 				}
 				
-				ConfigurationSection dogSpawnSect = main.getConfig().getConfigurationSection("maps." + name + ".areas." + areaid + ".dogspawns");
+				ConfigurationSection dogSpawnSect = main.getConfig().getConfigurationSection(prefix + areaid + ".dogspawns");
 				if(dogSpawnSect != null){
 					for(String s : dogSpawnSect.getKeys(false)){
 						int spawnid = Integer.parseInt(s);
 						double x,y,z;
-						x = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".dogspawns." + spawnid + ".x");
-						y = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".dogspawns." + spawnid + ".y");
-						z = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".dogspawns." + spawnid + ".z");
+						x = main.getConfig().getDouble(prefix + areaid + ".dogspawns." + spawnid + ".x");
+						y = main.getConfig().getDouble(prefix + areaid + ".dogspawns." + spawnid + ".y");
+						z = main.getConfig().getDouble(prefix + areaid + ".dogspawns." + spawnid + ".z");
 						dogspawns.add(new Location(Utils.getWorld(), x, y, z));
 					}
 				}
 				
-				ConfigurationSection boxSect = main.getConfig().getConfigurationSection("maps." + name + ".areas." + areaid + ".boxes");
+				ConfigurationSection boxSect = main.getConfig().getConfigurationSection(prefix + areaid + ".boxes");
 				if(boxSect != null){
 					for(String w : boxSect.getKeys(false)){
 						int boxid = Integer.parseInt(w);
@@ -169,19 +172,19 @@ public class Map {
 						List<Location> blocks = new ArrayList<Location>();
 						
 						double x1,y1,z1;
-						x1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".1.x");
-						y1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".1.y");
-						z1 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".1.z");
+						x1 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".1.x");
+						y1 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".1.y");
+						z1 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".1.z");
 						
 						double x2,y2,z2;
-						x2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".2.x");
-						y2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".2.y");
-						z2 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".2.z");
+						x2 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".2.x");
+						y2 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".2.y");
+						z2 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".2.z");
 						
 						double x3,y3,z3;
-						x3 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".light.x");
-						y3 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".light.y");
-						z3 = main.getConfig().getDouble("maps." + name + ".areas." + areaid + ".boxes." + boxid + ".light.z");
+						x3 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".light.x");
+						y3 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".light.y");
+						z3 = main.getConfig().getDouble(prefix + areaid + ".boxes." + boxid + ".light.z");
 						
 						blocks.add(new Location(Utils.getWorld(), x1, y1, z1));
 						blocks.add(new Location(Utils.getWorld(), x2, y2, z2));
