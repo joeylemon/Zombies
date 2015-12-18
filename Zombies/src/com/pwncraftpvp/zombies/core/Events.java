@@ -22,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -138,9 +139,9 @@ public class Events implements Listener {
 					}
 					
 					Item item = player.getWorld().dropItem(player.getEyeLocation(), new ItemStack(Material.FIREWORK_CHARGE));
-					item.setVelocity(player.getLocation().getDirection().multiply(3.0));
+					item.setVelocity(player.getLocation().getDirection());
 					
-					GrenadeTask task = new GrenadeTask(item);
+					GrenadeTask task = new GrenadeTask(player, item);
 					task.runTaskTimer(main, 0, 20);
 					
 					main.game.grenadecooldown.add(player.getName());
@@ -653,6 +654,12 @@ public class Events implements Listener {
 	public void playerPickupItem(PlayerPickupItemEvent event){
 		event.getItem().remove();
 		event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void entityChangeBlock(EntityChangeBlockEvent event){
+		event.setCancelled(true);
+		event.getEntity().remove();
 	}
 
 }

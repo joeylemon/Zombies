@@ -20,7 +20,7 @@ public enum Weapon {
 	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 15, 23, 45, 50, 30, 120, 8,
 			40, 60, 60, 30, 270, 5),
 	
-	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	
 	KNIFE(Material.IRON_SWORD, "Knife", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	

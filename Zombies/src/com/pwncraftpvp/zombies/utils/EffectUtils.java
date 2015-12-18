@@ -79,6 +79,7 @@ public class EffectUtils {
 	public static final void playExplodeEffect(Location loc){
 		ParticleUtils.sendToLocation(ParticleEffect.LARGE_EXPLODE, loc, 0.8F, 0.8F, 0.8F, 0, 10);
 		ParticleUtils.sendToLocation(ParticleEffect.LAVA_SPARK, loc, 0.8F, 0.8F, 0.8F, 0, 50);
+		ParticleUtils.sendToLocation(ParticleEffect.CLOUD, loc, 1.7F, 1.7F, 1.7F, 0, 200);
 		EffectUtils.playSound(loc, Sound.EXPLODE, 1, 1.1F, 0);
 	}
 	

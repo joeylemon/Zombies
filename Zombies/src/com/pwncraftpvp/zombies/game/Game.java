@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
+import org.bukkit.inventory.ItemStack;
 
 import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
@@ -617,7 +618,24 @@ public class Game {
 		
 		Utils.broadcastSubtitle("Round " + red + this.round, 60);
 		for(Player p : Bukkit.getOnlinePlayers()){
+			ZPlayer zp = new ZPlayer(p);
+			
+			if(round > 1){
+				ItemStack item = p.getInventory().getItem(3);
+				int amount = 0;
+				if(item != null){
+					amount = item.getAmount();
+				}
+				if(amount < 4){
+					if((amount + 2) > 4){
+						amount--;
+					}
+					zp.setSlot(3, Weapon.HAND_GRENADE, amount + 2);
+				}
+			}
+			
 			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 10, 1.5F);
+			
 		}
 		
 		Utils.updateScoreboards();

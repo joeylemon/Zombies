@@ -266,7 +266,7 @@ public class ZPlayer {
 	public void shootWeapon(int slot){
 		if(main.game.shooting.contains(player.getName()) == false){
 			Weapon weapon = this.getWeaponInHand();
-			if(weapon != null){
+			if(weapon != null && weapon.isGun()){
 				Ammo ammo = this.getAmmo(slot, weapon);
 				if(ammo.getMagazine() > 0){
 					boolean upgraded = this.isWeaponUpgraded();
