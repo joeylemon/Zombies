@@ -47,9 +47,9 @@ public class BoxCreator extends Creator {
 	 * @param loc - The location of the block
 	 */
 	public void addBoxBlock(Location loc){
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".x", loc.getBlockX());
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".y", loc.getBlockY());
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".z", loc.getBlockZ());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + "." + blockid + ".x", loc.getBlockX());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + "." + blockid + ".y", loc.getBlockY());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + "." + blockid + ".z", loc.getBlockZ());
 		main.saveConfig();
 		zplayer.sendMessage("You have added a box block.");
 		blockid++;
@@ -63,9 +63,9 @@ public class BoxCreator extends Creator {
 	 * @param loc - The location of the light block
 	 */
 	public void addLightBlock(Location loc){
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.x", loc.getBlockX());
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.y", loc.getBlockY());
-		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.z", loc.getBlockZ());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + ".light.x", loc.getBlockX());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + ".light.y", loc.getBlockY());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + ".light.z", loc.getBlockZ());
 		main.saveConfig();
 		zplayer.sendMessage("You have added a light block.");
 		this.advanceStep();
