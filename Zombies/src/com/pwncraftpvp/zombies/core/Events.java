@@ -192,6 +192,7 @@ public class Events implements Listener {
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR){
 				Creator creator = zplayer.getCreator();
 				if(creator != null){
+					event.setCancelled(true);
 					if(creator instanceof DoorCreator){
 						if(event.getClickedBlock() != null){
 							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
@@ -646,15 +647,23 @@ public class Events implements Listener {
 		Creator creator = zplayer.getCreator();
 		if(creator != null){
 			if(creator instanceof DoorCreator){
-				DoorCreator dc = (DoorCreator) creator;
+				DoorCreator c = (DoorCreator) creator;
 				if(creator.getStep() == 1){
 					if(Utils.isInteger(event.getMessage())){
-						dc.setAreaID(Integer.parseInt(event.getMessage()));
+						c.setAreaID(Integer.parseInt(event.getMessage()));
 						event.setCancelled(true);
 					}
 				}else if(creator.getStep() == 3){
 					if(Utils.isInteger(event.getMessage())){
-						dc.setDoorPrice(Integer.parseInt(event.getMessage()));
+						c.setDoorPrice(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
+				}
+			}else if(creator instanceof BoxCreator){
+				BoxCreator c = (BoxCreator) creator;
+				if(creator.getStep() == 1){
+					if(Utils.isInteger(event.getMessage())){
+						c.setAreaID(Integer.parseInt(event.getMessage()));
 						event.setCancelled(true);
 					}
 				}

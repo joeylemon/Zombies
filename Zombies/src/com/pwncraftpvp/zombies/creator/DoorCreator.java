@@ -39,7 +39,7 @@ public class DoorCreator extends Creator {
 		this.area = id;
 		this.door = Utils.getNextDoorID(map, area);
 		
-		zplayer.sendMessage("You have added set the area id to " + red + id + gray + ".");
+		zplayer.sendMessage("You have set the area id to " + red + id + gray + ".");
 		this.advanceStep();
 	}
 	

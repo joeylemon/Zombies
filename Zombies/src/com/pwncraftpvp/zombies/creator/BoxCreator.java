@@ -38,7 +38,7 @@ public class BoxCreator extends Creator {
 		this.area = id;
 		this.box = Utils.getNextBoxID(map, area);
 		
-		zplayer.sendMessage("You have added set the area id to " + red + id + gray + ".");
+		zplayer.sendMessage("You have set the area id to " + red + id + gray + ".");
 		this.advanceStep();
 	}
 	
@@ -52,7 +52,7 @@ public class BoxCreator extends Creator {
 		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".z", loc.getBlockZ());
 		main.saveConfig();
 		blockid++;
-		if(blockid == 2){
+		if(blockid > 2){
 			this.advanceStep();
 		}
 	}
