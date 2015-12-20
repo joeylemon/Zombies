@@ -51,6 +51,7 @@ public class BoxCreator extends Creator {
 		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".y", loc.getBlockY());
 		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + blockid + ".z", loc.getBlockZ());
 		main.saveConfig();
+		zplayer.sendMessage("You have added a box block.");
 		blockid++;
 		if(blockid > 2){
 			this.advanceStep();
@@ -66,7 +67,12 @@ public class BoxCreator extends Creator {
 		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.y", loc.getBlockY());
 		main.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.z", loc.getBlockZ());
 		main.saveConfig();
+		zplayer.sendMessage("You have added a light block.");
 		this.advanceStep();
+	}
+
+	public EditorItem getEditorItem(){
+		return EditorItem.BOX_CREATOR;
 	}
 
 }

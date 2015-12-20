@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -14,6 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import com.pwncraftpvp.zombies.creator.Creator;
+import com.pwncraftpvp.zombies.creator.EditorItem;
 import com.pwncraftpvp.zombies.game.Ammo;
 import com.pwncraftpvp.zombies.game.BoardStatic;
 import com.pwncraftpvp.zombies.game.Map;
@@ -293,15 +293,14 @@ public class ZPlayer {
 	public void setEditorInventory(boolean entered){
 		player.getInventory().clear();
 		if(entered){
-			player.getInventory().setItem(0, Utils.renameItem(new ItemStack(Material.STICK), ChatColor.GOLD + "Door Creator"));
-			player.getInventory().setItem(1, Utils.renameItem(new ItemStack(Material.BLAZE_ROD), ChatColor.GOLD + "Box Creator"));
-			player.getInventory().setItem(2, Utils.renameItem(new ItemStack(Material.ARROW), ChatColor.GOLD + "Window Creator"));
-			player.getInventory().setItem(3, Utils.renameItem(new ItemStack(Material.GOLD_INGOT), ChatColor.GOLD + "Upgrade Creator"));
-			player.getInventory().setItem(4, Utils.renameItem(new ItemStack(Material.IRON_INGOT), ChatColor.GOLD + "Perk Creator"));
-			
-			player.getInventory().setItem(6, Utils.renameItem(new ItemStack(Material.ANVIL), ChatColor.GOLD + "Map Spawn Setter"));
-			player.getInventory().setItem(7, Utils.renameItem(new ItemStack(Material.ROTTEN_FLESH), ChatColor.GOLD + "Zombie Spawn Setter"));
-			player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.RAW_BEEF), ChatColor.GOLD + "Dog Spawn Setter"));
+			int slot = 0;
+			for(EditorItem e : EditorItem.values()){
+				player.getInventory().setItem(slot, Utils.renameItem(new ItemStack(e.getMaterial()), ChatColor.GOLD + e.getName()));
+				slot++;
+				if(slot == 5){
+					slot = 6;
+				}
+			}
 		}else{
 			this.setInventory(main.game.getStatus());
 		}

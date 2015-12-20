@@ -36,5 +36,11 @@ public abstract class Creator {
 	 * Advance a step in the creator
 	 */
 	public abstract void advanceStep();
+	
+	/**
+	 * Get the editor item of the creator
+	 * @return The editor item of the creator
+	 */
+	public abstract EditorItem getEditorItem();
 
 }

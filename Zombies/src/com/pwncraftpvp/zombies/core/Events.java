@@ -46,6 +46,7 @@ import org.bukkit.util.BlockIterator;
 import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
+import com.pwncraftpvp.zombies.creator.EditorItem;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
@@ -163,51 +164,62 @@ public class Events implements Listener {
 				ItemStack hand = player.getItemInHand();
 				if(hand != null){
 					Material material = hand.getType();
-					if(material == Material.STICK){
-						if(!zplayer.isInCreator()){
-							zplayer.enterCreator(new DoorCreator(player, zplayer.getEditorMap()));
-						}else{
-							zplayer.getCreator().advanceStep();
+					EditorItem editor = null;
+					for(EditorItem e : EditorItem.values()){
+						if(e.getMaterial() == material){
+							editor = e;
+							break;
 						}
-					}else if(material == Material.BLAZE_ROD){
-						if(!zplayer.isInCreator()){
-							zplayer.enterCreator(new BoxCreator(player, zplayer.getEditorMap()));
-						}else{
-							zplayer.getCreator().advanceStep();
+					}
+					if(editor != null){
+						if(editor == EditorItem.DOOR_CREATOR){
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new DoorCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
+						}else if(editor == EditorItem.BOX_CREATOR){
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new BoxCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
+						}else if(editor == EditorItem.WINDOW_CREATOR){
+							
+						}else if(editor == EditorItem.UPGRADE_CREATOR){
+							
+						}else if(editor == EditorItem.PERK_CREATOR){
+							
+						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
+							
+						}else if(editor == EditorItem.ZOMBIE_SPAWN_SETTER){
+							
+						}else if(editor == EditorItem.DOG_SPAWN_SETTER){
+							
 						}
-					}else if(material == Material.ARROW){
-						
-					}else if(material == Material.BRICK){
-						
-					}else if(material == Material.IRON_INGOT){
-						
-					}else if(material == Material.ANVIL){
-						
-					}else if(material == Material.ROTTEN_FLESH){
-						
-					}else if(material == Material.RAW_BEEF){
-						
 					}
 				}
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR){
 				Creator creator = zplayer.getCreator();
 				if(creator != null){
-					event.setCancelled(true);
-					if(creator instanceof DoorCreator){
-						if(event.getClickedBlock() != null){
-							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
-								DoorCreator c = (DoorCreator) creator;
-								c.addDoorBlock(event.getClickedBlock().getLocation());
+					if(player.getItemInHand().getType() == creator.getEditorItem().getMaterial()){
+						event.setCancelled(true);
+						if(creator instanceof DoorCreator){
+							if(event.getClickedBlock() != null){
+								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
+									DoorCreator c = (DoorCreator) creator;
+									c.addDoorBlock(event.getClickedBlock().getLocation());
+								}
 							}
-						}
-					}else if(creator instanceof BoxCreator){
-						if(event.getClickedBlock() != null){
-							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.CHEST){
-								BoxCreator c = (BoxCreator) creator;
-								c.addBoxBlock(event.getClickedBlock().getLocation());
-							}else if(creator.getStep() == 3){
-								BoxCreator c = (BoxCreator) creator;
-								c.addLightBlock(event.getClickedBlock().getLocation());
+						}else if(creator instanceof BoxCreator){
+							if(event.getClickedBlock() != null){
+								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.CHEST){
+									BoxCreator c = (BoxCreator) creator;
+									c.addBoxBlock(event.getClickedBlock().getLocation());
+								}else if(creator.getStep() == 3){
+									BoxCreator c = (BoxCreator) creator;
+									c.addLightBlock(event.getClickedBlock().getLocation());
+								}
 							}
 						}
 					}

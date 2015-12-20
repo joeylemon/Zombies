@@ -66,5 +66,9 @@ public class DoorCreator extends Creator {
 		zplayer.sendMessage("You have added set the door price to $" + red + price + gray + ".");
 		this.advanceStep();
 	}
+	
+	public EditorItem getEditorItem(){
+		return EditorItem.DOOR_CREATOR;
+	}
 
 }
