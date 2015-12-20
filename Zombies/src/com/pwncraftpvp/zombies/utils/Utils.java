@@ -199,7 +199,22 @@ public class Utils {
 		int id = 1;
 		Area a = map.getArea(area);
 		if(a != null){
-			id = map.getArea(area).getDoors().size() + 1;
+			id = a.getDoors().size() + 1;
+		}
+		return id;
+	}
+	
+	/**
+	 * Get the next box id for an area
+	 * @param map - The map
+	 * @param area - The area id
+	 * @return The next box id
+	 */
+	public static final int getNextBoxID(Map map, int area){
+		int id = 1;
+		Area a = map.getArea(area);
+		if(a != null){
+			id = a.getMysteryBoxes().size() + 1;
 		}
 		return id;
 	}

@@ -176,11 +176,10 @@ public class ZPlayer {
 		}
 		long logout = System.currentTimeMillis();
 		int playtime = (int) ((logout - login) / 1000);
-		if(login == 0){
-			playtime = 0;
+		if(login != 0){
+			this.setPlaytime(playtime);
 		}
 		
-		this.setPlaytime(playtime);
 		this.getStats().push();
 		
 		int online = Bukkit.getOnlinePlayers().length;

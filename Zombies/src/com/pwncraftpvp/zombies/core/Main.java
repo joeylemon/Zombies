@@ -176,45 +176,7 @@ public class Main extends JavaPlugin {
 			}else if(cmd.getName().equalsIgnoreCase("zombies") || cmd.getName().equalsIgnoreCase("z")){
 				if(player.isOp() == true){
 					if(args.length > 0){
-						if(args[0].equalsIgnoreCase("adddoorblock")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									Location loc = player.getTargetBlock(null, 7).getLocation();
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int door = Integer.parseInt(args[3]);
-									
-									List<String> blocks = this.getConfig().getStringList("maps." + map + ".areas." + area + ".doors." + door + ".blocks");
-									blocks.add(loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ());
-									this.getConfig().set("maps." + map + ".areas." + area + ".doors." + door + ".blocks", blocks);
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have added a door block to door #" + red + door + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " adddoorblock <area id> <map name> <door id>");
-							}
-						}else if(args[0].equalsIgnoreCase("setdoorprice")){
-							if(args.length == 5){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true && Utils.isInteger(args[4]) == true){
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int door = Integer.parseInt(args[3]);
-									int price = Integer.parseInt(args[4]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".doors." + door + ".price", price);
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have added set the door price to $" + red + price + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " adddoorblock <area id> <map name> <door id> <price>");
-							}
-						}else if(args[0].equalsIgnoreCase("setzombiespawn")){
+						if(args[0].equalsIgnoreCase("setzombiespawn")){
 							if(args.length == 4){
 								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
 									int area = Integer.parseInt(args[1]);

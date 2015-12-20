@@ -10,12 +10,12 @@ import com.pwncraftpvp.zombies.utils.Utils;
 
 public class DoorCreator extends Creator {
 
-	private int door;
 	public DoorCreator(Player player, Map map){
 		super(player, map);
 	}
 	
 	private int area;
+	private int door;
 
 	public void advanceStep(){
 		step++;
@@ -37,8 +37,6 @@ public class DoorCreator extends Creator {
 	 */
 	public void setAreaID(int id){
 		this.area = id;
-		Utils.broadcastMessage("map = " + map.getName());
-		Utils.broadcastMessage("id = " + id);
 		this.door = Utils.getNextDoorID(map, area);
 		
 		zplayer.sendMessage("You have added set the area id to " + red + id + gray + ".");

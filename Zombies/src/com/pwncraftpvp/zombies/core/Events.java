@@ -43,6 +43,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
+import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
@@ -169,7 +170,11 @@ public class Events implements Listener {
 							zplayer.getCreator().advanceStep();
 						}
 					}else if(material == Material.BLAZE_ROD){
-						
+						if(!zplayer.isInCreator()){
+							zplayer.enterCreator(new BoxCreator(player, zplayer.getEditorMap()));
+						}else{
+							zplayer.getCreator().advanceStep();
+						}
 					}else if(material == Material.ARROW){
 						
 					}else if(material == Material.BRICK){
@@ -190,8 +195,18 @@ public class Events implements Listener {
 					if(creator instanceof DoorCreator){
 						if(event.getClickedBlock() != null){
 							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
-								DoorCreator dc = (DoorCreator) creator;
-								dc.addDoorBlock(event.getClickedBlock().getLocation());
+								DoorCreator c = (DoorCreator) creator;
+								c.addDoorBlock(event.getClickedBlock().getLocation());
+							}
+						}
+					}else if(creator instanceof BoxCreator){
+						if(event.getClickedBlock() != null){
+							if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.CHEST){
+								BoxCreator c = (BoxCreator) creator;
+								c.addBoxBlock(event.getClickedBlock().getLocation());
+							}else if(creator.getStep() == 3){
+								BoxCreator c = (BoxCreator) creator;
+								c.addLightBlock(event.getClickedBlock().getLocation());
 							}
 						}
 					}
