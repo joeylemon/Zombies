@@ -46,9 +46,9 @@ public class WindowCreator extends Creator {
 	 * @param loc - The location of the block
 	 */
 	public void setWindowBlock(Location loc){
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".x", loc.getBlockX());
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".y", loc.getBlockY());
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".z", loc.getBlockZ());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".x", loc.getBlockX());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".y", loc.getBlockY());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".z", loc.getBlockZ());
 		main.saveConfig();
 		
 		zplayer.sendMessage("You have set the window block.");
@@ -60,9 +60,9 @@ public class WindowCreator extends Creator {
 	 * @param loc - The location of the sign
 	 */
 	public void setWindowSign(Location loc){
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.x", loc.getBlockX());
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.y", loc.getBlockY());
-		main.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.z", loc.getBlockZ());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".sign.x", loc.getBlockX());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".sign.y", loc.getBlockY());
+		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".windows." + window + ".sign.z", loc.getBlockZ());
 		main.saveConfig();
 		
 		zplayer.sendMessage("You have set the window sign.");
