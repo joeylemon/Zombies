@@ -284,50 +284,6 @@ public class Main extends JavaPlugin {
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setwindowsign <area id> <map name> <window id>");
 							}
-						}else if(args[0].equalsIgnoreCase("setbox")){
-							if(args.length == 5){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true && Utils.isInteger(args[4]) == true){
-									Location loc = player.getTargetBlock(null, 7).getLocation();
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int box = Integer.parseInt(args[3]);
-									int block = Integer.parseInt(args[4]);
-									if(block == 1 || block == 2){
-										this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + block + ".x", loc.getBlockX());
-										this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + block + ".y", loc.getBlockY());
-										this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + "." + block + ".z", loc.getBlockZ());
-										this.saveConfig();
-										
-										zplayer.sendMessage("You have set block #" + red + block + gray + " for box #" + red + box + gray + ".");
-									}else{
-										zplayer.sendError("You have entered an invalid id.");
-									}
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setbox <area id> <map name> <box id> <1/2>");
-							}
-						}else if(args[0].equalsIgnoreCase("setboxlight")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									Location loc = player.getTargetBlock(null, 7).getLocation();
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int box = Integer.parseInt(args[3]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.x", loc.getBlockX());
-									this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.y", loc.getBlockY());
-									this.getConfig().set("maps." + map + ".areas." + area + ".boxes." + box + ".light.z", loc.getBlockZ());
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have set the light for box #" + red + box + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setboxlight <area id> <map name> <box id>");
-							}
 						}else if(args[0].equalsIgnoreCase("setupgrade")){
 							if(args.length == 2){
 								String map = args[1];

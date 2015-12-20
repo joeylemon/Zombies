@@ -19,7 +19,7 @@ public class BoxCreator extends Creator {
 	public void advanceStep(){
 		step++;
 		if(step == 1){
-			zplayer.sendMessage(red + "Step " + step + gray + ": Type the area id of the box.");
+			zplayer.sendMessage(red + "Step " + step + gray + ": Type the area id of the window.");
 		}else if(step == 2){
 			zplayer.sendMessage(red + "Step " + step + gray + ": Left click the blocks of the box.");
 		}else if(step == 3){
@@ -51,6 +51,7 @@ public class BoxCreator extends Creator {
 		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + "." + blockid + ".y", loc.getBlockY());
 		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + "." + blockid + ".z", loc.getBlockZ());
 		main.saveConfig();
+		
 		zplayer.sendMessage("You have added a box block.");
 		blockid++;
 		if(blockid > 2){
@@ -67,6 +68,7 @@ public class BoxCreator extends Creator {
 		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + ".light.y", loc.getBlockY());
 		main.getConfig().set("maps." + map.getName() + ".areas." + area + ".boxes." + box + ".light.z", loc.getBlockZ());
 		main.saveConfig();
+		
 		zplayer.sendMessage("You have added a light block.");
 		this.advanceStep();
 	}

@@ -47,6 +47,7 @@ import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.creator.EditorItem;
+import com.pwncraftpvp.zombies.creator.WindowCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
@@ -185,7 +186,11 @@ public class Events implements Listener {
 								zplayer.getCreator().advanceStep();
 							}
 						}else if(editor == EditorItem.WINDOW_CREATOR){
-							
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new WindowCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
 						}else if(editor == EditorItem.UPGRADE_CREATOR){
 							
 						}else if(editor == EditorItem.PERK_CREATOR){
@@ -206,19 +211,27 @@ public class Events implements Listener {
 						event.setCancelled(true);
 						if(creator instanceof DoorCreator){
 							if(event.getClickedBlock() != null){
+								DoorCreator c = (DoorCreator) creator;
 								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
-									DoorCreator c = (DoorCreator) creator;
 									c.addDoorBlock(event.getClickedBlock().getLocation());
 								}
 							}
 						}else if(creator instanceof BoxCreator){
 							if(event.getClickedBlock() != null){
+								BoxCreator c = (BoxCreator) creator;
 								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.CHEST){
-									BoxCreator c = (BoxCreator) creator;
 									c.addBoxBlock(event.getClickedBlock().getLocation());
 								}else if(creator.getStep() == 3){
-									BoxCreator c = (BoxCreator) creator;
 									c.addLightBlock(event.getClickedBlock().getLocation());
+								}
+							}
+						}else if(creator instanceof WindowCreator){
+							if(event.getClickedBlock() != null){
+								WindowCreator c = (WindowCreator) creator;
+								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.IRON_FENCE){
+									c.setWindowBlock(event.getClickedBlock().getLocation());
+								}else if(creator.getStep() == 3 && event.getClickedBlock().getType() == Material.WALL_SIGN){
+									c.setWindowSign(event.getClickedBlock().getLocation());
 								}
 							}
 						}
@@ -673,6 +686,14 @@ public class Events implements Listener {
 				}
 			}else if(creator instanceof BoxCreator){
 				BoxCreator c = (BoxCreator) creator;
+				if(creator.getStep() == 1){
+					if(Utils.isInteger(event.getMessage())){
+						c.setAreaID(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
+				}
+			}else if(creator instanceof WindowCreator){
+				WindowCreator c = (WindowCreator) creator;
 				if(creator.getStep() == 1){
 					if(Utils.isInteger(event.getMessage())){
 						c.setAreaID(Integer.parseInt(event.getMessage()));

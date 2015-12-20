@@ -220,6 +220,21 @@ public class Utils {
 	}
 	
 	/**
+	 * Get the next window id for an area
+	 * @param map - The map
+	 * @param area - The area id
+	 * @return The next window id
+	 */
+	public static final int getNextWindowID(Map map, int area){
+		int id = 1;
+		Area a = map.getArea(area);
+		if(a != null){
+			id = a.getWindows().size() + 1;
+		}
+		return id;
+	}
+	
+	/**
 	 * Set the navigation of an entity
 	 * @param entity - The entity
 	 * @param loc - The location
