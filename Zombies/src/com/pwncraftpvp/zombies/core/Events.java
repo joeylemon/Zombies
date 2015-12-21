@@ -47,6 +47,7 @@ import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.creator.EditorItem;
+import com.pwncraftpvp.zombies.creator.UpgradeCreator;
 import com.pwncraftpvp.zombies.creator.WindowCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
@@ -192,7 +193,11 @@ public class Events implements Listener {
 								zplayer.getCreator().advanceStep();
 							}
 						}else if(editor == EditorItem.UPGRADE_CREATOR){
-							
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new UpgradeCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
 						}else if(editor == EditorItem.PERK_CREATOR){
 							
 						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
@@ -232,6 +237,13 @@ public class Events implements Listener {
 									c.setWindowBlock(event.getClickedBlock().getLocation());
 								}else if(creator.getStep() == 3 && event.getClickedBlock().getType() == Material.WALL_SIGN){
 									c.setWindowSign(event.getClickedBlock().getLocation());
+								}
+							}
+						}else if(creator instanceof UpgradeCreator){
+							if(event.getClickedBlock() != null){
+								UpgradeCreator c = (UpgradeCreator) creator;
+								if(creator.getStep() == 1 && event.getClickedBlock().getType() == Material.ENDER_CHEST){
+									c.setUpgradeBlock(event.getClickedBlock().getLocation());
 								}
 							}
 						}

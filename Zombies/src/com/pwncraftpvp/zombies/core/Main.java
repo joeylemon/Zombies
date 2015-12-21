@@ -244,46 +244,6 @@ public class Main extends JavaPlugin {
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setday <map name> <true/false>");
 							}
-						}else if(args[0].equalsIgnoreCase("setwindow")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									Location loc = player.getTargetBlock(null, 7).getLocation();
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int window = Integer.parseInt(args[3]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".x", loc.getBlockX());
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".y", loc.getBlockY());
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".z", loc.getBlockZ());
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have set window #" + red + window + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setwindow <area id> <map name> <window id>");
-							}
-						}else if(args[0].equalsIgnoreCase("setwindowsign")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									Location loc = player.getTargetBlock(null, 7).getLocation();
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int window = Integer.parseInt(args[3]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.x", loc.getBlockX());
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.y", loc.getBlockY());
-									this.getConfig().set("maps." + map + ".areas." + area + ".windows." + window + ".sign.z", loc.getBlockZ());
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have set the sign for window #" + red + window + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setwindowsign <area id> <map name> <window id>");
-							}
 						}else if(args[0].equalsIgnoreCase("setupgrade")){
 							if(args.length == 2){
 								String map = args[1];
