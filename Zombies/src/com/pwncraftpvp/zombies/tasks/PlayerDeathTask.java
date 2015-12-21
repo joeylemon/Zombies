@@ -15,10 +15,13 @@ public class PlayerDeathTask extends BukkitRunnable {
 	private String wait = ChatColor.GOLD + "Hold right-click to revive";
 	private String revive = ChatColor.GOLD + "Reviving player...";
 	
+	private Player player;
 	private ZPlayer zplayer;
+	public Player reviver;
 	public ZPlayer zreviver;
 	public Hologram hologram;
 	public PlayerDeathTask(Player player){
+		this.player = player;
 		this.zplayer = new ZPlayer(player);
 		this.hologram = HologramsAPI.createHologram(main, player.getLocation().add(0, 2.6, 0));
 		this.hologram.appendTextLine(wait);
@@ -32,7 +35,7 @@ public class PlayerDeathTask extends BukkitRunnable {
 	public void run(){
 		if(reviving == false){
 			setHologramText(true);
-			zreviver = null;
+			reviver = null;
 			
 			clicks = 0;
 			int timeleft = (time - runtime);
@@ -43,8 +46,8 @@ public class PlayerDeathTask extends BukkitRunnable {
 			}
 		}else{
 			setHologramText(false);
-			zplayer.sendActionBar("Reviving...");
-			zreviver.sendActionBar("Reviving...");
+			zplayer.sendActionBar(reviver.getName() + " is reviving you.");
+			zreviver.sendActionBar("Reviving " + player.getName() + ".");
 			
 			if(clicks >= 20){
 				this.cancelTask(false);

@@ -606,6 +606,7 @@ public class Events implements Listener {
 			Player target = (Player) event.getRightClicked();
 			if(main.game.death.containsKey(target.getName())){
 				PlayerDeathTask task = main.game.death.get(target.getName());
+				task.reviver = player;
 				task.zreviver = zplayer;
 				task.reviving = true;
 				task.setHologramText(false);
