@@ -235,6 +235,21 @@ public class Utils {
 	}
 	
 	/**
+	 * Get the next zombie spawn id for an area
+	 * @param map - The map
+	 * @param area - The area id
+	 * @return The next zombie spawn id
+	 */
+	public static final int getNextZombieSpawnID(Map map, int area){
+		int id = 1;
+		Area a = map.getArea(area);
+		if(a != null){
+			id = a.getZombieSpawns().size() + 1;
+		}
+		return id;
+	}
+	
+	/**
 	 * Set the navigation of an entity
 	 * @param entity - The entity
 	 * @param loc - The location

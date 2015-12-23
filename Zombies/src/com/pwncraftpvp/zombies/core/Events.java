@@ -50,6 +50,7 @@ import com.pwncraftpvp.zombies.creator.EditorItem;
 import com.pwncraftpvp.zombies.creator.PerkCreator;
 import com.pwncraftpvp.zombies.creator.UpgradeCreator;
 import com.pwncraftpvp.zombies.creator.WindowCreator;
+import com.pwncraftpvp.zombies.creator.ZombieSpawnCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
@@ -206,7 +207,11 @@ public class Events implements Listener {
 								zplayer.getCreator().advanceStep();
 							}
 						}else if(editor == EditorItem.ZOMBIE_SPAWN_CREATOR){
-							
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new ZombieSpawnCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
 						}else if(editor == EditorItem.DOG_SPAWN_CREATOR){
 							
 						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
@@ -262,8 +267,15 @@ public class Events implements Listener {
 						}else if(creator instanceof PerkCreator){
 							if(event.getClickedBlock() != null){
 								PerkCreator c = (PerkCreator) creator;
-								if(creator.getStep() == 1 && event.getClickedBlock().getType() == Material.WOOL){
+								if(creator.getStep() == 2 && event.getClickedBlock().getType() == Material.WOOL){
 									c.setPerkBlock(event.getClickedBlock().getLocation());
+								}
+							}
+						}else if(creator instanceof ZombieSpawnCreator){
+							if(event.getClickedBlock() != null){
+								ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
+								if(creator.getStep() == 2){
+									c.setSpawnLocation(player.getLocation());
 								}
 							}
 						}
@@ -750,6 +762,14 @@ public class Events implements Listener {
 						zplayer.sendError("You have entered an invalid perk.");
 					}
 					event.setCancelled(true);
+				}
+			}else if(creator instanceof ZombieSpawnCreator){
+				ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
+				if(creator.getStep() == 1){
+					if(Utils.isInteger(event.getMessage())){
+						c.setAreaID(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
 				}
 			}
 		}
