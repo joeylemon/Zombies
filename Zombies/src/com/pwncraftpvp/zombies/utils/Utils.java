@@ -73,8 +73,8 @@ public class Utils {
 	 */
 	public static final void spawnDog(Location loc){
 		Wolf wolf = (Wolf) Utils.getWorld().spawnEntity(loc, EntityType.WOLF);
-		wolf.setMaxHealth(main.game.getZombieHealth() * 0.25);
-		wolf.setHealth(main.game.getZombieHealth() * 0.25);
+		wolf.setMaxHealth(main.game.getZombieHealth() * 0.4);
+		wolf.setHealth(main.game.getZombieHealth() * 0.4);
 		wolf.setFireTicks(10000);
 		wolf.setAngry(true);
 		wolf.setTarget(Utils.getRandomPlayer(wolf));
