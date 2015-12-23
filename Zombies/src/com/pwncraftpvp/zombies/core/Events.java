@@ -47,6 +47,7 @@ import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.creator.EditorItem;
+import com.pwncraftpvp.zombies.creator.PerkCreator;
 import com.pwncraftpvp.zombies.creator.UpgradeCreator;
 import com.pwncraftpvp.zombies.creator.WindowCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
@@ -199,7 +200,11 @@ public class Events implements Listener {
 								zplayer.getCreator().advanceStep();
 							}
 						}else if(editor == EditorItem.PERK_CREATOR){
-							
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new PerkCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
 						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
 							
 						}else if(editor == EditorItem.ZOMBIE_SPAWN_SETTER){
@@ -244,6 +249,13 @@ public class Events implements Listener {
 								UpgradeCreator c = (UpgradeCreator) creator;
 								if(creator.getStep() == 1 && event.getClickedBlock().getType() == Material.ENDER_CHEST){
 									c.setUpgradeBlock(event.getClickedBlock().getLocation());
+								}
+							}
+						}else if(creator instanceof PerkCreator){
+							if(event.getClickedBlock() != null){
+								PerkCreator c = (PerkCreator) creator;
+								if(creator.getStep() == 1 && event.getClickedBlock().getType() == Material.WOOL){
+									c.setPerkBlock(event.getClickedBlock().getLocation());
 								}
 							}
 						}
@@ -712,6 +724,24 @@ public class Events implements Listener {
 						c.setAreaID(Integer.parseInt(event.getMessage()));
 						event.setCancelled(true);
 					}
+				}
+			}else if(creator instanceof PerkCreator){
+				PerkCreator c = (PerkCreator) creator;
+				if(creator.getStep() == 1){
+					String msg = event.getMessage();
+					Perk perk = null;
+					for(Perk p : Perk.values()){
+						if(p.toString().equalsIgnoreCase(msg)){
+							perk = p;
+							break;
+						}
+					}
+					if(perk != null){
+						c.setPerk(perk);
+					}else{
+						zplayer.sendError("You have entered an invalid perk.");
+					}
+					event.setCancelled(true);
 				}
 			}
 		}

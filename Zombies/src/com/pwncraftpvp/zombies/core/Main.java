@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -140,7 +139,6 @@ public class Main extends JavaPlugin {
 		mysql.close();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(sender instanceof Player){
 			Player player = (Player) sender;
@@ -243,35 +241,6 @@ public class Main extends JavaPlugin {
 								zplayer.sendMessage("You have set day time to " + red + day + gray + ".");
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setday <map name> <true/false>");
-							}
-						}else if(args[0].equalsIgnoreCase("setupgrade")){
-							if(args.length == 2){
-								String map = args[1];
-								Location loc = player.getTargetBlock(null, 7).getLocation();
-								
-								this.getConfig().set("maps." + map + ".upgrade.x", loc.getBlockX());
-								this.getConfig().set("maps." + map + ".upgrade.y", loc.getBlockY());
-								this.getConfig().set("maps." + map + ".upgrade.z", loc.getBlockZ());
-								this.saveConfig();
-								
-								zplayer.sendMessage("You have set the pack-a-punch location.");
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setupgrade <map name>");
-							}
-						}else if(args[0].equalsIgnoreCase("setperk")){
-							if(args.length == 3){
-								Location loc = player.getTargetBlock(null, 7).getLocation();
-								String map = args[1];
-								String perk = args[2];
-								
-								this.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".x", loc.getBlockX());
-								this.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".y", loc.getBlockY());
-								this.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".z", loc.getBlockZ());
-								this.saveConfig();
-								
-								zplayer.sendMessage("You have set the " + red + perk + gray + " perk.");
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setperk <map name> <perk>");
 							}
 						}else if(args[0].equalsIgnoreCase("editor")){
 							if(args.length == 2){
