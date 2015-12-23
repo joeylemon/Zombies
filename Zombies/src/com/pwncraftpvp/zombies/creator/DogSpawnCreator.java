@@ -33,7 +33,7 @@ public class DogSpawnCreator extends Creator {
 	 */
 	public void setAreaID(int id){
 		this.area = id;
-		this.spawn = Utils.getNextZombieSpawnID(map, area);
+		this.spawn = Utils.getNextDogSpawnID(map, area);
 		
 		zplayer.sendMessage("You have set the area id to " + red + id + gray + ".");
 		this.advanceStep();
