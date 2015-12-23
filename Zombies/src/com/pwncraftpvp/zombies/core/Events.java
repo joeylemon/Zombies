@@ -68,6 +68,7 @@ import com.pwncraftpvp.zombies.tasks.PlayerHealTask;
 import com.pwncraftpvp.zombies.tasks.UpgradeTask;
 import com.pwncraftpvp.zombies.tasks.WindowRepairTask;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
+import com.pwncraftpvp.zombies.utils.TextUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
 
 public class Events implements Listener {
@@ -544,7 +545,7 @@ public class Events implements Listener {
 					
 					boolean headshot = false;
 					int killScore = 60;
-					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
+					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.9){
 						damage = weapon.getHeadshotDamage(upgraded);
 						killScore = 100;
 						headshot = true;
@@ -723,6 +724,9 @@ public class Events implements Listener {
 	public void asyncPlayerChatEvent(AsyncPlayerChatEvent event){
 		Player player = event.getPlayer();
 		ZPlayer zplayer = new ZPlayer(player);
+		
+		event.setFormat(ChatColor.GOLD + "[Lvl. " + 1 + "] " + ChatColor.DARK_GREEN + "%s " + ChatColor.GOLD + TextUtils.getArrow() + ChatColor.GRAY + " %s");
+		
 		Creator creator = zplayer.getCreator();
 		if(creator != null){
 			if(creator instanceof DoorCreator){

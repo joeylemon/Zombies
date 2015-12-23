@@ -380,6 +380,7 @@ public class Game {
 				ZPlayer zp = new ZPlayer(p);
 				zp.fillUpWeapons();
 			}
+			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.INSTA_KILL){
 			if(instakilltask != null){
 				instakilltask.runtime = 0;
@@ -388,6 +389,7 @@ public class Game {
 				task.runTaskTimer(main, 0, 20);
 				instakilltask = task;
 			}
+			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.DOUBLE_POINTS){
 			if(doublepointstask != null){
 				doublepointstask.runtime = 0;
@@ -396,13 +398,16 @@ public class Game {
 				task.runTaskTimer(main, 0, 20);
 				doublepointstask = task;
 			}
+			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.NUKE){
 			for(Entity e : Utils.getWorld().getEntities()){
 				if(e.getType() != EntityType.PLAYER && e instanceof LivingEntity){
 					LivingEntity le = (LivingEntity) e;
+					EffectUtils.playExplodeEffect(e.getLocation());
 					this.killEntity(le);
 				}
 			}
+			EffectUtils.playGlobalSound(Sound.ANVIL_USE, 10F, 1F);
 		}else if(type == PowerUpType.CARPENTER){
 			for(Window w : this.getAllWindows()){
 				if(windowhealth.containsKey(w.getID())){
@@ -411,6 +416,7 @@ public class Game {
 				}
 				w.getLocation().getBlock().setType(Material.IRON_FENCE);
 			}
+			EffectUtils.playGlobalSound(Sound.ANVIL_USE, 10F, 1F);
 		}
 	}
 	

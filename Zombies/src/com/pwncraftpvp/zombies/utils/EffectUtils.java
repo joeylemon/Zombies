@@ -166,6 +166,20 @@ public class EffectUtils {
 	}
 	
 	/**
+	 * Play a sound to all players
+	 * @param sound - The sound to play
+	 * @param volume - The volume of the sound
+	 * @param pitch - The pitch of the sound
+	 */
+	public static final void playGlobalSound(Sound sound, float volume, float pitch){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(p.getLocation().getWorld().getName().equalsIgnoreCase(world.getName())){
+				p.playSound(p.getEyeLocation(), sound, volume, pitch);
+			}
+		}
+	}
+	
+	/**
 	 * Create a bullet trail on the player
 	 * @param player - The player to create a bullet trail on
 	 */
