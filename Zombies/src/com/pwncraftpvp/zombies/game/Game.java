@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
@@ -397,7 +398,7 @@ public class Game {
 			}
 		}else if(type == PowerUpType.NUKE){
 			for(Entity e : Utils.getWorld().getEntities()){
-				if(e instanceof LivingEntity){
+				if(e.getType() != EntityType.PLAYER && e instanceof LivingEntity){
 					LivingEntity le = (LivingEntity) e;
 					this.killEntity(le);
 				}
