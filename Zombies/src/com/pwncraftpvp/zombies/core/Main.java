@@ -106,7 +106,7 @@ public class Main extends JavaPlugin {
 					if((oldblock == null && newblock != null) || 
 							oldblock.getType() != newblock.getType() || 
 							Utils.areDifferent(oldblock.getLocation(), newblock.getLocation())){
-						getServer().getPluginManager().callEvent(new PlayerTargetBlockEvent(p, newblock, oldblock));
+						getServer().getPluginManager().callEvent(new PlayerTargetBlockEvent(p, newblock));
 						if(targetblock.containsKey(p.getName()) == true){
 							targetblock.remove(p.getName());
 						}

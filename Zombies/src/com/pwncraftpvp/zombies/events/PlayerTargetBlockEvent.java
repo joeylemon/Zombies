@@ -10,11 +10,9 @@ public class PlayerTargetBlockEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private Player player;
 	private Block newblock;
-	private Block oldblock;
-	public PlayerTargetBlockEvent(Player player, Block newblock, Block oldblock){
+	public PlayerTargetBlockEvent(Player player, Block newblock){
 		this.player = player;
 		this.newblock = newblock;
-		this.oldblock = oldblock;
 	}
 	
 	/**
@@ -31,14 +29,6 @@ public class PlayerTargetBlockEvent extends Event {
 	 */
 	public Block getNewBlock(){
 		return newblock;
-	}
-	
-	/**
-	 * Get the old block
-	 * @return The old block
-	 */
-	public Block getOldBlock(){
-		return oldblock;
 	}
 
 	public HandlerList getHandlers(){
