@@ -340,10 +340,10 @@ public class Game {
 		
 		
 		if(killed >= Utils.getZombiesForRound(this.getRound())){
-			this.endRound();
 			if(this.isDogRound()){
 				this.dropPowerUp(entity.getLocation(), PowerUpType.MAX_AMMO);
 			}
+			this.endRound();
 		}else{
 			if(spawntask == null && this.getAliveEntities() == 0){
 				this.startSpawnTask();
