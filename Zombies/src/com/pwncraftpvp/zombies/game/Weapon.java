@@ -8,16 +8,16 @@ import com.pwncraftpvp.zombies.utils.Utils;
 
 public enum Weapon {
 	
-	GALIL(Material.IRON_HOE, "Galil", "Lamentation", true, true, 10, 26, 70, 65, 35, 315, 3, 
+	GALIL(Material.IRON_HOE, "Galil", "Lamentation", true, true, 10, 26, 100, 65, 35, 315, 3, 
 			45, 100, 75, 35, 490, 1),
-	AK47U(Material.GOLD_HOE, "AK47u", "AK47fu2", true, true, 15, 20, 65, 50, 20, 160, 2,
+	AK47U(Material.GOLD_HOE, "AK47u", "AK47fu2", true, true, 15, 20, 90, 50, 20, 160, 2,
 			43, 100, 70, 40, 280, 1),
 	
-	M1911(Material.WOOD_SPADE, "M1911", "Mustang and Sally", true, false, 15, 20, 38, 50, 8, 80, 9,
+	M1911(Material.WOOD_SPADE, "M1911", "Mustang and Sally", true, false, 15, 20, 65, 50, 8, 80, 9,
 			20, 20, 50, 8, 80, 3),
-	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 12, 28, 55, 65, 20, 120, 7,
+	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 12, 28, 80, 65, 20, 120, 7,
 			45, 70, 70, 20, 200, 5),
-	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 15, 23, 45, 50, 30, 120, 8,
+	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 15, 23, 60, 50, 30, 120, 8,
 			40, 60, 60, 30, 270, 5),
 	
 	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
