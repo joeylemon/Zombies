@@ -339,16 +339,8 @@ public class Utils {
 	public static final Weapon getRandomWeapon(Player player){
 		ZPlayer zplayer = new ZPlayer(player);
 		Weapon weapon = null;
-		Random rand = new Random();
-		while(weapon == null){
-			for(Weapon w : Weapon.values()){
-				if(rand.nextDouble() <= (w.getChance() * 0.01)){
-					if(zplayer.hasWeapon(w) == false){
-						weapon = w;
-						break;
-					}
-				}
-			}
+		while(zplayer.hasWeapon(weapon)){
+			weapon = Weapon.getWeapon(Utils.getRandomInteger(1, Weapon.getTotalChances()));
 		}
 		return weapon;
 	}

@@ -570,11 +570,13 @@ public class ZPlayer {
 	 */
 	public boolean hasWeapon(Weapon weapon){
 		boolean has = false;
-		for(int x = 0; x <= 1; x++){
-			Weapon w = this.getWeaponInSlot(x);
-			if(w == weapon){
-				has = true;
-				break;
+		if(weapon != null){
+			for(int x = 0; x <= 1; x++){
+				Weapon w = this.getWeaponInSlot(x);
+				if(w == weapon){
+					has = true;
+					break;
+				}
 			}
 		}
 		return has;

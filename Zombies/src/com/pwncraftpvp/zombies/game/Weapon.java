@@ -206,5 +206,45 @@ public enum Weapon {
 		}
 		return item;
 	}
+	
+	
+	/**
+	 * Get a weapon from a chance number
+	 * @param chance - The chance
+	 * @return The weapon
+	 */
+	public static final Weapon getWeapon(int chance){
+		Weapon weapon = null;
+		
+		int oldsum = 0;
+		int newsum = 0;
+		for(Weapon w : Weapon.values()){
+			oldsum = newsum;
+			newsum += w.getChance();
+			if(chance >= oldsum && chance <= newsum){
+				weapon = w;
+				break;
+			}
+		}
+		
+		return weapon;
+	}
+	
+	private static int chances = -1;
+	
+	/**
+	 * Get the total number of chances
+	 * @return The total number of chances
+	 */
+	public static final int getTotalChances(){
+		if(chances == -1){
+			int total = 0;
+			for(Weapon w : Weapon.values()){
+				total += w.getChance();
+			}
+			chances = total;
+		}
+		return chances;
+	}
 
 }
