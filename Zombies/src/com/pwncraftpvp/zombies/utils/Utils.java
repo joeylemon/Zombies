@@ -339,9 +339,10 @@ public class Utils {
 	public static final Weapon getRandomWeapon(Player player){
 		ZPlayer zplayer = new ZPlayer(player);
 		Weapon weapon = null;
-		while(zplayer.hasWeapon(weapon)){
+		do{
 			weapon = Weapon.getWeapon(Utils.getRandomInteger(1, Weapon.getTotalChances()));
-		}
+		}while(zplayer.hasWeapon(weapon));
+		
 		return weapon;
 	}
 	

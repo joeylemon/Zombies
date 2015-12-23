@@ -545,7 +545,7 @@ public class Events implements Listener {
 					
 					boolean headshot = false;
 					int killScore = 60;
-					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.9){
+					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.875){
 						damage = weapon.getHeadshotDamage(upgraded);
 						killScore = 100;
 						headshot = true;
