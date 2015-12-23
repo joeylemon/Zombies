@@ -42,9 +42,9 @@ public class PerkCreator extends Creator {
 	 * @param loc - The location of the block
 	 */
 	public void setPerkBlock(Location loc){
-		main.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".x", loc.getBlockX());
-		main.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".y", loc.getBlockY());
-		main.getConfig().set("maps." + map + ".perks." + perk.toString().toLowerCase() + ".z", loc.getBlockZ());
+		main.getConfig().set("maps." + map.getName() + ".perks." + perk.toString().toLowerCase() + ".x", loc.getBlockX());
+		main.getConfig().set("maps." + map.getName() + ".perks." + perk.toString().toLowerCase() + ".y", loc.getBlockY());
+		main.getConfig().set("maps." + map.getName() + ".perks." + perk.toString().toLowerCase() + ".z", loc.getBlockZ());
 		main.saveConfig();
 		
 		zplayer.sendMessage("You have set the perk block.");
