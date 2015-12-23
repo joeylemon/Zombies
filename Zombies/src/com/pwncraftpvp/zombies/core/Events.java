@@ -177,6 +177,7 @@ public class Events implements Listener {
 						}
 					}
 					if(editor != null){
+						event.setCancelled(true);
 						if(editor == EditorItem.DOOR_CREATOR){
 							if(!zplayer.isInCreator()){
 								zplayer.enterCreator(new DoorCreator(player, zplayer.getEditorMap()));
