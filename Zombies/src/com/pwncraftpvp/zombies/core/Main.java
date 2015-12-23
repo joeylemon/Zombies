@@ -174,45 +174,7 @@ public class Main extends JavaPlugin {
 			}else if(cmd.getName().equalsIgnoreCase("zombies") || cmd.getName().equalsIgnoreCase("z")){
 				if(player.isOp() == true){
 					if(args.length > 0){
-						if(args[0].equalsIgnoreCase("setzombiespawn")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int spawn = Integer.parseInt(args[3]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".spawns." + spawn + ".x", player.getLocation().getX());
-									this.getConfig().set("maps." + map + ".areas." + area + ".spawns." + spawn + ".y", player.getLocation().getY());
-									this.getConfig().set("maps." + map + ".areas." + area + ".spawns." + spawn + ".z", player.getLocation().getZ());
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have set zombie spawn #" + red + spawn + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setzombiespawn <area id> <map name> <spawn id>");
-							}
-						}else if(args[0].equalsIgnoreCase("setdogspawn")){
-							if(args.length == 4){
-								if(Utils.isInteger(args[1]) == true && Utils.isInteger(args[3]) == true){
-									int area = Integer.parseInt(args[1]);
-									String map = args[2];
-									int spawn = Integer.parseInt(args[3]);
-									
-									this.getConfig().set("maps." + map + ".areas." + area + ".dogspawns." + spawn + ".x", player.getLocation().getX());
-									this.getConfig().set("maps." + map + ".areas." + area + ".dogspawns." + spawn + ".y", player.getLocation().getY());
-									this.getConfig().set("maps." + map + ".areas." + area + ".dogspawns." + spawn + ".z", player.getLocation().getZ());
-									this.saveConfig();
-									
-									zplayer.sendMessage("You have set dog spawn #" + red + spawn + gray + ".");
-								}else{
-									zplayer.sendError("You have entered an invalid id.");
-								}
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setdogspawn <area id> <map name> <spawn id>");
-							}
-						}else if(args[0].equalsIgnoreCase("setday")){
+						if(args[0].equalsIgnoreCase("setday")){
 							if(args.length == 3){
 								String map = args[1];
 								boolean day = true;

@@ -45,6 +45,7 @@ import org.bukkit.util.BlockIterator;
 
 import com.pwncraftpvp.zombies.creator.BoxCreator;
 import com.pwncraftpvp.zombies.creator.Creator;
+import com.pwncraftpvp.zombies.creator.DogSpawnCreator;
 import com.pwncraftpvp.zombies.creator.DoorCreator;
 import com.pwncraftpvp.zombies.creator.EditorItem;
 import com.pwncraftpvp.zombies.creator.PerkCreator;
@@ -213,7 +214,11 @@ public class Events implements Listener {
 								zplayer.getCreator().advanceStep();
 							}
 						}else if(editor == EditorItem.DOG_SPAWN_CREATOR){
-							
+							if(!zplayer.isInCreator()){
+								zplayer.enterCreator(new DogSpawnCreator(player, zplayer.getEditorMap()));
+							}else{
+								zplayer.getCreator().advanceStep();
+							}
 						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
 							String map = zplayer.getEditorMap().getName();
 							main.getConfig().set("maps." + map + ".spawn.x", player.getLocation().getX());
@@ -274,6 +279,13 @@ public class Events implements Listener {
 						}else if(creator instanceof ZombieSpawnCreator){
 							if(event.getClickedBlock() != null){
 								ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
+								if(creator.getStep() == 2){
+									c.setSpawnLocation(player.getLocation());
+								}
+							}
+						}else if(creator instanceof DogSpawnCreator){
+							if(event.getClickedBlock() != null){
+								DogSpawnCreator c = (DogSpawnCreator) creator;
 								if(creator.getStep() == 2){
 									c.setSpawnLocation(player.getLocation());
 								}
@@ -765,6 +777,14 @@ public class Events implements Listener {
 				}
 			}else if(creator instanceof ZombieSpawnCreator){
 				ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
+				if(creator.getStep() == 1){
+					if(Utils.isInteger(event.getMessage())){
+						c.setAreaID(Integer.parseInt(event.getMessage()));
+						event.setCancelled(true);
+					}
+				}
+			}else if(creator instanceof DogSpawnCreator){
+				DogSpawnCreator c = (DogSpawnCreator) creator;
 				if(creator.getStep() == 1){
 					if(Utils.isInteger(event.getMessage())){
 						c.setAreaID(Integer.parseInt(event.getMessage()));
