@@ -278,18 +278,14 @@ public class Events implements Listener {
 								}
 							}
 						}else if(creator instanceof ZombieSpawnCreator){
-							if(event.getClickedBlock() != null){
-								ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
-								if(creator.getStep() == 2){
-									c.setSpawnLocation(player.getLocation());
-								}
+							ZombieSpawnCreator c = (ZombieSpawnCreator) creator;
+							if(creator.getStep() == 2){
+								c.setSpawnLocation(player.getLocation());
 							}
 						}else if(creator instanceof DogSpawnCreator){
-							if(event.getClickedBlock() != null){
-								DogSpawnCreator c = (DogSpawnCreator) creator;
-								if(creator.getStep() == 2){
-									c.setSpawnLocation(player.getLocation());
-								}
+							DogSpawnCreator c = (DogSpawnCreator) creator;
+							if(creator.getStep() == 2){
+								c.setSpawnLocation(player.getLocation());
 							}
 						}
 					}
