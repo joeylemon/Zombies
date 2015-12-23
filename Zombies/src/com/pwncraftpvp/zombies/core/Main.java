@@ -117,7 +117,7 @@ public class Main extends JavaPlugin {
 				if((System.currentTimeMillis() - game.lastkill) > 0){
 					if(game.spawntask == null && game.getAliveEntities() == 0){
 						game.startSpawnTask();
-						game.lastkill = System.currentTimeMillis() + (5 * 1000);
+						game.lastkill = System.currentTimeMillis() + (10 * 1000);
 					}
 				}
 				

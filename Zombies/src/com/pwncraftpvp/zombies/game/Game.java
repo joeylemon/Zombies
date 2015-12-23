@@ -319,7 +319,7 @@ public class Game {
 	 */
 	public void killEntity(LivingEntity entity){
 		entity.setHealth(0);
-		lastkill = System.currentTimeMillis() + (5 * 1000);
+		lastkill = System.currentTimeMillis() + (10 * 1000);
 		killed++;
 		if(!this.isDogRound()){
 			if(poweruptask == null && Math.random() <= 0.05){
