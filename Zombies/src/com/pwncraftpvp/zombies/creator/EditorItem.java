@@ -10,9 +10,9 @@ public enum EditorItem {
 	WINDOW_CREATOR(Material.ARROW),
 	UPGRADE_CREATOR(Material.GOLD_INGOT),
 	PERK_CREATOR(Material.IRON_INGOT),
-	MAP_SPAWN_SETTER(Material.ANVIL),
-	ZOMBIE_SPAWN_SETTER(Material.ROTTEN_FLESH),
-	DOG_SPAWN_SETTER(Material.RAW_BEEF);
+	ZOMBIE_SPAWN_CREATOR(Material.ROTTEN_FLESH),
+	DOG_SPAWN_CREATOR(Material.RAW_BEEF),
+	MAP_SPAWN_SETTER(Material.ANVIL);
 	
 	private Material material;
 	EditorItem(Material material){

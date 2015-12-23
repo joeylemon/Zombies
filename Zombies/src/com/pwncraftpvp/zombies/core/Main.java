@@ -212,21 +212,6 @@ public class Main extends JavaPlugin {
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setdogspawn <area id> <map name> <spawn id>");
 							}
-						}else if(args[0].equalsIgnoreCase("setmapspawn")){
-							if(args.length == 2){
-								String map = args[1];
-								
-								this.getConfig().set("maps." + map + ".spawn.x", player.getLocation().getX());
-								this.getConfig().set("maps." + map + ".spawn.y", player.getLocation().getY());
-								this.getConfig().set("maps." + map + ".spawn.z", player.getLocation().getZ());
-								this.getConfig().set("maps." + map + ".spawn.yaw", player.getLocation().getYaw());
-								this.getConfig().set("maps." + map + ".spawn.pitch", player.getLocation().getPitch());
-								this.saveConfig();
-								
-								zplayer.sendMessage("You have set the spawn.");
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " setmapspawn <map name>");
-							}
 						}else if(args[0].equalsIgnoreCase("setday")){
 							if(args.length == 3){
 								String map = args[1];

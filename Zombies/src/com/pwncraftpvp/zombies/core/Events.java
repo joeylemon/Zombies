@@ -205,12 +205,20 @@ public class Events implements Listener {
 							}else{
 								zplayer.getCreator().advanceStep();
 							}
+						}else if(editor == EditorItem.ZOMBIE_SPAWN_CREATOR){
+							
+						}else if(editor == EditorItem.DOG_SPAWN_CREATOR){
+							
 						}else if(editor == EditorItem.MAP_SPAWN_SETTER){
+							String map = zplayer.getEditorMap().getName();
+							main.getConfig().set("maps." + map + ".spawn.x", player.getLocation().getX());
+							main.getConfig().set("maps." + map + ".spawn.y", player.getLocation().getY());
+							main.getConfig().set("maps." + map + ".spawn.z", player.getLocation().getZ());
+							main.getConfig().set("maps." + map + ".spawn.yaw", player.getLocation().getYaw());
+							main.getConfig().set("maps." + map + ".spawn.pitch", player.getLocation().getPitch());
+							main.saveConfig();
 							
-						}else if(editor == EditorItem.ZOMBIE_SPAWN_SETTER){
-							
-						}else if(editor == EditorItem.DOG_SPAWN_SETTER){
-							
+							zplayer.sendMessage("You have set the map spawn.");
 						}
 					}
 				}
