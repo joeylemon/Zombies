@@ -557,7 +557,7 @@ public class Events implements Listener {
 							public void run(){
 								zplayer.setSlot(2, Weapon.KNIFE, 1);
 							}
-						}, 30);
+						}, 20);
 					}
 					
 					if(main.game.instakilltask != null){
