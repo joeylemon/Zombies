@@ -18,6 +18,7 @@ public class Statistics {
 		this.player = player;
 	}
 	
+	public int rank = 0;
 	public int brains = 0;
 	public int kills = 0;
 	public int downs = 0;
@@ -35,6 +36,7 @@ public class Statistics {
 	public void pull(){
 		ResultSet set = main.mysql.query("SELECT * FROM players WHERE name='" + player.getName() + "'");
 		try{
+			rank = set.getInt("rank");
 			brains = set.getInt("brains");
 			kills = set.getInt("kills");
 			downs = set.getInt("downs");
@@ -60,7 +62,7 @@ public class Statistics {
 	 * Update the player's statistics
 	 */
 	public void push(){
-		main.mysql.execute("UPDATE `players` SET `brains`='" + brains + "',`kills`='" + kills + "',`downs`='" + downs + "',`revives`='" + revives + "',`box`='" + box + "',`doors`='" + doors + "',`perks`='" + perks + 
+		main.mysql.execute("UPDATE `players` SET `rank`='" + rank + "',`brains`='" + brains + "',`kills`='" + kills + "',`downs`='" + downs + "',`revives`='" + revives + "',`box`='" + box + "',`doors`='" + doors + "',`perks`='" + perks + 
 				"',`games`='" + games + "',`playtime`='" + playtime + "' WHERE name='" + player.getName() + "'");
 	}
 
