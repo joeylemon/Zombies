@@ -53,6 +53,7 @@ import com.pwncraftpvp.zombies.creator.UpgradeCreator;
 import com.pwncraftpvp.zombies.creator.WindowCreator;
 import com.pwncraftpvp.zombies.creator.ZombieSpawnCreator;
 import com.pwncraftpvp.zombies.events.PlayerTargetBlockEvent;
+import com.pwncraftpvp.zombies.game.CustomSound;
 import com.pwncraftpvp.zombies.game.Door;
 import com.pwncraftpvp.zombies.game.Perk;
 import com.pwncraftpvp.zombies.game.PowerUp;
@@ -313,6 +314,8 @@ public class Events implements Listener {
 								}
 								b.setType(Material.AIR);
 							}
+							CustomSound.DOOR_OPEN.play(block.getLocation());
+							
 							if(main.game.isUnlocked(door.getAreaID()) == false){
 								main.game.addUnlockedArea(main.game.getArea(door.getAreaID()));
 							}
@@ -365,6 +368,8 @@ public class Events implements Listener {
 								main.game.boxtask = new MysteryBoxTask(player, main.game.getCurrentMysteryBox());
 								main.game.boxtask.runTaskTimer(main, 0, 3);
 								zplayer.sendMessage("You have purchased this box for " + red + 950 + gray + " points.");
+								
+								CustomSound.MYSTERY_BOX_OPEN.play(block.getLocation());
 							}else{
 								zplayer.sendError("Insufficient points.");
 							}
@@ -391,6 +396,8 @@ public class Events implements Listener {
 										main.game.upgradetask.runTaskTimer(main, 0, 20);
 										player.setItemInHand(null);
 										zplayer.sendMessage("You have purchased pack-a-punch for " + red + 5000 + gray + " points.");
+										
+										CustomSound.PACK_A_PUNCH_USE.play(block.getLocation());
 									}else{
 										zplayer.sendError("You have already upgraded this weapon.");
 									}

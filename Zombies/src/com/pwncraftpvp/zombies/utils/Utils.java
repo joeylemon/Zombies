@@ -101,8 +101,11 @@ public class Utils {
 			proj.setFireTicks(100);
 		}
 		
-		EffectUtils.playShotSound(player.getEyeLocation());
+		weapon.getSound().play(player.getEyeLocation());
 		EffectUtils.playSmokeEffect(player.getLocation());
+		/*
+		EffectUtils.playShotSound(player.getEyeLocation());
+		*/
 	}
 	
 	/**

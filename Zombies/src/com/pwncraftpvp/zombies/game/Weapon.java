@@ -8,31 +8,32 @@ import com.pwncraftpvp.zombies.utils.Utils;
 
 public enum Weapon {
 	
-	GALIL(Material.IRON_HOE, "Galil", "Lamentation", true, true, 10, 26, 100, 65, 35, 315, 3, 
+	GALIL(Material.IRON_HOE, CustomSound.RIFLE_SHOT, "Galil", "Lamentation", true, true, 10, 26, 100, 65, 35, 315, 3, 
 			4, 35, 490, 1),
-	AK47U(Material.GOLD_HOE, "AK47u", "AK47fu2", true, true, 12, 20, 90, 50, 20, 160, 2,
+	AK47U(Material.GOLD_HOE, CustomSound.RIFLE_SHOT, "AK47u", "AK47fu2", true, true, 12, 20, 90, 50, 20, 160, 2,
 			4, 40, 280, 1),
-	MP40(Material.WOOD_HOE, "MP40", "The Afterburner", true, true, 12, 17, 77, 60, 32, 192, 4,
+	MP40(Material.WOOD_HOE, CustomSound.RIFLE_SHOT, "MP40", "The Afterburner", true, true, 12, 17, 77, 60, 32, 192, 4,
 			4, 64, 256, 2),
 	
-	LSAT(Material.IRON_PICKAXE, "LSAT", "FSIRT", true, true, 9, 40, 170, 45, 100, 400, 6,
+	LSAT(Material.IRON_PICKAXE, CustomSound.LMG_SHOT, "LSAT", "FSIRT", true, true, 9, 40, 170, 45, 100, 400, 6,
 			4, 100, 600, 3),
 	
-	M1911(Material.WOOD_SPADE, "M1911", "Mustang and Sally", true, false, 0, 20, 65, 50, 8, 80, 9,
+	M1911(Material.WOOD_SPADE, CustomSound.PISTOL_SHOT, "M1911", "Mustang and Sally", true, false, 0, 20, 65, 50, 8, 80, 9,
 			4, 8, 80, 3),
-	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 6, 28, 80, 65, 20, 120, 7,
+	FIVE_SEVEN(Material.GOLD_SPADE, CustomSound.PISTOL_SHOT, "Five-Seven", "Ultra", true, false, 6, 28, 80, 65, 20, 120, 7,
 			4, 20, 200, 5),
-	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 5, 23, 60, 50, 30, 120, 8,
+	COLT_M16A1(Material.IRON_SPADE, CustomSound.PISTOL_SHOT, "Colt M16A1", "Skullcrusher", true, false, 5, 23, 60, 50, 30, 120, 8,
 			4, 30, 270, 5),
 			
-	RAY_GUN(Material.IRON_AXE, "Ray Gun", "Porter's X2 Ray Gun", true, false, 2, 500, 0, 70, 20, 160, 4,
+	RAY_GUN(Material.IRON_AXE, CustomSound.RAY_GUN_SHOT, "Ray Gun", "Porter's X2 Ray Gun", true, false, 2, 500, 0, 70, 20, 160, 4,
 			4, 40, 200, 4),
 	
-	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	HAND_GRENADE(Material.FIREWORK_CHARGE, CustomSound.GRENADE_EXPLODE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	
-	KNIFE(Material.IRON_SWORD, "Knife", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	KNIFE(Material.IRON_SWORD, CustomSound.KNIFE_HIT, "Knife", "", false, false, 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	
 	private Material material;
+	private CustomSound sound;
 	private String name;
 	private String upgraded;
 	
@@ -50,9 +51,10 @@ public enum Weapon {
 	private int upgmagazine;
 	private int upgtotalammo;
 	private int upgfiringrate;
-	Weapon(Material material, String name, String upgraded, boolean gun, boolean automatic, int chance, int damage, int headshot, int accuracy, int magazine, int totalammo, int firingrate,
+	Weapon(Material material, CustomSound sound, String name, String upgraded, boolean gun, boolean automatic, int chance, int damage, int headshot, int accuracy, int magazine, int totalammo, int firingrate,
 			int upgmultiplier, int upgmagazine, int upgtotalammo, int upgfiringrate){
 		this.material = material;
+		this.sound = sound;
 		this.name = name;
 		this.upgraded = upgraded;
 		this.gun = gun;
@@ -80,6 +82,14 @@ public enum Weapon {
 	 */
 	public Material getMaterial(){
 		return material;
+	}
+	
+	/**
+	 * Get the weapon's sound
+	 * @return The weapon's sound
+	 */
+	public CustomSound getSound(){
+		return sound;
 	}
 	
 	/**
