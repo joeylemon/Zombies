@@ -209,8 +209,7 @@ public class Main extends JavaPlugin {
 							zplayer.setBrains(zplayer.getBrains() + 5);
 							zplayer.sendMessage("You were given " + red + 5 + gray + " brains.");
 						}else if(args[0].equalsIgnoreCase("test")){
-							zplayer.sendMessage("Random weapon: " + Weapon.getWeapon(Utils.getRandomInteger(1, Weapon.getTotalChances())));
-							zplayer.sendMessage("Random weapon: " + Utils.getRandomWeapon(player));
+							zplayer.sendMessage("Random weapon: " + red + Utils.getRandomWeapon(player));
 						}else if(args[0].equalsIgnoreCase("givepoints")){
 							if(args.length == 2){
 								if(Utils.isInteger(args[1]) == true){
