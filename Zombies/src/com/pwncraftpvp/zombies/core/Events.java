@@ -539,11 +539,12 @@ public class Events implements Listener {
 			if(player != null){
 				final ZPlayer zplayer = new ZPlayer(player);
 				Weapon weapon = zplayer.getWeaponInHand();
-				if(weapon != null && ((egg != null && weapon != Weapon.KNIFE) || (egg == null && weapon == Weapon.KNIFE))){
+				if(weapon != null && ((egg != null && weapon != Weapon.KNIFE) || (egg == null && weapon == Weapon.KNIFE)) && weapon != Weapon.RAY_GUN){
 					boolean upgraded = zplayer.isWeaponUpgraded();
 					double damage = weapon.getDamage(upgraded);
 					
 					boolean headshot = false;
+					int hitScore = 10;
 					int killScore = 60;
 					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.875){
 						damage = weapon.getHeadshotDamage(upgraded);
@@ -566,6 +567,7 @@ public class Events implements Listener {
 					}
 					if(main.game.doublepointstask != null){
 						killScore *= 2;
+						hitScore *= 2;
 					}
 					
 					EffectUtils.playBloodEffect(entity, headshot);
@@ -576,7 +578,7 @@ public class Events implements Listener {
 						entity.setHealth(newhealth);
 						Utils.setNavigation(entity, player.getLocation());
 						entity.playEffect(EntityEffect.HURT);
-						zplayer.addScore(10);
+						zplayer.addScore(hitScore);
 					}else{
 						main.game.killEntity(entity);
 						zplayer.giveBrains(1);
@@ -812,19 +814,28 @@ public class Events implements Listener {
 						if(e instanceof Zombie){
 							Zombie z = (Zombie) e;
 							
+							int hitScore = 10;
+							int killScore = 50;
 							double damage = Weapon.RAY_GUN.getDamage(zplayer.isWeaponUpgraded());
+							if(main.game.instakilltask != null){
+								damage = main.game.getZombieHealth() + 50;
+							}
+							if(main.game.doublepointstask != null){
+								killScore *= 2;
+								hitScore *= 2;
+							}
 							
 							EffectUtils.playBloodEffect(z, false);
 							double newhealth = z.getHealth() - damage;
 							if(newhealth > 1){
 								z.setHealth(newhealth);
 								z.playEffect(EntityEffect.HURT);
-								zplayer.addScore(10);
+								zplayer.addScore(hitScore);
 							}else{
 								main.game.killEntity(z);
 								zplayer.giveBrains(1);
 								zplayer.setKills(zplayer.getKills() + 1);
-								zplayer.addScore(50);
+								zplayer.addScore(killScore);
 							}
 						}
 					}
