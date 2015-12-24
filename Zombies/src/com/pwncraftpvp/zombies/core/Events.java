@@ -800,21 +800,51 @@ public class Events implements Listener {
 	@EventHandler
 	public void projectileHit(ProjectileHitEvent event){
 		Entity entity = event.getEntity();
-		BlockIterator iterator = new BlockIterator(entity.getWorld(), entity.getLocation().toVector(), entity.getVelocity().normalize(), 0, 4);
-		Block hitBlock = null;
-		
-		while(iterator.hasNext()) {
-			hitBlock = iterator.next();
-			if(hitBlock.getTypeId() != 0){
-				break;
+		if(entity instanceof Egg){
+			Egg egg = (Egg) entity;
+			
+			if(egg.getShooter() instanceof Player){
+				Player player = (Player) egg.getShooter();
+				ZPlayer zplayer = new ZPlayer(player);
+				if(zplayer.getWeaponInHand() == Weapon.RAY_GUN){
+					EffectUtils.playRayGunEffect(egg.getLocation());
+					for(Entity e : egg.getNearbyEntities(1.5, 1.5, 1.5)){
+						if(e instanceof Zombie){
+							Zombie z = (Zombie) e;
+							
+							double damage = Weapon.RAY_GUN.getDamage(zplayer.isWeaponUpgraded());
+							
+							EffectUtils.playBloodEffect(z, false);
+							double newhealth = z.getHealth() - damage;
+							if(newhealth > 1){
+								z.setHealth(newhealth);
+								z.playEffect(EntityEffect.HURT);
+								zplayer.addScore(10);
+							}else{
+								main.game.killEntity(z);
+								zplayer.giveBrains(1);
+								zplayer.setKills(zplayer.getKills() + 1);
+								zplayer.addScore(50);
+							}
+						}
+					}
+				}
 			}
-		}
-		
-		if(hitBlock != null){
-			for(Entity e : entity.getNearbyEntities(20, 20, 20)){
-				if(e instanceof Player){
-					Player p = (Player) e;
-					p.playEffect(hitBlock.getLocation(), Effect.STEP_SOUND, hitBlock.getTypeId());
+			
+			BlockIterator iterator = new BlockIterator(entity.getWorld(), entity.getLocation().toVector(), entity.getVelocity().normalize(), 0, 4);
+			Block hitBlock = null;
+			while(iterator.hasNext()){
+				hitBlock = iterator.next();
+				if(hitBlock.getType() != Material.AIR){
+					break;
+				}
+			}
+			if(hitBlock != null){
+				for(Entity e : entity.getNearbyEntities(20, 20, 20)){
+					if(e instanceof Player){
+						Player p = (Player) e;
+						p.playEffect(hitBlock.getLocation(), Effect.STEP_SOUND, hitBlock.getTypeId());
+					}
 				}
 			}
 		}

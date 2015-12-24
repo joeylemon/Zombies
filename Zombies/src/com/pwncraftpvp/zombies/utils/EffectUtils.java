@@ -92,6 +92,16 @@ public class EffectUtils {
 	}
 	
 	/**
+	 * Play a ray gun effect at the location
+	 * @param loc - The location to send a ray gun effect to
+	 */
+	public static final void playRayGunEffect(Location loc){
+		ParticleUtils.sendToLocation(ParticleEffect.LARGE_EXPLODE, loc, 0.4F, 0.4F, 0.4F, 0, 10);
+		ParticleUtils.sendToLocation(ParticleEffect.GREEN_SPARKLE, loc.subtract(0, .25, 0), 1F, 1F, 1F, 0F, 30);
+		EffectUtils.playSound(loc, Sound.EXPLODE, 1, 10F, 0);
+	}
+	
+	/**
 	 * Play a lock effect at the location
 	 * @param loc - The location to send a lock effect to
 	 */

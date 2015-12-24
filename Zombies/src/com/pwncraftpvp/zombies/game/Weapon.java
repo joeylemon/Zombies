@@ -12,16 +12,21 @@ public enum Weapon {
 			4, 35, 490, 1),
 	AK47U(Material.GOLD_HOE, "AK47u", "AK47fu2", true, true, 12, 20, 90, 50, 20, 160, 2,
 			4, 40, 280, 1),
+	MP40(Material.WOOD_HOE, "MP40", "The Afterburner", true, true, 12, 17, 77, 60, 32, 192, 4,
+			4, 64, 256, 2),
 	
-	LSAT(Material.IRON_PICKAXE, "LSAT", "FSIRT", true, true, 9, 40, 170, 45, 100, 400, 5,
-			4, 40, 280, 1),
+	LSAT(Material.IRON_PICKAXE, "LSAT", "FSIRT", true, true, 9, 40, 170, 45, 100, 400, 6,
+			4, 100, 600, 3),
 	
 	M1911(Material.WOOD_SPADE, "M1911", "Mustang and Sally", true, false, 0, 20, 65, 50, 8, 80, 9,
 			4, 8, 80, 3),
-	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 10, 28, 80, 65, 20, 120, 7,
+	FIVE_SEVEN(Material.GOLD_SPADE, "Five-Seven", "Ultra", true, false, 6, 28, 80, 65, 20, 120, 7,
 			4, 20, 200, 5),
-	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 12, 23, 60, 50, 30, 120, 8,
+	COLT_M16A1(Material.IRON_SPADE, "Colt M16A1", "Skullcrusher", true, false, 5, 23, 60, 50, 30, 120, 8,
 			4, 30, 270, 5),
+			
+	RAY_GUN(Material.IRON_AXE, "Ray Gun", "Porter's X2 Ray Gun", true, false, 2, 500, 0, 70, 20, 160, 4,
+			4, 40, 200, 4),
 	
 	HAND_GRENADE(Material.FIREWORK_CHARGE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	
