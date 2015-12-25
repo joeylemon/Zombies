@@ -1,5 +1,7 @@
 package com.pwncraftpvp.zombies.utils;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -392,6 +394,20 @@ public class Utils {
 			server = main.getConfig().getString("settings.servername");
 		}
 		return server;
+	}
+	
+	/**
+	 * Create a database entry for a player if it does not exist
+	 * @param player - The player
+	 */
+	public static final void createDatabaseEntry(Player player){
+		ResultSet set = main.mysql.query("SELECT name FROM players WHERE name='" + player.getName() + "' LIMIT 1");
+		try{
+			set.getString("name");
+		}catch (SQLException ex){
+			main.mysql.execute("INSERT INTO `players`(`name`, `rank`, `brains`, `kills`, `downs`, `revives`, `box`, `doors`, `perks`, `games`, `playtime`, `store`) "
+					+ "VALUES ('" + player.getName() + "','1','0','0','0','0','0','0','0','0','0','none')");
+		}
 	}
 	
 	/**

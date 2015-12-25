@@ -637,19 +637,19 @@ public class Game {
 			}
 		}
 		
-		CustomSound.ROUND_BEGIN.playGlobally();
-		
 		Utils.updateScoreboards();
 		
 		this.startSpawnTask();
+		Utils.broadcastSubtitle("Round " + red + this.round, 60);
 		
 		if(this.isDogRound() == false){
-			Utils.broadcastSubtitle("Round " + red + this.round, 60);
 			WindowDestroyTask windowtask = new WindowDestroyTask();
 			windowtask.runTaskTimer(main, 0, 5);
 			this.windowtask = windowtask;
+			
+			CustomSound.ROUND_BEGIN.playGlobally();
 		}else{
-			Utils.broadcastTitle("Round " + red + this.round, ChatColor.ITALIC + "Fetch me their souls!", 60);
+			CustomSound.DOG_ROUND_BEGIN.playGlobally();
 		}
 	}
 	
@@ -675,14 +675,18 @@ public class Game {
 			}
 		}
 		
-		CustomSound.ROUND_END.playGlobally();
-		
 		deadplayers.clear();
 		main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
 			public void run(){
 				startRound();
 			}
 		}, 200);
+		
+		if(this.isDogRound() == false){
+			CustomSound.ROUND_END.playGlobally();
+		}else{
+			CustomSound.DOG_ROUND_END.playGlobally();
+		}
 	}
 	
 	/**

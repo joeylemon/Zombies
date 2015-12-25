@@ -103,6 +103,8 @@ public class Events implements Listener {
 		
 		main.login.put(player.getName(), System.currentTimeMillis());
 		
+		Utils.createDatabaseEntry(player);
+		
 		Statistics stats = new Statistics(player);
 		stats.pull();
 		main.stats.put(player.getName(), stats);

@@ -62,8 +62,8 @@ public class Statistics {
 	 * Update the player's statistics
 	 */
 	public void push(){
-		main.mysql.execute("UPDATE `players` SET `rank`='" + rank + "',`brains`='" + brains + "',`kills`='" + kills + "',`downs`='" + downs + "',`revives`='" + revives + "',`box`='" + box + "',`doors`='" + doors + "',`perks`='" + perks + 
-				"',`games`='" + games + "',`playtime`='" + playtime + "' WHERE name='" + player.getName() + "'");
+		main.mysql.execute("UPDATE `players` SET `rank`='" + rank + "',`brains`='" + brains + "',`kills`='" + kills + "',`downs`='" + downs + "',`revives`='" + revives + "',"
+				+ "`box`='" + box + "',`doors`='" + doors + "',`perks`='" + perks + "',`games`='" + games + "',`playtime`='" + playtime + "' WHERE name='" + player.getName() + "'");
 	}
 
 }
