@@ -11,6 +11,7 @@ import org.bukkit.util.Vector;
 
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
+import com.pwncraftpvp.zombies.game.CustomSound;
 import com.pwncraftpvp.zombies.game.MysteryBox;
 import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
@@ -71,6 +72,13 @@ public class MysteryBoxTask extends BukkitRunnable {
 					Utils.broadcastMessage("The mystery box has broken!");
 					main.game.randomizeMysteryBox();
 					this.cancelTask(false);
+					
+					CustomSound.MYSTERY_BOX_BREAK_1.playGlobally();
+					main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
+						public void run(){
+							CustomSound.MYSTERY_BOX_BREAK_2.playGlobally();
+						}
+					}, 80);
 				}
 			}
 			switches++;
