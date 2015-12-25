@@ -28,6 +28,7 @@ public enum CustomSound {
 	JUGGERNOG_PURCHASE("perks.juggernog_purchase"),
 	QUICK_REVIVE_PURCHASE("perks.quickrevive_purchase"),
 	SPEED_COLA_PURCHASE("perks.speedcola_purchase"),
+	DOUBLE_TAP_PURCHASE("perks.doubletap_purchase"),
 	
 	/*
 	 * Power-up sounds
@@ -80,9 +81,18 @@ public enum CustomSound {
 	public void play(Location loc){
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(p.getLocation().getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())){
-				p.playSound(loc, path, 10F, 1F);
+				p.playSound(loc, path, 3F, 1F);
 			}
 		}
+	}
+	
+	/**
+	 * Play the sound to a player
+	 * @param player - The player to play to
+	 */
+	@SuppressWarnings("deprecation")
+	public void play(Player player){
+		player.playSound(player.getEyeLocation(), path, 3F, 1F);
 	}
 	
 	/**
@@ -92,7 +102,7 @@ public enum CustomSound {
 	public void playGlobally(){
 		for(Player p : Bukkit.getOnlinePlayers()){
 			if(p.getLocation().getWorld().getName().equalsIgnoreCase(p.getWorld().getName())){
-				p.playSound(p.getEyeLocation(), path, 10F, 1F);
+				p.playSound(p.getEyeLocation(), path, 3F, 1F);
 			}
 		}
 	}

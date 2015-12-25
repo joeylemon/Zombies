@@ -321,6 +321,8 @@ public class Events implements Listener {
 							}
 							zplayer.removeScore(door.getPrice());
 							zplayer.sendMessage("You have removed this door for " + red + door.getPrice() + gray + " points.");
+							
+							CustomSound.DOOR_OPEN.play(block.getLocation());
 						}else{
 							zplayer.sendError("Insufficient points.");
 						}

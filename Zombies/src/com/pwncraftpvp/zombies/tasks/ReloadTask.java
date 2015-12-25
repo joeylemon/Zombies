@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
 import com.pwncraftpvp.zombies.game.Ammo;
+import com.pwncraftpvp.zombies.game.CustomSound;
 import com.pwncraftpvp.zombies.game.Weapon;
 
 public class ReloadTask extends BukkitRunnable {
@@ -24,6 +25,7 @@ public class ReloadTask extends BukkitRunnable {
 		this.weapon = weapon;
 		this.slot = slot;
 		this.dura = player.getItemInHand().getDurability();
+		CustomSound.RELOAD_1.play(player);
 	}
 	
 	private int runtime = 0;
@@ -66,6 +68,8 @@ public class ReloadTask extends BukkitRunnable {
 		}
 		
 		player.getItemInHand().setDurability((short) 0);
+		
+		CustomSound.RELOAD_2.play(player);
 		
 		if(reload == true){
 			boolean upgraded = zplayer.isWeaponUpgraded();

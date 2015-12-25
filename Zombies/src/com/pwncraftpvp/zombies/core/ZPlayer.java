@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -24,7 +25,6 @@ import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.tasks.PlayerDeathTask;
 import com.pwncraftpvp.zombies.tasks.ReloadTask;
 import com.pwncraftpvp.zombies.tasks.ShootTask;
-import com.pwncraftpvp.zombies.utils.EffectUtils;
 import com.pwncraftpvp.zombies.utils.TextUtils;
 import com.pwncraftpvp.zombies.utils.TitleUtils;
 import com.pwncraftpvp.zombies.utils.Utils;
@@ -404,7 +404,7 @@ public class ZPlayer {
 						}, weapon.getFiringRate(upgraded));
 					}
 				}else{
-					EffectUtils.playEmptyClipSound(player.getEyeLocation());
+					player.playSound(player.getEyeLocation(), Sound.CLICK, 10F, 10F);
 				}
 			}
 		}

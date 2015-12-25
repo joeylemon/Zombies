@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -369,18 +368,12 @@ public class Game {
 	 */
 	public void applyPowerUp(PowerUpType type){
 		Utils.broadcastMessage(red + type.getName() + gray + " has been activated.");
-		Utils.broadcastSubtitle(red + type.getName(), 30);
-		
-		for(Player p : Bukkit.getOnlinePlayers()){
-			p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 10, 10F);
-		}
 		
 		if(type == PowerUpType.MAX_AMMO){
 			for(Player p : Bukkit.getOnlinePlayers()){
 				ZPlayer zp = new ZPlayer(p);
 				zp.fillUpWeapons();
 			}
-			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.INSTA_KILL){
 			if(instakilltask != null){
 				instakilltask.runtime = 0;
@@ -389,7 +382,6 @@ public class Game {
 				task.runTaskTimer(main, 0, 20);
 				instakilltask = task;
 			}
-			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.DOUBLE_POINTS){
 			if(doublepointstask != null){
 				doublepointstask.runtime = 0;
@@ -398,7 +390,6 @@ public class Game {
 				task.runTaskTimer(main, 0, 20);
 				doublepointstask = task;
 			}
-			EffectUtils.playGlobalSound(Sound.SUCCESSFUL_HIT, 10F, 0F);
 		}else if(type == PowerUpType.NUKE){
 			for(Entity e : Utils.getWorld().getEntities()){
 				if(e.getType() != EntityType.PLAYER && e instanceof LivingEntity){
@@ -407,7 +398,6 @@ public class Game {
 					this.killEntity(le);
 				}
 			}
-			EffectUtils.playGlobalSound(Sound.ANVIL_USE, 10F, 1F);
 		}else if(type == PowerUpType.CARPENTER){
 			for(Window w : this.getAllWindows()){
 				if(windowhealth.containsKey(w.getID())){
@@ -416,8 +406,8 @@ public class Game {
 				}
 				w.getLocation().getBlock().setType(Material.IRON_FENCE);
 			}
-			EffectUtils.playGlobalSound(Sound.ANVIL_USE, 10F, 1F);
 		}
+		type.getSound().playGlobally();
 	}
 	
 	/**
@@ -645,10 +635,9 @@ public class Game {
 					zp.setSlot(3, Weapon.HAND_GRENADE, amount + 2);
 				}
 			}
-			
-			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 10, 1.5F);
-			
 		}
+		
+		CustomSound.ROUND_BEGIN.playGlobally();
 		
 		Utils.updateScoreboards();
 		
@@ -684,8 +673,9 @@ public class Game {
 			}else{
 				zp.toggleSpectating(false);
 			}
-			p.playSound(p.getLocation(), Sound.WITHER_SPAWN, 10, 1.5F);
 		}
+		
+		CustomSound.ROUND_END.playGlobally();
 		
 		deadplayers.clear();
 		main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
