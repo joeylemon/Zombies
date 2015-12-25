@@ -9,54 +9,54 @@ public enum CustomSound {
 	/*
 	 * Weapon sounds
 	 */
-	RIFLE_SHOT("bod.weapons.rifle_shot"),
-	PISTOL_SHOT("bod.weapons.pistol_shot"),
-	RAY_GUN_SHOT("bod.weapons.ray_gun_shot"),
-	WUNDERWAFFE_SHOT("bod.weapons.wunderwaffe_shot"),
-	LMG_SHOT("bod.weapons.lmg_shot"),
-	KNIFE_HIT("bod.weapons.knife_hit"),
+	RIFLE_SHOT("weapons.rifle_shot"),
+	PISTOL_SHOT("weapons.pistol_shot"),
+	RAY_GUN_SHOT("weapons.ray_gun_shot"),
+	WUNDERWAFFE_SHOT("weapons.wunderwaffe_shot"),
+	LMG_SHOT("weapons.lmg_shot"),
+	KNIFE_HIT("weapons.knife_hit"),
 	
-	GRENADE_EXPLODE("bod.weapons.grenade_explode"),
-	MONKEY_BOMB_MUSIC("bod.weapons.monkey_bomb_music"),
+	GRENADE_EXPLODE("weapons.grenade_explode"),
+	MONKEY_BOMB_MUSIC("weapons.monkey_bomb_music"),
 	
-	RELOAD_1("bod.weapons.reload_1"),
-	RELOAD_2("bod.weapons.reload_2"),
+	RELOAD_1("weapons.reload_1"),
+	RELOAD_2("weapons.reload_2"),
 	
 	/*
 	 * Perk sounds
 	 */
-	JUGGERNOG_PURCHASE("bod.perks.juggernog_purchase"),
-	QUICK_REVIVE_PURCHASE("bod.perks.quickrevive_purchase"),
-	SPEED_COLA_PURCHASE("bod.perks.speedcola_purchase"),
+	JUGGERNOG_PURCHASE("perks.juggernog_purchase"),
+	QUICK_REVIVE_PURCHASE("perks.quickrevive_purchase"),
+	SPEED_COLA_PURCHASE("perks.speedcola_purchase"),
 	
 	/*
 	 * Power-up sounds
 	 */
-	CARPENTER_PICK_UP("bod.powerups.carpenter_pick_up"),
-	DOUBLE_POINTS_PICK_UP("bod.powerups.double_points_pick_up"),
-	FIRE_SALE_PICK_UP("bod.powerups.fire_sale_pick_up"),
-	FIRE_SALE_MUSIC("bod.powerups.fire_sale_music"),
-	INSTA_KILL_PICK_UP("bod.powerups.insta_kill_pick_up"),
-	MAX_AMMO_PICK_UP("bod.powerups.max_ammo_pick_up"),
-	NUKE_PICK_UP("bod.powerups.nuke_pick_up"),
+	CARPENTER_PICK_UP("powerups.carpenter_pick_up"),
+	DOUBLE_POINTS_PICK_UP("powerups.double_points_pick_up"),
+	FIRE_SALE_PICK_UP("powerups.fire_sale_pick_up"),
+	FIRE_SALE_MUSIC("powerups.fire_sale_music"),
+	INSTA_KILL_PICK_UP("powerups.insta_kill_pick_up"),
+	MAX_AMMO_PICK_UP("powerups.max_ammo_pick_up"),
+	NUKE_PICK_UP("powerups.nuke_pick_up"),
 	
 	/*
 	 * General sounds
 	 */
-	MYSTERY_BOX_OPEN("bod.general.mystery_box_open"),
-	MYSTERY_BOX_BREAK_1("bod.general.mystery_box_break_1"),
-	MYSTERY_BOX_BREAK_2("bod.general.mystery_box_break_2"),
+	MYSTERY_BOX_OPEN("general.mystery_box_open"),
+	MYSTERY_BOX_BREAK_1("general.mystery_box_break_1"),
+	MYSTERY_BOX_BREAK_2("general.mystery_box_break_2"),
 	
-	ROUND_BEGIN("bod.general.round_begin"),
-	ROUND_END("bod.general.round_end"),
-	DOG_ROUND_BEGIN("bod.general.dog_round_begin"),
-	DOG_ROUND_END("bod.general.dog_round_end"),
+	ROUND_BEGIN("general.round_begin"),
+	ROUND_END("general.round_end"),
+	DOG_ROUND_BEGIN("general.dog_round_begin"),
+	DOG_ROUND_END("general.dog_round_end"),
 	
-	DOOR_OPEN("bod.general.door_open"),
-	PACK_A_PUNCH_USE("bod.general.pack_a_punch"),
-	POWER_ENABLE("bod.general.power_enable"),
-	TELEPORTER_USE("bod.general.teleporter_use"),
-	RANK_UP("bod.general.rank_up");
+	DOOR_OPEN("general.door_open"),
+	PACK_A_PUNCH_USE("general.pack_a_punch"),
+	POWER_ENABLE("general.power_enable"),
+	TELEPORTER_USE("general.teleporter_use"),
+	RANK_UP("general.rank_up");
 	
 	
 	private String path;

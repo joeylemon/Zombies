@@ -15,7 +15,7 @@ public enum Weapon {
 	MP40(Material.WOOD_HOE, CustomSound.RIFLE_SHOT, "MP40", "The Afterburner", true, true, 12, 17, 77, 60, 32, 192, 4,
 			4, 64, 256, 2),
 	
-	LSAT(Material.IRON_PICKAXE, CustomSound.LMG_SHOT, "LSAT", "FSIRT", true, true, 9, 40, 170, 45, 100, 400, 6,
+	LSAT(Material.IRON_PICKAXE, CustomSound.LMG_SHOT, "LSAT", "FSIRT", true, true, 9, 40, 170, 50, 100, 400, 5,
 			4, 100, 600, 3),
 	
 	M1911(Material.WOOD_SPADE, CustomSound.PISTOL_SHOT, "M1911", "Mustang and Sally", true, false, 0, 20, 65, 50, 8, 80, 9,
@@ -235,7 +235,6 @@ public enum Weapon {
 		for(Weapon w : Weapon.values()){
 			oldsum = newsum;
 			newsum += w.getChance();
-			Utils.broadcastMessage(oldsum + " <= " + chance + " <= " + newsum);
 			if(chance >= oldsum && chance <= newsum){
 				weapon = w;
 				break;
