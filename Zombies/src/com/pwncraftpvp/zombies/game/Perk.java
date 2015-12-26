@@ -42,6 +42,7 @@ public enum Perk {
 		if(name == null){
 			name = WordUtils.capitalizeFully(this.toString().replace("_", " "));
 		}
+		
 		return name;
 	}
 
