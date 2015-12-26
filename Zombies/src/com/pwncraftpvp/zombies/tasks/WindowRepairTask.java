@@ -58,6 +58,7 @@ public class WindowRepairTask extends BukkitRunnable {
 					EffectUtils.playGreenSparkleEffect(window.getLocation());
 					this.cancelTask();
 				}
+				
 				add = false;
 			}else{
 				add = true;

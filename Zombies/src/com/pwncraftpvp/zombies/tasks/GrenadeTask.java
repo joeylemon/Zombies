@@ -53,6 +53,7 @@ public class GrenadeTask extends BukkitRunnable {
 			Block block = loc.clone().subtract(0, 1, 0).getBlock();
 			if(block != null && block.getType() != Material.AIR){
 				FallingBlock fb = loc.getWorld().spawnFallingBlock(loc, block.getType(), block.getData());
+				
 				int mul1 = 1;
 				int mul2 = 1;
 				if(Math.random() <= 0.5){
@@ -61,6 +62,7 @@ public class GrenadeTask extends BukkitRunnable {
 				if(Math.random() <= 0.5){
 					mul2 = -1;
 				}
+				
 				fb.setVelocity(new Vector((Math.random() * mul1) * 0.25, 1, (Math.random() * mul2) * 0.25));
 			}
 		}
