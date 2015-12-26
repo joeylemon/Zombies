@@ -6,6 +6,7 @@ import org.bukkit.Effect;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Egg;
@@ -582,6 +583,12 @@ public class Events implements Listener {
 					}
 					
 					EffectUtils.playBloodEffect(entity, headshot);
+					if(entity.getType() == EntityType.ZOMBIE){
+						for(Player p : Bukkit.getOnlinePlayers()){
+							p.playSound(entity.getLocation(), Sound.ZOMBIE_HURT, 1F, 1F);
+						}
+					}
+					
 					event.setCancelled(true);
 					
 					double newhealth = entity.getHealth() - damage;
@@ -595,6 +602,12 @@ public class Events implements Listener {
 						zplayer.giveBrains(1);
 						zplayer.setKills(zplayer.getKills() + 1);
 						zplayer.addScore(killScore);
+						
+						if(entity.getType() == EntityType.WOLF){
+							for(Player p : Bukkit.getOnlinePlayers()){
+								p.playSound(entity.getLocation(), Sound.WOLF_HURT, 1F, 1F);
+							}
+						}
 					}
 				}else{
 					event.setCancelled(true);

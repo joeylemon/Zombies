@@ -52,8 +52,10 @@ public enum CustomSound {
 	ROUND_END("general.round_end"),
 	DOG_ROUND_BEGIN("general.dog_round_begin"),
 	DOG_ROUND_END("general.dog_round_end"),
+	DOG_SPAWN("general.dog_spawn"),
 	
 	DOOR_OPEN("general.door_open"),
+	WINDOW_REPAIR("general.window_repair"),
 	PACK_A_PUNCH_USE("general.pack_a_punch"),
 	POWER_ENABLE("general.power_enable"),
 	TELEPORTER_USE("general.teleporter_use"),
