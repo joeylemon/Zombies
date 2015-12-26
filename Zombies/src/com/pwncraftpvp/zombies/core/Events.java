@@ -444,6 +444,16 @@ public class Events implements Listener {
 							zplayer.sendError("Insufficient points.");
 						}
 					}
+				}else if(block.getType() == Material.LEVER){
+					if(!Utils.areDifferent(main.game.getMap().getPowerLocation(), block.getLocation())){
+						event.setCancelled(true);
+						if(!main.game.isPowerOn()){
+							main.game.setPowerOn();
+							
+							Utils.broadcastMessage("The power has been turned on.");
+							CustomSound.POWER_ENABLE.playGlobally(8F);
+						}
+					}
 				}else{
 					zplayer.shootWeapon(slot);
 				}

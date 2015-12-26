@@ -108,5 +108,18 @@ public enum CustomSound {
 			}
 		}
 	}
+	
+	/**
+	 * Play the sound to all players with a given volume
+	 * @param volume - The volume
+	 */
+	@SuppressWarnings("deprecation")
+	public void playGlobally(float volume){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(p.getLocation().getWorld().getName().equalsIgnoreCase(p.getWorld().getName())){
+				p.playSound(p.getEyeLocation(), path, volume, 1F);
+			}
+		}
+	}
 
 }

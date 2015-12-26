@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -139,6 +140,7 @@ public class Main extends JavaPlugin {
 		mysql.close();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(sender instanceof Player){
 			Player player = (Player) sender;
@@ -174,7 +176,28 @@ public class Main extends JavaPlugin {
 			}else if(cmd.getName().equalsIgnoreCase("zombies") || cmd.getName().equalsIgnoreCase("z")){
 				if(player.isOp() == true){
 					if(args.length > 0){
-						if(args[0].equalsIgnoreCase("setday")){
+						if(args[0].equalsIgnoreCase("editor")){
+							if(args.length == 2){
+								String map = args[1];
+								zplayer.toggleEditor(new Map(map));
+							}else{
+								zplayer.sendError("Usage: /" + cmd.getName() + " editor <map name>");
+							}
+						}else if(args[0].equalsIgnoreCase("setpower")){
+							if(args.length == 2){
+								String map = args[1];
+								Location loc = player.getTargetBlock(null, 7).getLocation();
+								
+								this.getConfig().set("maps." + map + ".power.x", loc.getBlockX());
+								this.getConfig().set("maps." + map + ".power.y", loc.getBlockY());
+								this.getConfig().set("maps." + map + ".power.z", loc.getBlockZ());
+								this.saveConfig();
+								
+								zplayer.sendMessage("You have set the power switch.");
+							}else{
+								zplayer.sendError("Usage: /" + cmd.getName() + " setpower <map name>");
+							}
+						}else if(args[0].equalsIgnoreCase("setday")){
 							if(args.length == 3){
 								String map = args[1];
 								boolean day = true;
@@ -188,13 +211,6 @@ public class Main extends JavaPlugin {
 								zplayer.sendMessage("You have set day time to " + red + day + gray + ".");
 							}else{
 								zplayer.sendError("Usage: /" + cmd.getName() + " setday <map name> <true/false>");
-							}
-						}else if(args[0].equalsIgnoreCase("editor")){
-							if(args.length == 2){
-								String map = args[1];
-								zplayer.toggleEditor(new Map(map));
-							}else{
-								zplayer.sendError("Usage: /" + cmd.getName() + " editor <map name>");
 							}
 						}else if(args[0].equalsIgnoreCase("weapons")){
 							Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Weapons");

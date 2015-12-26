@@ -65,6 +65,18 @@ public class Map {
 	}
 	
 	/**
+	 * Get the map's power switch
+	 * @return The map's power switch
+	 */
+	public Location getPowerLocation(){
+		double x,y,z;
+		x = main.getConfig().getDouble("maps." + name + ".power.x");
+		y = main.getConfig().getDouble("maps." + name + ".power.y");
+		z = main.getConfig().getDouble("maps." + name + ".power.z");
+		return new Location(Utils.getWorld(), x, y, z);
+	}
+	
+	/**
 	 * Get the location of a perk
 	 * @param perk - The perk
 	 * @return The location of the perk
