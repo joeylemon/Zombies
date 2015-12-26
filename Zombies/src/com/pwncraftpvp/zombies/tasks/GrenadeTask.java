@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
+import com.pwncraftpvp.zombies.game.CustomSound;
 import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
 
@@ -85,6 +86,8 @@ public class GrenadeTask extends BukkitRunnable {
 				}
 			}
 		}
+		
+		CustomSound.GRENADE_EXPLODE.play(loc);
 		
 		item.remove();
 		this.cancel();

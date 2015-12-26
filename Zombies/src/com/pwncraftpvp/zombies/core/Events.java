@@ -436,6 +436,8 @@ public class Events implements Listener {
 									main.game.perktask.put(player.getName(), task);
 									player.getInventory().setHeldItemSlot(8);
 									player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.POTION), ChatColor.AQUA + perk.getName()));
+									
+									perk.getPurchaseSound().play(player);
 								}
 							}
 						}else{

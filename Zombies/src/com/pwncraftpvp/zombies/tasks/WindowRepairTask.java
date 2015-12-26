@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.pwncraftpvp.zombies.core.Main;
 import com.pwncraftpvp.zombies.core.ZPlayer;
+import com.pwncraftpvp.zombies.game.CustomSound;
 import com.pwncraftpvp.zombies.game.Window;
 import com.pwncraftpvp.zombies.utils.EffectUtils;
 
@@ -41,6 +42,8 @@ public class WindowRepairTask extends BukkitRunnable {
 					window.getLocation().getBlock().setType(Material.IRON_FENCE);
 				}
 				EffectUtils.playBreakEffect(window.getLocation().getBlock());
+				
+				CustomSound.WINDOW_REPAIR.play(window.getLocation());
 				
 				int score = 10;
 				if(main.game.doublepointstask != null){
