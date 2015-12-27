@@ -62,7 +62,7 @@ public class Game {
 	public int boxuses = 0;
 	public long lastkill = 0;
 	public boolean ending = false;
-	public int dogrounddiv = Utils.getRandomInteger(4, 6);
+	public int doground = Utils.getRandomInteger(4, 6);
 	
 	public SpawnTask spawntask = null;
 	public MysteryBoxTask boxtask = null;
@@ -231,7 +231,7 @@ public class Game {
 	 * @return True if it is a dog round, false if not
 	 */
 	public boolean isDogRound(){
-		return (round % dogrounddiv) == 0;
+		return (round % doground) == 0;
 	}
 	
 	/**

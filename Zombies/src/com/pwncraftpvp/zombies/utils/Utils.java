@@ -174,7 +174,7 @@ public class Utils {
 			zombies = (int) ((0.15 * round) * cap);
 		}
 		
-		if((round % main.game.dogrounddiv) == 0){
+		if((round % main.game.doground) == 0){
 			zombies *= 0.5;
 		}
 		

@@ -346,7 +346,7 @@ public class Events implements Listener {
 							if(window != null){
 								if(main.game.windowhealth.get(window.getID()) < 6){
 									WindowRepairTask task = new WindowRepairTask(player, window);
-									task.runTaskTimer(main, 0, 15);
+									task.runTaskTimer(main, 0, 10);
 									main.game.repair.put(player.getName(), task);
 								}
 							}
