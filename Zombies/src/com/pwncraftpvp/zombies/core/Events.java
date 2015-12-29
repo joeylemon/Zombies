@@ -83,11 +83,14 @@ public class Events implements Listener {
 		Player player = event.getPlayer();
 		ZPlayer zplayer = new ZPlayer(player);
 		
+		zplayer.updateScoreboard();
+		
 		int online = Bukkit.getOnlinePlayers().length;
 		int min = Utils.getMinimumPlayers();
 		if(online < min){
 			int req = min - online;
-			zplayer.sendMessage("You are in intermission. The game needs " + red + req + gray + " more " + ((req == 1) ? "player" : "players") + " to begin.");
+			zplayer.sendMessage("You are in intermission.");
+			zplayer.sendMessage("The game needs " + red + req + gray + " more " + ((req == 1) ? "player" : "players") + " to begin.");
 		}else{
 			if(main.game.getStatus() == Status.WAITING){
 				main.game.startCountdown();
@@ -568,7 +571,7 @@ public class Events implements Listener {
 					boolean headshot = false;
 					int hitScore = 10;
 					int killScore = 60;
-					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.875){
+					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.87){
 						damage = weapon.getHeadshotDamage(upgraded);
 						killScore = 100;
 						headshot = true;

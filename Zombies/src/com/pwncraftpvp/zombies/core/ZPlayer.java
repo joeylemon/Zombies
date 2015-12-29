@@ -119,49 +119,54 @@ public class ZPlayer {
 	@SuppressWarnings("deprecation")
 	public void updateScoreboard(){
 		Scoreboard board = player.getScoreboard();
-		if(board == null){
-			board = Bukkit.getScoreboardManager().getNewScoreboard();
-			player.setScoreboard(board);
-		}
 		
-		String objname = ChatColor.DARK_RED + "Zombies";
-		Objective obj = board.getObjective(DisplaySlot.SIDEBAR);
-		if(obj == null){
-			obj = board.registerNewObjective("board", "dummy");
-			obj.setDisplayName(objname);
-			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		if(main.game.getStatus() == Status.STARTED){
+			if(board == null){
+				board = Bukkit.getScoreboardManager().getNewScoreboard();
+				player.setScoreboard(board);
+			}
+			
+			String objname = ChatColor.DARK_RED + "Zombies";
+			Objective obj = board.getObjective(DisplaySlot.SIDEBAR);
+			if(obj == null){
+				obj = board.registerNewObjective("board", "dummy");
+				obj.setDisplayName(objname);
+				obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+			}else{
+				obj.setDisplayName(objname);
+			}
+			
+			for(BoardStatic s : BoardStatic.values()){
+				if(board.getTeam(s.getName()) == null){
+					board.registerNewTeam(s.getName());
+				}
+				Team team = board.getTeam(s.getName());
+				if(team.hasPlayer(s.getOfflinePlayer()) == false){
+					team.addPlayer(s.getOfflinePlayer());
+				}
+				
+				team.setDisplayName(s.getName());
+				team.setPrefix(ChatColor.DARK_RED + "");
+				team.setSuffix(" " + gray + TextUtils.getArrow() + ChatColor.GOLD + " " + main.game.getRound());
+				
+				obj.getScore(s.getOfflinePlayer()).setScore(2);
+			}
+			
+			for(Player p : Bukkit.getOnlinePlayers()){
+				if(board.getTeam(p.getName()) == null){
+					board.registerNewTeam(p.getName());
+				}
+				Team team = board.getTeam(p.getName());
+				if(team.hasPlayer(p) == false){
+					team.addPlayer(p);
+				}
+				team.setDisplayName(gray + p.getName());
+				team.setPrefix(main.game.colors.get(p.getName()) + "");
+				team.setSuffix(" " + gray + TextUtils.getArrow() + ChatColor.GOLD + " " + main.game.scores.get(p.getName()));
+				obj.getScore(p).setScore(1);
+			}
 		}else{
-			obj.setDisplayName(objname);
-		}
-		
-		for(BoardStatic s : BoardStatic.values()){
-			if(board.getTeam(s.getName()) == null){
-				board.registerNewTeam(s.getName());
-			}
-			Team team = board.getTeam(s.getName());
-			if(team.hasPlayer(s.getOfflinePlayer()) == false){
-				team.addPlayer(s.getOfflinePlayer());
-			}
-			
-			team.setDisplayName(s.getName());
-			team.setPrefix(ChatColor.DARK_RED + "");
-			team.setSuffix(" " + gray + TextUtils.getArrow() + ChatColor.GOLD + " " + main.game.getRound());
-			
-			obj.getScore(s.getOfflinePlayer()).setScore(2);
-		}
-		
-		for(Player p : Bukkit.getOnlinePlayers()){
-			if(board.getTeam(p.getName()) == null){
-				board.registerNewTeam(p.getName());
-			}
-			Team team = board.getTeam(p.getName());
-			if(team.hasPlayer(p) == false){
-				team.addPlayer(p);
-			}
-			team.setDisplayName(gray + p.getName());
-			team.setPrefix(main.game.colors.get(p.getName()) + "");
-			team.setSuffix(" " + gray + TextUtils.getArrow() + ChatColor.GOLD + " " + main.game.scores.get(p.getName()));
-			obj.getScore(p).setScore(1);
+			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	}
 	
@@ -176,14 +181,11 @@ public class ZPlayer {
 		}
 		long logout = System.currentTimeMillis();
 		int playtime = (int) ((logout - login) / 1000);
-		System.out.println("Playtime: " + playtime);
-		if(playtime != 0){
-			this.setPlaytime(playtime);
-		}
+		this.setPlaytime(this.getPlaytime() + playtime);
 		
 		this.getStats().push();
 		
-		int online = Bukkit.getOnlinePlayers().length;
+		int online = Bukkit.getOnlinePlayers().length - 1;
 		int min = Utils.getMinimumPlayers();
 		if(online < min){
 			if(main.game.getStatus() == Status.STARTED){
@@ -192,7 +194,12 @@ public class ZPlayer {
 				main.game.votingtask.cancel();
 				main.game.votingtask = null;
 				main.game.setStatus(Status.WAITING);
+				
+				Utils.broadcastMessage("A player left while the game was starting.");
+				Utils.broadcastMessage("Restarting intermission...");
 			}
+		}else{
+			Utils.removePlayerFromBoard(player);
 		}
 	}
 	

@@ -92,6 +92,9 @@ public class Main extends JavaPlugin {
 		this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable(){
 			public void run(){
 				Utils.removeEntities();
+				if(game.getStatus() != Status.STARTED){
+					Utils.removeZombies();
+				}
 			}
 		}, 20);
 		

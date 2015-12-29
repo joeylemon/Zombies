@@ -704,51 +704,45 @@ public class Game {
 	 * Start the game
 	 */
 	public void start(){
-		if(Bukkit.getOnlinePlayers().length > Utils.getMinimumPlayers()){
-			Map map = this.getMap();
-			Utils.removeEntities();
-			this.resetDoors();
-			this.resetWindows();
-			this.resetMysteryBoxes();
-			this.setStatus(Status.STARTED);
-			
-			for(Area a : map.getAreas()){
-				if(a.getDoors().size() == 0){
-					unlockedareas.add(a);
-				}
+		Map map = this.getMap();
+		Utils.removeEntities();
+		this.resetDoors();
+		this.resetWindows();
+		this.resetMysteryBoxes();
+		this.setStatus(Status.STARTED);
+		
+		for(Area a : map.getAreas()){
+			if(a.getDoors().size() == 0){
+				unlockedareas.add(a);
 			}
-			
-			for(Window w : this.getAllWindows()){
-				windowhealth.put(w.getID(), 6);
-			}
-			
-			Utils.broadcastMessage("The highest voted map was " + red + map.getProperName() + gray + ".");
-			Utils.broadcastMessage("Prepare for the first round.");
-			
-			int count = 1;
-			for(Player p : Bukkit.getOnlinePlayers()){
-				colors.put(p.getName(), Utils.getChatColor(count));
-				brains.put(p.getName(), 0);
-				ZPlayer zp = new ZPlayer(p);
-				zp.setInventory(status);
-				scores.put(p.getName(), 500);
-				p.teleport(map.getSpawn());
-				p.setHealth(p.getMaxHealth());
-				count++;
-			}
-			
-			Utils.updateScoreboards();
-			
-			main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
-				public void run(){
-					startRound();
-				}
-			}, 100);
-		}else{
-			Utils.broadcastMessage("A player left while the game was starting.");
-			this.votingtask = null;
-			this.setStatus(Status.WAITING);
 		}
+		
+		for(Window w : this.getAllWindows()){
+			windowhealth.put(w.getID(), 6);
+		}
+		
+		Utils.broadcastMessage("The highest voted map was " + red + map.getProperName() + gray + ".");
+		Utils.broadcastMessage("Prepare for the first round.");
+		
+		int count = 1;
+		for(Player p : Bukkit.getOnlinePlayers()){
+			colors.put(p.getName(), Utils.getChatColor(count));
+			brains.put(p.getName(), 0);
+			ZPlayer zp = new ZPlayer(p);
+			zp.setInventory(status);
+			scores.put(p.getName(), 500);
+			p.teleport(map.getSpawn());
+			p.setHealth(p.getMaxHealth());
+			count++;
+		}
+		
+		Utils.updateScoreboards();
+		
+		main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
+			public void run(){
+				startRound();
+			}
+		}, 100);
 	}
 	
 	/**

@@ -34,6 +34,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
 import com.pwncraftpvp.zcomms.core.CommAPI;
@@ -326,6 +327,20 @@ public class Utils {
 		for(Player p : Bukkit.getOnlinePlayers()){
 			ZPlayer zp = new ZPlayer(p);
 			zp.updateScoreboard();
+		}
+	}
+	
+	/**
+	 * Remove a player from all scoreboards
+	 * @param player - The player to remove
+	 */
+	@SuppressWarnings("deprecation")
+	public static final void removePlayerFromBoard(Player player){
+		for(Player p : Bukkit.getOnlinePlayers()){
+			Scoreboard board = p.getScoreboard();
+			board.resetScores(player);
+			board.getTeam(player.getName()).removePlayer(player);
+			board.getTeam(player.getName()).unregister();
 		}
 	}
 	

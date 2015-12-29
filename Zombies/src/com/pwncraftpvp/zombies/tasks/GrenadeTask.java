@@ -22,9 +22,11 @@ public class GrenadeTask extends BukkitRunnable {
 	
 	private Main main = Main.getInstance();
 	
+	private Player player;
 	private ZPlayer zplayer;
 	private Item item;
 	public GrenadeTask(Player player, Item item){
+		this.player = player;
 		this.zplayer = new ZPlayer(player);
 		this.item = item;
 	}
@@ -85,6 +87,31 @@ public class GrenadeTask extends BukkitRunnable {
 					zplayer.giveBrains(1);
 					zplayer.setKills(zplayer.getKills() + 1);
 					zplayer.addScore(50);
+				}
+			}else if(e instanceof Player){
+				Player p = (Player) e;
+				if(p.getName().equalsIgnoreCase(player.getName())){
+					double damage = 18;
+					double newhealth = p.getHealth() - damage;
+					if(newhealth >= 1){
+						damage *= 1 - (p.getLocation().distance(loc) * 0.15);
+						p.damage(damage);
+						if(main.game.heal.containsKey(player.getName()) == true){
+							main.game.heal.get(player.getName()).runtime = 0;
+						}else{
+							PlayerHealTask task = new PlayerHealTask(player);
+							task.runTaskTimer(main, 0, 20);
+							main.game.heal.put(player.getName(), task);
+						}
+					}else{
+						zplayer.toggleDead(true, false);
+						player.damage(0);
+						player.setHealth(1);
+						if(main.game.heal.containsKey(player.getName()) == true){
+							main.game.heal.get(player.getName()).cancelTask(false);
+							main.game.heal.remove(player.getName());
+						}
+					}
 				}
 			}
 		}
