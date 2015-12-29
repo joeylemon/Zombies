@@ -314,7 +314,9 @@ public class Utils {
 	 * Send the game's current status to the hub
 	 */
 	public static final void sendStatus(){
-		CommAPI.sendCustomMessage("hub", Utils.getServerName() + ".gameStatus", WordUtils.capitalizeFully(main.game.getStatus().toString()));
+		if(Bukkit.getOnlinePlayers().length > 0){
+			CommAPI.sendCustomMessage("hub", Utils.getServerName() + ".gameStatus", WordUtils.capitalizeFully(main.game.getStatus().toString()));
+		}
 	}
 	
 	/**

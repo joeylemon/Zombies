@@ -176,7 +176,8 @@ public class ZPlayer {
 		}
 		long logout = System.currentTimeMillis();
 		int playtime = (int) ((logout - login) / 1000);
-		if(login != 0){
+		System.out.println("Playtime: " + playtime);
+		if(playtime != 0){
 			this.setPlaytime(playtime);
 		}
 		

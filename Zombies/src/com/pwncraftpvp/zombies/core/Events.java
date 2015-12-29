@@ -61,7 +61,6 @@ import com.pwncraftpvp.zombies.game.PowerUp;
 import com.pwncraftpvp.zombies.game.Status;
 import com.pwncraftpvp.zombies.game.Weapon;
 import com.pwncraftpvp.zombies.game.Window;
-import com.pwncraftpvp.zombies.tasks.CountdownTask;
 import com.pwncraftpvp.zombies.tasks.GrenadeTask;
 import com.pwncraftpvp.zombies.tasks.MysteryBoxTask;
 import com.pwncraftpvp.zombies.tasks.PerkTask;
@@ -91,11 +90,7 @@ public class Events implements Listener {
 			zplayer.sendMessage("You are in intermission. The game needs " + red + req + gray + " more " + ((req == 1) ? "player" : "players") + " to begin.");
 		}else{
 			if(main.game.getStatus() == Status.WAITING){
-				CountdownTask task = new CountdownTask();
-				task.runTaskTimer(main, 0, 20);
-				main.game.votingtask = task;
-				main.game.setStatus(Status.VOTING);
-				main.game.setVoteables();
+				main.game.startCountdown();
 			}
 		}
 		
@@ -324,6 +319,7 @@ public class Events implements Listener {
 							}
 							zplayer.removeScore(door.getPrice());
 							zplayer.sendMessage("You have removed this door for " + red + door.getPrice() + gray + " points.");
+							zplayer.setDoorsOpened(zplayer.getDoorsOpened() + 1);
 							
 							CustomSound.DOOR_OPEN.play(block.getLocation());
 						}else{
@@ -373,6 +369,7 @@ public class Events implements Listener {
 								main.game.boxtask = new MysteryBoxTask(player, main.game.getCurrentMysteryBox());
 								main.game.boxtask.runTaskTimer(main, 0, 3);
 								zplayer.sendMessage("You have purchased this box for " + red + 950 + gray + " points.");
+								zplayer.setMysteryBoxAttempts(zplayer.getMysteryBoxAttempts() + 1);
 								
 								CustomSound.MYSTERY_BOX_OPEN.play(block.getLocation());
 							}else{
@@ -436,6 +433,7 @@ public class Events implements Listener {
 									main.game.perktask.put(player.getName(), task);
 									player.getInventory().setHeldItemSlot(8);
 									player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.POTION), ChatColor.AQUA + perk.getName()));
+									zplayer.setPerksPurchased(zplayer.getPerksPurchased() + 1);
 									
 									perk.getPurchaseSound().play(player);
 								}

@@ -83,6 +83,7 @@ public class PlayerDeathTask extends BukkitRunnable {
 		}else{
 			zplayer.toggleDead(false, true);
 			zreviver.addScore((int) (zplayer.getScore() * (0.05)));
+			zreviver.setRevives(zreviver.getRevives() + 1);
 		}
 		hologram.delete();
 		this.cancel();
