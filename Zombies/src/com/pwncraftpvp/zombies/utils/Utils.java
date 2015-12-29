@@ -288,8 +288,11 @@ public class Utils {
 		Player nearby = null;
 		for(Entity e : entity.getNearbyEntities(20, 20, 20)){
 			if(e instanceof Player){
-				nearby = (Player) e;
-				break;
+				Player player = (Player) e;
+				if(!main.game.death.containsKey(player.getName())){
+					nearby = player;
+					break;
+				}
 			}
 		}
 		if(nearby != null){
