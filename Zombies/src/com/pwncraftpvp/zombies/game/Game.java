@@ -321,7 +321,7 @@ public class Game {
 		lastkill = System.currentTimeMillis() + (10 * 1000);
 		killed++;
 		if(!this.isDogRound()){
-			if(poweruptask == null && Math.random() <= 0.05){
+			if(poweruptask == null /*&& Math.random() <= 0.05*/){
 				PowerUpType type = null;
 				while(type == null){
 					for(PowerUpType t : PowerUpType.values()){
@@ -358,7 +358,7 @@ public class Game {
 	public void dropPowerUp(Location loc, PowerUpType type){
 		PowerUp powerup = new PowerUp(loc, type);
 		PowerUpTask task = new PowerUpTask(powerup);
-		task.runTaskTimer(main, 0, 20);
+		task.runTaskTimer(main, 0, 10);
 		poweruptask = task;
 	}
 	

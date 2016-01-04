@@ -428,21 +428,25 @@ public class Events implements Listener {
 						}
 					}
 					if(perk != null){
-						if(zplayer.getScore() >= perk.getPrice()){
-							if(main.game.perktask.containsKey(player.getName()) == false){
-								if(zplayer.hasPerk(perk) == false){
-									PerkTask task = new PerkTask(player, perk, player.getInventory().getHeldItemSlot());
-									task.runTaskTimer(main, 0, 10);
-									main.game.perktask.put(player.getName(), task);
-									player.getInventory().setHeldItemSlot(8);
-									player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.POTION), ChatColor.AQUA + perk.getName()));
-									zplayer.setPerksPurchased(zplayer.getPerksPurchased() + 1);
-									
-									perk.getPurchaseSound().play(player);
+						if(main.game.isPowerOn()){
+							if(zplayer.getScore() >= perk.getPrice()){
+								if(main.game.perktask.containsKey(player.getName()) == false){
+									if(zplayer.hasPerk(perk) == false){
+										PerkTask task = new PerkTask(player, perk, player.getInventory().getHeldItemSlot());
+										task.runTaskTimer(main, 0, 10);
+										main.game.perktask.put(player.getName(), task);
+										player.getInventory().setHeldItemSlot(8);
+										player.getInventory().setItem(8, Utils.renameItem(new ItemStack(Material.POTION), ChatColor.AQUA + perk.getName()));
+										zplayer.setPerksPurchased(zplayer.getPerksPurchased() + 1);
+										
+										perk.getPurchaseSound().play(player);
+									}
 								}
+							}else{
+								zplayer.sendError("Insufficient points.");
 							}
 						}else{
-							zplayer.sendError("Insufficient points.");
+							zplayer.sendError("The power must be turned on.");
 						}
 					}
 				}else if(block.getType() == Material.LEVER){

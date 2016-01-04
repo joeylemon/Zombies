@@ -15,24 +15,26 @@ public class PowerUpTask extends BukkitRunnable {
 		this.powerup = powerup;
 	}
 	
-	private int runtime = 0;
-	private int time = 30;
+	private int timeFactor = 2;
+	private boolean visible = true;
 	
-	private boolean remove = true;
+	private int runtime = 0;
+	private int time = (30 * timeFactor);
 	
 	public void run(){
 		int timeleft = (time - runtime);
 		if(timeleft > 0){
 			runtime++;
-			if(timeleft <= 10){
-				if(remove){
-					powerup.getHologram().removeLine(0);
+			boolean remove = false;
+			if(timeleft <= (6 * timeFactor)){
+				remove = true;
+				if(!visible){
 					remove = false;
-				}else{
-					powerup.getHologram().appendTextLine(ChatColor.GREEN + powerup.getType().getName());
-					remove = true;
 				}
+			}else if(timeleft <= (15 * timeFactor)){
+				remove = ((timeleft % 4) == 0);
 			}
+			this.setLine(remove);
 		}else{
 			this.cancelTask();
 		}
@@ -44,6 +46,24 @@ public class PowerUpTask extends BukkitRunnable {
 	 */
 	public PowerUp getPowerUp(){
 		return powerup;
+	}
+	
+	/**
+	 * Set the line
+	 * @param hidden - If the line should be invisible
+	 */
+	public void setLine(boolean hidden){
+		if(hidden){
+			if(visible){
+				powerup.getHologram().removeLine(0);
+				visible = false;
+			}
+		}else{
+			if(!visible){
+				powerup.getHologram().appendTextLine(ChatColor.GREEN + powerup.getType().getName());
+				visible = true;
+			}
+		}
 	}
 	
 	/**
