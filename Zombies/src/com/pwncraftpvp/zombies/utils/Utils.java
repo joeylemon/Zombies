@@ -15,7 +15,9 @@ import net.minecraft.server.v1_8_R3.WorldServer;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -268,6 +270,66 @@ public class Utils {
 			id = a.getDogSpawns().size() + 1;
 		}
 		return id;
+	}
+	
+	public static final void damageEntity(Player player, Weapon weapon, LivingEntity entity, Egg egg){
+		final ZPlayer zplayer = new ZPlayer(player);
+		
+		boolean upgraded = zplayer.isWeaponUpgraded();
+		double damage = weapon.getDamage(upgraded);
+		
+		boolean headshot = false;
+		int hitScore = 10;
+		int killScore = 60;
+		if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.85){
+			damage = weapon.getHeadshotDamage(upgraded);
+			killScore = 100;
+			headshot = true;
+		}
+		
+		if(weapon == Weapon.KNIFE){
+			killScore = 130;
+			player.getInventory().setItem(2, null);
+			main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
+				public void run(){
+					zplayer.setSlot(2, Weapon.KNIFE, 1);
+				}
+			}, 20);
+		}
+		
+		if(main.game.instakilltask != null){
+			damage = main.game.getZombieHealth() + 50;
+		}
+		if(main.game.doublepointstask != null){
+			killScore *= 2;
+			hitScore *= 2;
+		}
+		
+		EffectUtils.playBloodEffect(entity, headshot);
+		if(entity.getType() == EntityType.ZOMBIE){
+			for(Player p : Bukkit.getOnlinePlayers()){
+				p.playSound(entity.getLocation(), Sound.ZOMBIE_HURT, 1F, 1F);
+			}
+		}
+		
+		double newhealth = entity.getHealth() - damage;
+		if(newhealth > 1){
+			entity.setHealth(newhealth);
+			Utils.setNavigation(entity, player.getLocation());
+			entity.playEffect(EntityEffect.HURT);
+			zplayer.addScore(hitScore);
+		}else{
+			main.game.killEntity(entity);
+			zplayer.giveBrains(1);
+			zplayer.setKills(zplayer.getKills() + 1);
+			zplayer.addScore(killScore);
+			
+			if(entity.getType() == EntityType.WOLF){
+				for(Player p : Bukkit.getOnlinePlayers()){
+					p.playSound(entity.getLocation(), Sound.WOLF_HURT, 1F, 1F);
+				}
+			}
+		}
 	}
 	
 	/**

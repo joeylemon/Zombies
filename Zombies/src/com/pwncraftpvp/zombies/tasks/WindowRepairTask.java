@@ -43,7 +43,7 @@ public class WindowRepairTask extends BukkitRunnable {
 				}
 				EffectUtils.playBreakEffect(window.getLocation().getBlock());
 				
-				CustomSound.WINDOW_REPAIR.play(window.getLocation());
+				CustomSound.WINDOW_REPAIR.play(player);
 				
 				int score = 10;
 				if(main.game.doublepointstask != null){

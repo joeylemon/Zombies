@@ -3,10 +3,8 @@ package com.pwncraftpvp.zombies.core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Egg;
@@ -569,63 +567,8 @@ public class Events implements Listener {
 				final ZPlayer zplayer = new ZPlayer(player);
 				Weapon weapon = zplayer.getWeaponInHand();
 				if(weapon != null && ((egg != null && weapon != Weapon.KNIFE) || (egg == null && weapon == Weapon.KNIFE)) && weapon != Weapon.RAY_GUN){
-					boolean upgraded = zplayer.isWeaponUpgraded();
-					double damage = weapon.getDamage(upgraded);
-					
-					boolean headshot = false;
-					int hitScore = 10;
-					int killScore = 60;
-					if(egg != null && egg.getLocation().getY() - entity.getLocation().getY() > 1.87){
-						damage = weapon.getHeadshotDamage(upgraded);
-						killScore = 100;
-						headshot = true;
-					}
-					
-					if(weapon == Weapon.KNIFE){
-						killScore = 130;
-						player.getInventory().setItem(2, null);
-						main.getServer().getScheduler().scheduleSyncDelayedTask(main, new Runnable(){
-							public void run(){
-								zplayer.setSlot(2, Weapon.KNIFE, 1);
-							}
-						}, 20);
-					}
-					
-					if(main.game.instakilltask != null){
-						damage = main.game.getZombieHealth() + 50;
-					}
-					if(main.game.doublepointstask != null){
-						killScore *= 2;
-						hitScore *= 2;
-					}
-					
-					EffectUtils.playBloodEffect(entity, headshot);
-					if(entity.getType() == EntityType.ZOMBIE){
-						for(Player p : Bukkit.getOnlinePlayers()){
-							p.playSound(entity.getLocation(), Sound.ZOMBIE_HURT, 1F, 1F);
-						}
-					}
-					
+					Utils.damageEntity(player, weapon, entity, egg);
 					event.setCancelled(true);
-					
-					double newhealth = entity.getHealth() - damage;
-					if(newhealth > 1){
-						entity.setHealth(newhealth);
-						Utils.setNavigation(entity, player.getLocation());
-						entity.playEffect(EntityEffect.HURT);
-						zplayer.addScore(hitScore);
-					}else{
-						main.game.killEntity(entity);
-						zplayer.giveBrains(1);
-						zplayer.setKills(zplayer.getKills() + 1);
-						zplayer.addScore(killScore);
-						
-						if(entity.getType() == EntityType.WOLF){
-							for(Player p : Bukkit.getOnlinePlayers()){
-								p.playSound(entity.getLocation(), Sound.WOLF_HURT, 1F, 1F);
-							}
-						}
-					}
 				}else{
 					event.setCancelled(true);
 				}
@@ -692,6 +635,26 @@ public class Events implements Listener {
 			}
 		}else if(event.getEntity() instanceof EnderCrystal){
 			event.setCancelled(true);
+			if(event.getDamager() instanceof Egg){
+				Egg oldegg = (Egg) event.getDamager();
+				oldegg.remove();
+				Egg newegg = (Egg) oldegg.getWorld().spawnEntity(oldegg.getLocation().add(oldegg.getVelocity().normalize()), EntityType.EGG);
+				newegg.setVelocity(oldegg.getVelocity());
+				newegg.setShooter(oldegg.getShooter());
+				newegg.setFireTicks(oldegg.getFireTicks());
+			}else if(event.getDamager() instanceof Player){
+				Player player = (Player) event.getDamager();
+				ZPlayer zplayer = new ZPlayer(player);
+				if(zplayer.getWeaponInHand() == Weapon.KNIFE){
+					for(Entity e : event.getEntity().getNearbyEntities(2, 2, 2)){
+						if(e instanceof Zombie){
+							Zombie z = (Zombie) e;
+							Utils.damageEntity(player, Weapon.KNIFE, z, null);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -851,33 +814,10 @@ public class Events implements Listener {
 				ZPlayer zplayer = new ZPlayer(player);
 				if(zplayer.getWeaponInHand() == Weapon.RAY_GUN){
 					EffectUtils.playRayGunEffect(egg.getLocation());
-					for(Entity e : egg.getNearbyEntities(1.5, 1.5, 1.5)){
+					for(Entity e : egg.getNearbyEntities(3.5, 3.5, 3.5)){
 						if(e instanceof Zombie){
 							Zombie z = (Zombie) e;
-							
-							int hitScore = 10;
-							int killScore = 50;
-							double damage = Weapon.RAY_GUN.getDamage(zplayer.isWeaponUpgraded());
-							if(main.game.instakilltask != null){
-								damage = main.game.getZombieHealth() + 50;
-							}
-							if(main.game.doublepointstask != null){
-								killScore *= 2;
-								hitScore *= 2;
-							}
-							
-							EffectUtils.playBloodEffect(z, false);
-							double newhealth = z.getHealth() - damage;
-							if(newhealth > 1){
-								z.setHealth(newhealth);
-								z.playEffect(EntityEffect.HURT);
-								zplayer.addScore(hitScore);
-							}else{
-								main.game.killEntity(z);
-								zplayer.giveBrains(1);
-								zplayer.setKills(zplayer.getKills() + 1);
-								zplayer.addScore(killScore);
-							}
+							Utils.damageEntity(player, Weapon.RAY_GUN, z, egg);
 						}
 					}
 				}

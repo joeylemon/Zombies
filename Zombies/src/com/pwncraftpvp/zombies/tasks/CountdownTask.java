@@ -13,7 +13,7 @@ public class CountdownTask extends BukkitRunnable {
 	private String red = ChatColor.RED + "";
 	
 	public int runtime = 0;
-	public int time = 20; // Should be 60 when released
+	public int time = 60;
 	public boolean pause = false;
 	
 	public void run(){
