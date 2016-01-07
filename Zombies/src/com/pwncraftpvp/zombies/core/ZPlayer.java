@@ -442,9 +442,9 @@ public class ZPlayer {
 	}
 	
 	/**
-	 * Fill up the ammo on all weapons
+	 * Refill the player's weapon magazines
 	 */
-	public void fillUpWeapons(){
+	public void refillWeapons(){
 		for(int i = 0; i <= 1; i++){
 			Weapon w = this.getWeaponInSlot(i);
 			if(w != null){
@@ -453,6 +453,23 @@ public class ZPlayer {
 				this.setAmmo(i, new Ammo(w, ammo.getMagazine(), w.getTotalAmmo(upgraded)));
 				player.getInventory().getItem(i).setDurability((short) 0);
 			}
+		}
+	}
+	
+	/**
+	 * Refill the player's grenades
+	 */
+	public void refillGrenades(){
+		ItemStack item = player.getInventory().getItem(3);
+		int amount = 0;
+		if(item != null){
+			amount = item.getAmount();
+		}
+		if(amount < 4){
+			if((amount + 2) > 4){
+				amount--;
+			}
+			this.setSlot(3, Weapon.HAND_GRENADE, amount + 2);
 		}
 	}
 	

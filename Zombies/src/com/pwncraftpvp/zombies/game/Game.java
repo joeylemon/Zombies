@@ -17,7 +17,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
-import org.bukkit.inventory.ItemStack;
 
 import com.pwncraftpvp.zcomms.core.CommAPI;
 import com.pwncraftpvp.zombies.core.Main;
@@ -52,6 +51,7 @@ public class Game {
 	private int box = 1;
 	private int round = 0;
 	private int health = 0;
+	private int doghealth = 0;
 	
 	private List<Door> doors = null;
 	private List<Window> windows = null;
@@ -208,9 +208,18 @@ public class Game {
 	
 	/**
 	 * Get the zombie health
+	 * @return The zombie health
 	 */
 	public int getZombieHealth(){
 		return health;
+	}
+	
+	/**
+	 * Get the dog health
+	 * @return The dog health
+	 */
+	public int getDogHealth(){
+		return doghealth;
 	}
 	
 	/**
@@ -219,10 +228,13 @@ public class Game {
 	public void increaseHealth(){
 		if(round == 1){
 			health = 150;
+			doghealth = 20;
 		}else if(round < 10){
 			health += 100;
+			doghealth += 20;
 		}else{
 			health += (int) (health * 0.1);
+			doghealth += 20;
 		}
 	}
 	
@@ -372,7 +384,8 @@ public class Game {
 		if(type == PowerUpType.MAX_AMMO){
 			for(Player p : Bukkit.getOnlinePlayers()){
 				ZPlayer zp = new ZPlayer(p);
-				zp.fillUpWeapons();
+				zp.refillWeapons();
+				zp.refillGrenades();
 			}
 		}else if(type == PowerUpType.INSTA_KILL){
 			if(instakilltask != null){
@@ -607,8 +620,13 @@ public class Game {
 	 * Start the zombie spawn task
 	 */
 	public void startSpawnTask(){
-		spawntask = new SpawnTask(this.isDogRound(), Utils.getZombiesForRound(this.getRound()) - this.killed);
-		spawntask.runTaskTimer(main, 0, Utils.getDelayForRound(round));
+		boolean dogs = this.isDogRound();
+		spawntask = new SpawnTask(dogs, Utils.getZombiesForRound(this.getRound()) - this.killed);
+		int delay = Utils.getDelayForRound(round);
+		if(dogs){
+			delay = 45;
+		}
+		spawntask.runTaskTimer(main, 0, delay);
 	}
 	
 	/**
@@ -632,19 +650,8 @@ public class Game {
 		
 		for(Player p : Bukkit.getOnlinePlayers()){
 			ZPlayer zp = new ZPlayer(p);
-			
 			if(round > 1){
-				ItemStack item = p.getInventory().getItem(3);
-				int amount = 0;
-				if(item != null){
-					amount = item.getAmount();
-				}
-				if(amount < 4){
-					if((amount + 2) > 4){
-						amount--;
-					}
-					zp.setSlot(3, Weapon.HAND_GRENADE, amount + 2);
-				}
+				zp.refillGrenades();
 			}
 		}
 		

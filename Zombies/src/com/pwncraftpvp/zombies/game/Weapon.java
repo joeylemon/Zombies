@@ -25,7 +25,7 @@ public enum Weapon {
 	COLT_M16A1(Material.IRON_SPADE, CustomSound.PISTOL_SHOT, "Colt M16A1", "Skullcrusher", true, false, 5, 23, 60, 50, 30, 120, 8,
 			4, 30, 270, 5),
 			
-	RAY_GUN(Material.IRON_AXE, CustomSound.RAY_GUN_SHOT, "Ray Gun", "Porter's X2 Ray Gun", true, false, 2, 500, 0, 70, 20, 160, 4,
+	RAY_GUN(Material.IRON_AXE, CustomSound.RAY_GUN_SHOT, "Ray Gun", "Porter's X2 Ray Gun", true, false, 2, 500, 0, 70, 20, 160, 7,
 			4, 40, 200, 4),
 	
 	HAND_GRENADE(Material.FIREWORK_CHARGE, CustomSound.GRENADE_EXPLODE, "Hand Grenade", "", false, false, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0),

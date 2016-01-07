@@ -75,6 +75,9 @@ public class GrenadeTask extends BukkitRunnable {
 				
 				double damage = Weapon.HAND_GRENADE.getDamage(false);
 				damage *= 1 - (z.getLocation().distance(loc) * 0.15);
+				if(main.game.instakilltask != null){
+					damage = main.game.getZombieHealth() + 50;
+				}
 				
 				EffectUtils.playBloodEffect(z, false);
 				double newhealth = z.getHealth() - damage;
