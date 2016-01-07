@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -658,7 +659,6 @@ public class ZPlayer {
 				Utils.broadcastMessage(red + player.getName() + gray + " has died and needs to be revived.");
 				
 				this.removeScore((int) (this.getScore() * (0.05)));
-				player.getInventory().clear();
 				
 				PlayerDeathTask task = new PlayerDeathTask(player);
 				task.runTaskTimer(main, 0, 20);
@@ -691,21 +691,12 @@ public class ZPlayer {
 	 */
 	public void toggleSpectating(boolean toggle){
 		if(toggle == true){
-			for(Player p : Bukkit.getOnlinePlayers()){
-				p.hidePlayer(player);
-			}
-			player.getInventory().clear();
-			player.setAllowFlight(true);
-			player.setFlying(true);
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamemode 3 " + player.getName());
 			player.teleport(main.game.getMap().getSpawn());
 		}else{
-			for(Player p : Bukkit.getOnlinePlayers()){
-				p.showPlayer(player);
-			}
-			this.setInventory(Status.STARTED);
-			player.setAllowFlight(false);
-			player.setFlying(false);
 			player.teleport(main.game.getMap().getSpawn());
+			player.setGameMode(GameMode.SURVIVAL);
+			this.setInventory(Status.STARTED);
 		}
 	}
 	

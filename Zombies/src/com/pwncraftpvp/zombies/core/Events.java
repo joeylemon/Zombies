@@ -105,6 +105,8 @@ public class Events implements Listener {
 		Statistics stats = new Statistics(player);
 		stats.pull();
 		main.stats.put(player.getName(), stats);
+		
+		zplayer.toggleSpectating(true);
 	}
 	
 	@EventHandler
